@@ -5,7 +5,7 @@ Player::Player(int x, int y, int HD , int MD,
                int STRMod, int DEXMod, int INTMod,
                int ACMod, int MRMod, int ACGain, int MRGain)
 {
-    visionRange = 5;
+    sightRange = 5;
     poisonLevel = 0;
 
     srand(time(NULL));
@@ -18,7 +18,7 @@ Player::Player(int x, int y, int HD , int MD,
     No attribute can be more than half of the stat cap or less than 5.
     Once attributes are allocated, modifiers are added, which are dependent upon class(and maybe race?)
     Players start with a base AC(Armor Class) and MR(Magic Resistance), and gain fixed amounts of each on level up.
-    The amounts gained are detemined by ACGain and MRGain. Most likely, both ACGain and MRGain will be small values.
+    The amounts gained are detemined by ACGain and MRGain. ACGain and MRGain should be small values.
     */
 
     maxHP = HD + rand() % HD;
@@ -68,6 +68,14 @@ Player::Player(int x, int y, int HD , int MD,
     neckSlot = noItem;
     leftRing = noItem;
     rightRing = noItem;
+
+    for(int i=0;i<11;i++)
+    {
+        for(int j=0;j<11;j++)
+        {
+            sightArray[j][i] = 0;
+        }
+    }
 }
 
 Player::~Player()
@@ -75,18 +83,13 @@ Player::~Player()
 
 }
 
-int Player::hurt(int damage)
+void Player::hurt(int damage)
 {
-    /*
-    Right now, damage is all treated the same, and is only affected by AC in a diminishingly increasing manner.
+    currentHP -= damage;
+}
 
-    Things to come:
-
-    - Damage type differentiation
-    - Crits
-    - Poison
-    -
-    */
+int Player::calculatePhysicalDamage(int damage)
+{
     int realDamage;
 
     if(AC > 0)
@@ -103,9 +106,216 @@ int Player::hurt(int damage)
     {
         realDamage = 0;
     }
-    currentHP -= realDamage;
 
     return realDamage;
+}
+
+int Player::calculateMagicDamage(int damage)
+{
+    int realDamage;
+
+    if(MR > 0)
+    {
+        realDamage = damage - (rand() % (MR+1)) - 1.5*sqrt(MR);
+    }
+    else
+    {
+        realDamage = damage;
+    }
+
+
+    if(realDamage < 0)
+    {
+        realDamage = 0;
+    }
+
+    return realDamage;
+}
+
+void Player::poisonChange(int poisonAmount)
+{
+    poisonLevel += poisonAmount;
+    if(poisonLevel > 300)
+    {
+        poisonLevel = 300;
+    }
+    else if(poisonLevel < 0)
+    {
+        poisonLevel = 0;
+    }
+}
+
+int Player::calculatePoisonDamage()
+{
+    int hits = 0;
+    int adjustedLevel;
+    if(poisonLevel >= 200)
+    {
+        hits += 2;
+        adjustedLevel = poisonLevel - 200;
+    }
+    else if(poisonLevel >= 100)
+    {
+        hits += 1;
+        adjustedLevel = poisonLevel - 200;
+    }
+    else
+    {
+        adjustedLevel = poisonLevel;
+    }
+
+    if((rand() % 100) + 1 < adjustedLevel)
+    {
+        hits += 1;
+    }
+
+    return hits;
+}
+
+void Player::calculateSightRange(int levelArray[25][80])
+{
+    int sightCounter = 0;
+    std::ofstream sightLog;
+    sightLog.open("sightlog.txt",std::ofstream::app);
+    sightLog << std::endl;
+
+    sightLog << "Map: " << std::endl;
+
+    char ch;
+    for(int i=0;i<11;i++)
+    {
+        for(int j=0;j<11;j++)
+        {
+            if(levelArray[y-5+j][x-5+i] == ACS_BLOCK)
+            {
+                ch = '#';
+            }
+            else
+            {
+                ch = levelArray[y-5+j][x-5+i];
+            }
+            sightLog << ch;
+        }
+        sightLog << std::endl;
+    }
+
+    for(int i=0;i<11;i++)
+    {
+        for(int j=0;j<11;j++)
+        {
+            sightArray[j][i] = 0;
+        }
+    }
+
+    //Straight left
+    for(int i = 0;i<sightRange;i++)
+    {
+        if(levelArray[y][x-(i+1)] == ACS_BLOCK)
+        {
+            break;
+        }
+        else
+        {
+            sightArray[5][5-(i+1)] = 1;
+        }
+    }
+
+    //Straight right
+    for(int i = 0;i<sightRange;i++)
+    {
+        if(levelArray[y][x+(i+1)] == ACS_BLOCK)
+        {
+            break;
+        }
+        else
+        {
+            sightArray[5][5+(i+1)] = 1;
+        }
+    }
+
+    //Straight up
+    for(int i = 0;i<sightRange;i++)
+    {
+        if(levelArray[y-(i+1)][x] == ACS_BLOCK)
+        {
+            break;
+        }
+        else
+        {
+            sightArray[5-(i+1)][5] = 1;
+        }
+    }
+
+    //Straight down
+    for(int i = 0;i<sightRange;i++)
+    {
+        if(levelArray[y+(i+1)][x] == ACS_BLOCK)
+        {
+            break;
+        }
+        else
+        {
+            sightArray[5+(i+1)][5] = 1;
+        }
+    }
+
+    //Upper left diagonal
+    if(levelArray[y-1][x-1] != ACS_BLOCK)
+    {
+        sightArray[4][4] = 1;
+        if(levelArray[y-2][x-2] != ACS_BLOCK)
+        {
+            sightArray[3][3] = 1;
+        }
+    }
+
+    //Upper right diagonal
+    if(levelArray[y-1][x+1] != ACS_BLOCK)
+    {
+        sightArray[4][6] = 1;
+        if(levelArray[y-2][x+2] != ACS_BLOCK)
+        {
+            sightArray[3][7] = 1;
+        }
+    }
+
+    //Lower left diagonal
+    if(levelArray[y+1][x-1] != ACS_BLOCK)
+    {
+        sightArray[6][4] = 1;
+        if(levelArray[y+2][x-2] != ACS_BLOCK)
+        {
+            sightArray[7][3] = 1;
+        }
+    }
+
+    //Lower right diagonal
+    if(levelArray[y+1][x+1] != ACS_BLOCK)
+    {
+        sightArray[6][6] = 1;
+        if(levelArray[y+2][x+2] != ACS_BLOCK)
+        {
+            sightArray[7][7] = 1;
+        }
+    }
+
+    //Left cone
+
+
+    //Log the sight range
+
+    for(int i = 0;i<11;i++)
+    {
+        for(int j = 0;j<11;j++)
+        {
+            sightLog << sightArray[j][i];
+        }
+        sightLog << std::endl;
+    }
+
+
+    sightLog.close();
+
 }
 
 void Player::fullHeal()
