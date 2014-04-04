@@ -24,7 +24,7 @@ Item::Item()
     Ward = 0;
     Speed = 0;
 
-    rarity = ','; //this is initialize to , for item creation
+    rarity = ','; //this is initialized to ',' for item creation
 }
 
 Item::~Item()
@@ -37,7 +37,7 @@ Item::~Item()
 //I'm assuming that the player, enemies, and chests will have a get function to grab these
 void Item::createItem(int playerLevel, int rarityTable)
 {
-    int choice, itemNumber = 0; //this will hold the number for the type of item
+    int choice, itemSlotNumber = 0; //this will hold the number for the type of item
     string Input, itemType;
     ifstream myfile ("enemyDropTable.txt");
     vector <string> listOfItems;
@@ -96,35 +96,36 @@ void Item::createItem(int playerLevel, int rarityTable)
     }
 
     //now that we are at the correct file position, get the item slot
-    choice = itemSlotChoice; //will the cooresponding item slot from a random int
+    choice = itemSlotChoice; //the cooresponding item slot will be chosen from a random int
 
     //now assign the slot variable for the item
     slot = choice;
 
     //find the item slot to use
-    while (itemNumber != choice)
+    while (itemSlotNumber != choice)
     {
         stringstream StrToNum(Input);
-        StrToNum >> itemNumber;
+        StrToNum >> itemSlotNumber;
         findNextLine (myfile, Input);
     }
 
     //now choose the item name from that subTable
-    //first, put all of the subTable onto a vector to choose from
+    //first, push all of the subTable onto a vector to choose from
     istringstream itemStream(Input);
     string temp;
 
-    //now the things from the comma and stick them in the vector for choice
+    //push all the things, separating them by a comma (spaces can be used in naming items)
     while (getline(itemStream, temp, ','))
     {
         listOfItems.push_back(temp);
     }
+
     //now pick a random item base from the vector of items
     choice = rand() %  listOfItems.size(); //will choose from 0 - last element
 
     name = name + listOfItems[choice]; //now add the type of item
 
-    //if the rarity is common it will exclude
+    //if the rarity is common it will exclude the big stat bonus
     if (rarity != 'c')
     {
         //now get the file to the correct place for the stat addage
@@ -184,8 +185,9 @@ void Item::createItem(int playerLevel, int rarityTable)
 
 void Item::findNextLine(ifstream& file, string& currentLine)
 {
-    getline (file, currentLine);
+    getline (file, currentLine); //go foward once to next line
 
+    //if it is a comment, keep going until it is data to be read
     while (currentLine.substr(0,1) == "*" || currentLine.substr(0,1) == "/" || currentLine.substr(0,1) == "")
     {
         getline (file,currentLine);
