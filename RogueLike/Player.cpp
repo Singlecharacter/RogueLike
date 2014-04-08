@@ -174,8 +174,7 @@ int Player::calculatePoisonDamage()
 
 void Player::calculateSightRange(int levelArray[25][80])
 {
-    int sightCounter = 0;
-    std::ofstream sightLog;
+    /*std::ofstream sightLog;
     sightLog.open("sightlog.txt",std::ofstream::app);
     sightLog << std::endl;
 
@@ -197,7 +196,7 @@ void Player::calculateSightRange(int levelArray[25][80])
             sightLog << ch;
         }
         sightLog << std::endl;
-    }
+    }*/
 
     for(int i=0;i<11;i++)
     {
@@ -207,114 +206,285 @@ void Player::calculateSightRange(int levelArray[25][80])
         }
     }
 
+    //Player spot
+    sightArray[5][5] = 1;
+
     //Straight left
     for(int i = 0;i<sightRange;i++)
     {
+        sightArray[5][5-(i+1)] = 1;
         if(levelArray[y][x-(i+1)] == ACS_BLOCK)
         {
             break;
-        }
-        else
-        {
-            sightArray[5][5-(i+1)] = 1;
         }
     }
 
     //Straight right
     for(int i = 0;i<sightRange;i++)
     {
+        sightArray[5][5+(i+1)] = 1;
         if(levelArray[y][x+(i+1)] == ACS_BLOCK)
         {
             break;
-        }
-        else
-        {
-            sightArray[5][5+(i+1)] = 1;
         }
     }
 
     //Straight up
     for(int i = 0;i<sightRange;i++)
     {
+        sightArray[5-(i+1)][5] = 1;
         if(levelArray[y-(i+1)][x] == ACS_BLOCK)
         {
             break;
-        }
-        else
-        {
-            sightArray[5-(i+1)][5] = 1;
         }
     }
 
     //Straight down
     for(int i = 0;i<sightRange;i++)
     {
+        sightArray[5+(i+1)][5] = 1;
         if(levelArray[y+(i+1)][x] == ACS_BLOCK)
         {
             break;
         }
-        else
-        {
-            sightArray[5+(i+1)][5] = 1;
-        }
     }
 
     //Upper left diagonal
+    sightArray[4][4] = 1;
     if(levelArray[y-1][x-1] != ACS_BLOCK)
     {
-        sightArray[4][4] = 1;
-        if(levelArray[y-2][x-2] != ACS_BLOCK)
-        {
-            sightArray[3][3] = 1;
-        }
+        sightArray[3][3] = 1;
     }
 
     //Upper right diagonal
+    sightArray[4][6] = 1;
     if(levelArray[y-1][x+1] != ACS_BLOCK)
     {
-        sightArray[4][6] = 1;
-        if(levelArray[y-2][x+2] != ACS_BLOCK)
-        {
-            sightArray[3][7] = 1;
-        }
+        sightArray[3][7] = 1;
     }
 
     //Lower left diagonal
+    sightArray[6][4] = 1;
     if(levelArray[y+1][x-1] != ACS_BLOCK)
     {
-        sightArray[6][4] = 1;
-        if(levelArray[y+2][x-2] != ACS_BLOCK)
-        {
-            sightArray[7][3] = 1;
-        }
+        sightArray[7][3] = 1;
     }
 
     //Lower right diagonal
+    sightArray[6][6] = 1;
     if(levelArray[y+1][x+1] != ACS_BLOCK)
     {
-        sightArray[6][6] = 1;
-        if(levelArray[y+2][x+2] != ACS_BLOCK)
+        sightArray[7][7] = 1;
+    }
+
+    //Cone checks
+    int upTurn = 0,downTurn = 0,leftTurn = 0,rightTurn = 0;
+
+    //Left cone
+    for(int i = 0;i<sightRange;i++)
+    {
+        if(levelArray[y][x-1-i] == ACS_BLOCK)
+        {//We can't see this way!
+            break;
+        }
+        else
         {
-            sightArray[7][7] = 1;
+            //Up
+            for(int j = 0;j<sightRange-1-i;j++)
+            {
+                sightArray[4-j][4-i] = 1;
+                if(levelArray[y-1-j][x-1-i] == ACS_BLOCK)
+                {
+                    upTurn = 1;
+                    break;
+                }
+                else
+                {
+                    if(upTurn == 1)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            //Down
+            for(int j = 0;j<sightRange-1-i;j++)
+            {
+                sightArray[6+j][4-i] = 1;
+                if(levelArray[y+1+j][x-1-i] == ACS_BLOCK)
+                {
+                    downTurn = 1;
+                    break;
+                }
+                else
+                {
+                    if(downTurn == 1)
+                    {
+                        break;
+                    }
+                }
+            }
         }
     }
 
-    //Left cone
+    //Right cone
+    upTurn = 0;
+    downTurn = 0;
+    for(int i = 0;i<sightRange;i++)
+    {
+        if(levelArray[y][x+1+i] == ACS_BLOCK)
+        {//We can't see this way!
+            break;
+        }
+        else
+        {
+            //Up
+            for(int j = 0;j<sightRange-1-i;j++)
+            {
+                sightArray[4-j][6+i] = 1;
+                if(levelArray[y-1-j][x+1+i] == ACS_BLOCK)
+                {
+                    upTurn = 1;
+                    break;
+                }
+                else
+                {
+                    if(upTurn == 1)
+                    {
+                        break;
+                    }
+                }
+            }
 
+            //Down
+            for(int j = 0;j<sightRange-1-i;j++)
+            {
+                sightArray[6+j][6+i] = 1;
+                if(levelArray[y+1+j][x+1+i] == ACS_BLOCK)
+                {
+                    downTurn = 1;
+                    break;
+                }
+                else
+                {
+                    if(downTurn == 1)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    //Up cone
+    for(int i = 0;i<sightRange;i++)
+    {
+        if(levelArray[y-1-i][x] == ACS_BLOCK)
+        {//We can't see this way!
+            break;
+        }
+        else
+        {
+            //Left
+            for(int j = 0;j<sightRange-1-i;j++)
+            {
+                sightArray[4-i][4-j] = 1;
+                if(levelArray[y-1-i][x-1-j] == ACS_BLOCK)
+                {
+                    leftTurn = 1;
+                    break;
+                }
+                else
+                {
+                    if(leftTurn == 1)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            //Right
+            for(int j = 0;j<sightRange-1-i;j++)
+            {
+                sightArray[4-i][6+j] = 1;
+                if(levelArray[y-1-i][x+1+j] == ACS_BLOCK)
+                {
+                    rightTurn = 1;
+                    break;
+                }
+                else
+                {
+                    if(rightTurn == 1)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    //Down cone
+    leftTurn = 0;
+    rightTurn = 0;
+    for(int i = 0;i<sightRange;i++)
+    {
+        if(levelArray[y+1+i][x] == ACS_BLOCK)
+        {//We can't see this way!
+            break;
+        }
+        else
+        {
+            //Left
+            for(int j = 0;j<sightRange-1-i;j++)
+            {
+                sightArray[6+i][4-j] = 1;
+                if(levelArray[y+1+i][x-1-j] == ACS_BLOCK)
+                {
+                    leftTurn = 1;
+                    break;
+                }
+                else
+                {
+                    if(leftTurn == 1)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            //Right
+            for(int j = 0;j<sightRange-1-i;j++)
+            {
+                sightArray[6+i][6+j] = 1;
+                if(levelArray[y+1+i][x+1+j] == ACS_BLOCK)
+                {
+                    rightTurn = 1;
+                    break;
+                }
+                else
+                {
+                    if(rightTurn == 1)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+    }
 
     //Log the sight range
-
+    /*sightLog << std::endl << "Sight:" << std::endl;
     for(int i = 0;i<11;i++)
     {
         for(int j = 0;j<11;j++)
         {
-            sightLog << sightArray[j][i];
+            sightLog << sightArray[i][j];
         }
         sightLog << std::endl;
-    }
+    }*/
 
 
-    sightLog.close();
+    //sightLog.close();
 
 }
 
@@ -331,4 +501,24 @@ void Player::setAC(int newAC)
 int Player::getAC()
 {
     return AC;
+}
+
+int Player::getX()
+{
+    return x;
+}
+
+int Player::getY()
+{
+    return y;
+}
+
+void Player::setX(int newX)
+{
+    x = newX;
+}
+
+void Player::setY(int newY)
+{
+    y = newY;
 }

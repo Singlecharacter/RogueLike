@@ -10,3 +10,24 @@ Wall::~Wall()
 {
 
 }
+
+
+int Wall::getX()
+{
+    return x;
+}
+
+int Wall::getY()
+{
+    return y;
+}
+
+void Wall::setX(int newX)
+{
+    x = newX;
+}
+
+void Wall::setY(int newY)
+{
+    y = newY;
+}

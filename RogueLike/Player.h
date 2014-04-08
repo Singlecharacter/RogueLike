@@ -43,7 +43,10 @@ public:
     void setAC(int newAC);
     int getAC();
 
-    int x, y;
+    int getX();
+    int getY();
+    void setX(int);
+    void setY(int);
 
     //Sight range
     int sightArray[11][11];
@@ -52,6 +55,7 @@ private:
 
     //Stat information
     int maxHP, currentHP, HD, maxMP, currentMP, MD, sightRange, STR, DEX, INT, AC, MR, poisonLevel, ACGain, MRGain;
+    int x, y;
 
     //Equipment slots
     Item mainHand, offHand, bodySlot, headSlot, feetSlot, handSlot, backSlot, neckSlot, leftRing, rightRing;

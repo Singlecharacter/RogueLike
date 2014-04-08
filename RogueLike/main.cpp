@@ -10,7 +10,7 @@
 using namespace std;
 
 template<typename T>
-bool place_meeting(int,int,vector<T>&);
+bool place_meeting(int,int,vector<T>);
 
 int main()
 {
@@ -20,11 +20,9 @@ int main()
     int h, w;
     int damage = 10;
 
-    Player player(10,10);//Creates a player objecct at position (10,10)
+    Player player(10,10);//Creates a player object at position (10,10)
 
     ifstream level;
-
-    ofstream damageTest;
 
     level.open("level.txt");
 
@@ -51,9 +49,6 @@ int main()
     }
 
     level.close();
-
-    damageTest.open("damagelog.txt", ofstream::app); //Damage log file, see below
-    damageTest << endl;
 
     initscr(); //Start curses
     WINDOW * win = newwin(25,80,0,0);//Create a new window
@@ -95,15 +90,35 @@ int main()
 
     bool SEIZUREMODE = false;
 
+    ofstream test;
+    test.open("test.txt",ofstream::app);
+
+    int sightX,sightY;
+
     while(true)
     {
         //Prints the level array to the window
+        player.calculateSightRange(levelArray);
         for(int i=0;i<25;i++)
         {
             for(int j=0;j<80;j++)
             {
                 wmove(win,i,j);
-                waddch(win,levelArray[i][j]);
+                waddch(win,' ');
+            }
+        }
+
+        sightX = player.getX() - 5;
+        sightY = player.getY() - 5;
+        for(int i = player.getY() - 5;i<=player.getY()+5;i++)
+        {
+            for(int j = player.getX() - 5;j<=player.getX()+5;j++)
+            {
+                wmove(win,i,j);
+                if(player.sightArray[i-sightY][j-sightX] == 1)
+                {
+                    waddch(win,levelArray[i][j]);
+                }
             }
         }
 
@@ -118,22 +133,22 @@ int main()
         }
 
         //Print the player to the window
-        wmove(win,player.y,player.x);
+        wmove(win,player.getY(),player.getX());
         waddch(win,ACS_LANTERN);
-        wmove(win,player.y,player.x);
+        wmove(win,player.getY(),player.getX());
 
         wrefresh(win); //wrefresh updates changes to the window
 
         ch = wgetch(win); //gets a character input from the keyboard
 
-        newX = player.x;
-        newY = player.y;
+        newX = player.getX();
+        newY = player.getY();
 
         /*
         The next section checks for movement or special actions.
         Arrow keys and numpad digits can both move the character.
         The game loop quits on a q or Q.
-        SEIZUREMODE starts on a capital S.
+        SEIZUREMODE starts and ends on a capital S.
         */
 
         if(ch == KEY_UP || ch == '8')
@@ -184,30 +199,32 @@ int main()
         //Makes sure the desired new location of the player isn't a wall
         if(!place_meeting(newY,newX,walls))
         {
-            player.x = newX;
-            player.y = newY;
+            player.setX(newX);
+            player.setY(newY);
         }
 
         //Make sure the player doesn't go off the screen
 
-        if(player.y < 0)
+        if(player.getY() < 0)
         {
-            player.y = 0;
+            player.setY(0);
         }
-        else if(player.y >= h)
+        else if(player.getY() >= h)
         {
-            player.y = h - 1;
+            player.setY(h-1);
         }
 
-        if(player.x < 0)
+        if(player.getX() < 0)
         {
-            player.x = 0;
+            player.setX(0);
         }
-        else if(player.x >= w)
+        else if(player.getX() >= w)
         {
-            player.x = w - 1;
+            player.setX(w-1);
         }
     }
+
+    test.close();
 
     //////////////////
     //DAMAGE LOGGING//
@@ -218,7 +235,11 @@ int main()
     It has the capability to generate massive walls of text. Use with caution.
     */
 
-    /*damage = 10;
+    /*ofstream damageTest;
+    damageTest.open("damagelog.txt", ofstream::app);
+    damageTest << endl;
+
+    damage = 10;
     player.setAC(0);
 
     int damageNum = 0;
@@ -240,7 +261,7 @@ int main()
 
             for(int i = 0; i < 1000; i++)
             {
-                damageNum = player.hurt(damage);
+                damageNum = player.physicalDamage(damage);
 
                 if(biggestDamage == -1 && smallestDamage == -1)
                 {
@@ -271,10 +292,15 @@ int main()
             damage += 1;
         }
         player.setAC(player.getAC()+1);
-    }*/
+    }
 
-    damageTest.close();
+    damageTest.close();*/
+
     endwin();
+
+    //Sight range logging
+
+    player.calculateSightRange(levelArray);
 
     return 0;
 }
@@ -285,12 +311,12 @@ If one is, it returns true. Otherwise, it returns false.
 */
 
 template<typename T>
-bool place_meeting(int checkY, int checkX, vector<T>& objs)
+bool place_meeting(int checkY, int checkX, vector<T> objs)
 {
 
     for(int i = 0;i<objs.size();i++)
     {
-        if(objs.at(i).x == checkX && objs.at(i).y == checkY)
+        if(objs.at(i).getX() == checkX && objs.at(i).getY() == checkY)
         {
             return true;
         }

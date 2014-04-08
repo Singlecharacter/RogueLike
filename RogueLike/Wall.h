@@ -11,6 +11,13 @@ public:
     Wall(int y, int x);
     ~Wall();
 
+    int getX();
+    int getY();
+    void setX(int);
+    void setY(int);
+
+private:
+
     int x,y;
 };
 
