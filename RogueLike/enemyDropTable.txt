@@ -1,0 +1,83 @@
+/*******************
+* Enemy Drop Table *
+*******************/
+
+/********************************************************************************************************************************
+* now choose the rarity of the item; common will be base stats, and the higher the rarity will add more to the stats		*
+* extras are added to make the chance of getting a better item less								*
+* enemies have a type also, this will be what chooses the drop table for they enemies particular difficuly			*
+*																*
+* 1 = Common Enemy														*
+* 2 = Rare Enemy														*
+* 3 = Epic Enemy														*
+* 4 = Boss-ish Enemy														*
+*																*
+* c = Common Item														*
+* r = Rare Item 														*
+* e = Epic Item   														*
+* l = Legendary Item														*
+********************************************************************************************************************************/
+
+1,c,c,c,c,c,c,c,c,c,c,c,r,r,r,r,e
+2,c,c,c,c,c,r,r,r,r,r,r,e,e,e,e
+3,r,r,r,r,e,e,e,l
+4,e,e,l
+
+/********************************************************************************************************
+*now choose one of the player's item slots at random, also from that, choose a type of item string name	*
+*													*
+* 1 = mainHand	 											*
+* 2 = offHand	 											*
+* 3 = bodySlot   											*
+* 4 = headSlot	 											*
+* 5 = feetSlot	 											*
+* 6 = handSlot	 											*
+* 7 = backSlot												*
+* 8 = neckSlot	 											*
+* 9 = rightRing 											*
+* 10 = leftRing												*
+*													*
+* As many as anything can be added, but the code will have to be changed for one integer for		*
+* however many item slots we want to add, right now it is set to 10					*
+********************************************************************************************************/
+
+0
+Mace,Sword,Dagger,Wand,Bow,Spear,Greatsword,Staff
+1
+Off-hand Dagger,Shield,Book,Artifact
+2
+Robes,Chassis,Cuirass,Armor
+3
+Crown,Cap,Helm,Visor
+4
+Boots,Slippers,Greaves,Sandles
+5
+Gloves,Gauntlets,Mittens,Hand Wraps
+6
+Cloak,Cape,Shroud
+7
+Amulet,Necklace,Jewel
+8
+Right Ring,Right Band
+9
+Left Ring,Left Band
+
+/********************************************************************************
+*One of these 8 stats will be chosen at random to be the boost for an item	*
+*										*
+* Vitality = maxHP boost							*
+* Mana = maxMP boost								*
+* Strength = STR boost								*
+* Dexterity = DEX boost								*
+* Intellect = INT boost								*
+* Purity = poisonLevel boost							*
+* Ward = MR boost								*
+* Speed = movementSpeed	boost							*
+* 										*
+* Can add as many stats as you want, but the code will have to be changed	*
+* for first stat if it does not start with a "V"				*
+*										*
+* I removed armor from the choice, since a dagger with armor doesn't make since	*
+********************************************************************************/
+
+Vitality,Mana,Strength,Dexterity,Intellect,Purity,Ward,Speed
