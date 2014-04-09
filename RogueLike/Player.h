@@ -8,6 +8,17 @@
 #include <curses.h>
 #include <iostream>
 
+#define MAINHAND 0
+#define OFFHAND 1
+#define BODYSLOT 2
+#define HEADSLOT 3
+#define FEETSLOT 4
+#define HANDSLOT 5
+#define BACKSLOT 6
+#define NECKSLOT 7
+#define LEFTRING 8
+#define RIGHTRING 9
+
 class Player
 {
 public:
@@ -38,15 +49,15 @@ public:
     void fullHeal();
 
     //Determines which grid tiles the player can see from its current location.
-    void calculateSightRange(int levelArray[25][80]);
+    void calculateSightRange(int levelArray[200][200]);
+
+    //Logs the player's stats to a file
+    void logStats();
 
     void setAC(int newAC);
     int getAC();
 
-    int getX();
-    int getY();
-    void setX(int);
-    void setY(int);
+    int x,y;
 
     //Sight range
     int sightArray[11][11];
@@ -55,10 +66,9 @@ private:
 
     //Stat information
     int maxHP, currentHP, HD, maxMP, currentMP, MD, sightRange, STR, DEX, INT, AC, MR, poisonLevel, ACGain, MRGain;
-    int x, y;
 
     //Equipment slots
-    Item mainHand, offHand, bodySlot, headSlot, feetSlot, handSlot, backSlot, neckSlot, leftRing, rightRing;
+    Item equipment[10];
 };
 
 #endif // PLAYER_H

@@ -6,6 +6,8 @@
 #include <fstream>
 #include "Wall.h"
 #include "Player.h"
+#include "utility.cpp"
+#include "map loader.h"
 
 using namespace std;
 
@@ -14,41 +16,25 @@ bool place_meeting(int,int,vector<T>);
 
 int main()
 {
-    int levelArray[25][80];
     srand(time(NULL));
+
     int ch, newX, newY;
     int h, w;
-    int damage = 10;
 
     Player player(10,10);//Creates a player object at position (10,10)
 
-    ifstream level;
+    int levelArray[200][200];                         //Changed this to 200x200 levels
+    bool levelFlagArray[10];                         //Used to flag whether or not a level has already been loaded
 
-    level.open("level.txt");
 
-    char inChar;
-
-    /*
-    Reads in map data from a file. Assumes fixed dimensions of 80x25. Testing purposes only.
-    */
-    for(int i = 0;i<25;i++)
+    for (int i = 0; i < 10; i++)                    //Initialized all flag values to false
     {
-        for(int j=0;j<80;j++)
-        {
-            inChar = level.get();
-            if(inChar == '#')
-            {
-                levelArray[i][j] = ACS_BLOCK;
-            }
-            else
-            {
-                levelArray[i][j] = '.';
-            }
-        }
-        level.ignore();
+        levelFlagArray[i] = false;
     }
 
-    level.close();
+    levelLoad(levelArray, levelFlagArray);          //Load and display a random level
+
+    char inChar;
 
     initscr(); //Start curses
     WINDOW * win = newwin(25,80,0,0);//Create a new window
@@ -77,9 +63,9 @@ int main()
 
     //Fills a vector with all of the wall locations for use in collision checking
     vector<Wall> walls;
-    for(int i = 0;i < 25;i++)
+    for(int i = 0;i < 200;i++)
     {
-        for(int j = 0;j<80;j++)
+        for(int j = 0;j<200;j++)
         {
             if(levelArray[i][j] == ACS_BLOCK)
             {
@@ -108,11 +94,11 @@ int main()
             }
         }
 
-        sightX = player.getX() - 5;
-        sightY = player.getY() - 5;
-        for(int i = player.getY() - 5;i<=player.getY()+5;i++)
+        sightX = player.x - 5;
+        sightY = player.y - 5;
+        for(int i = player.y - 5;i<=player.y+5;i++)
         {
-            for(int j = player.getX() - 5;j<=player.getX()+5;j++)
+            for(int j = player.x - 5;j<=player.x+5;j++)
             {
                 wmove(win,i,j);
                 if(player.sightArray[i-sightY][j-sightX] == 1)
@@ -133,16 +119,16 @@ int main()
         }
 
         //Print the player to the window
-        wmove(win,player.getY(),player.getX());
+        wmove(win,player.y,player.x);
         waddch(win,ACS_LANTERN);
-        wmove(win,player.getY(),player.getX());
+        wmove(win,player.y,player.x);
 
         wrefresh(win); //wrefresh updates changes to the window
 
         ch = wgetch(win); //gets a character input from the keyboard
 
-        newX = player.getX();
-        newY = player.getY();
+        newX = player.x;
+        newY = player.y;
 
         /*
         The next section checks for movement or special actions.
@@ -199,28 +185,28 @@ int main()
         //Makes sure the desired new location of the player isn't a wall
         if(!place_meeting(newY,newX,walls))
         {
-            player.setX(newX);
-            player.setY(newY);
+            player.x = newX;
+            player.y = newY;
         }
 
         //Make sure the player doesn't go off the screen
 
-        if(player.getY() < 0)
+        if(player.y < 0)
         {
-            player.setY(0);
+            player.y = 0;
         }
-        else if(player.getY() >= h)
+        else if(player.y >= h)
         {
-            player.setY(h-1);
+            player.y = h-1;
         }
 
-        if(player.getX() < 0)
+        if(player.x < 0)
         {
-            player.setX(0);
+            player.x = 0;
         }
-        else if(player.getX() >= w)
+        else if(player.x >= w)
         {
-            player.setX(w-1);
+            player.x = w-1;
         }
     }
 
@@ -302,24 +288,7 @@ int main()
 
     player.calculateSightRange(levelArray);
 
+
+
     return 0;
-}
-
-/*
-place_meeting takes a vector of game objects and checks if any of those objects are at a given point.
-If one is, it returns true. Otherwise, it returns false.
-*/
-
-template<typename T>
-bool place_meeting(int checkY, int checkX, vector<T> objs)
-{
-
-    for(int i = 0;i<objs.size();i++)
-    {
-        if(objs.at(i).getX() == checkX && objs.at(i).getY() == checkY)
-        {
-            return true;
-        }
-    }
-    return false;
 }

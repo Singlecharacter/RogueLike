@@ -58,16 +58,10 @@ Player::Player(int x, int y, int HD , int MD,
 
     //Equipment initialization (empty)
     Item noItem("");
-    mainHand = noItem;
-    offHand = noItem;
-    bodySlot = noItem;
-    headSlot = noItem;
-    feetSlot = noItem;
-    handSlot = noItem;
-    backSlot = noItem;
-    neckSlot = noItem;
-    leftRing = noItem;
-    rightRing = noItem;
+    for(int i = 0;i<RIGHTRING;i++)
+    {
+        equipment[i] = noItem;
+    }
 
     for(int i=0;i<11;i++)
     {
@@ -172,7 +166,7 @@ int Player::calculatePoisonDamage()
     return hits;
 }
 
-void Player::calculateSightRange(int levelArray[25][80])
+void Player::calculateSightRange(int levelArray[200][200])
 {
     /*std::ofstream sightLog;
     sightLog.open("sightlog.txt",std::ofstream::app);
@@ -488,6 +482,21 @@ void Player::calculateSightRange(int levelArray[25][80])
 
 }
 
+void Player::logStats()
+{
+    std::ofstream statsFile;
+    statsFile.open("stats.txt",std::ofstream::app);
+
+    statsFile << "Max HP: " << maxHP << std::endl;
+    statsFile << "Max MP: " << maxMP << std::endl;
+    statsFile << "STR: " << STR << std::endl;
+    statsFile << "DEX: " << DEX << std::endl;
+    statsFile << "INT: " << INT << std::endl;
+    statsFile << std::endl;
+
+    statsFile.close();
+}
+
 void Player::fullHeal()
 {
     currentHP = maxHP;
@@ -501,24 +510,4 @@ void Player::setAC(int newAC)
 int Player::getAC()
 {
     return AC;
-}
-
-int Player::getX()
-{
-    return x;
-}
-
-int Player::getY()
-{
-    return y;
-}
-
-void Player::setX(int newX)
-{
-    x = newX;
-}
-
-void Player::setY(int newY)
-{
-    y = newY;
 }
