@@ -3,6 +3,7 @@
 
 //Placeholder item class
 
+#include <iostream>
 #include <string>
 
 using namespace std;
@@ -14,6 +15,7 @@ public:
     Item();
     ~Item();
     void createItem(int playerLevel, int rarityTable); //create an item add everything to it's spot
+    int getSlot();
     void findNextLine (ifstream& file, string& currentLine); //will skip comments and whitespace in files
 
 private:

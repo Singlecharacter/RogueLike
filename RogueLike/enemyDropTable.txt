@@ -41,25 +41,25 @@
 * however many item slots we want to add, right now it is set to 10					*
 ********************************************************************************************************/
 
-1
+0
 Mace,Sword,Dagger,Wand,Bow,Spear,Greatsword,Staff
-2
+1
 Off-hand Dagger,Shield,Book,Artifact
-3
+2
 Robes,Chassis,Cuirass,Armor
-4
+3
 Crown,Cap,Helm,Visor
-5
+4
 Boots,Slippers,Greaves,Sandles
-6
+5
 Gloves,Gauntlets,Mittens,Hand Wraps
-7
+6
 Cloak,Cape,Shroud
-8
+7
 Amulet,Necklace,Jewel
-9
+8
 Right Ring,Right Band
-10
+9
 Left Ring,Left Band
 
 /********************************************************************************

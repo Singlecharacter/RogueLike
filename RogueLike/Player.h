@@ -1,5 +1,5 @@
-#ifndef PLAYERITEMS_H
-#define PLAYERITEMS_H
+#ifndef PLAYER_H
+#define PLAYER_H
 
 #include "Item.h"
 #include <cstdlib>
@@ -25,6 +25,10 @@ public:
     void setAC(int newAC);
     int getAC();
 
+    //equip an item
+    void equipItem(Item item, int slot);
+
+
     int x, y;
 
 private:
@@ -34,7 +38,7 @@ private:
 
     //Equipment slots
     //edited by Michael on 4/2/2014
-    Item mainHand, offHand, bodySlot, headSlot, feetSlot, handSlot, backSlot, neckSlot, leftRing, rightRing;
+    Item slots[10];
 };
 
 #endif // PLAYER_H

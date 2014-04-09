@@ -1,4 +1,4 @@
-#include "PlayerItems.h"
+#include "Player.h"
 #include <math.h>
 
 Player::Player(int x, int y, int HD , int MD,
@@ -58,16 +58,10 @@ Player::Player(int x, int y, int HD , int MD,
 
     //Equipment initialization (empty)
     Item noItem; //edited by Michael on 4/2/2014
-    mainHand = noItem;
-    offHand = noItem;
-    bodySlot = noItem;
-    headSlot = noItem;
-    feetSlot = noItem;
-    handSlot = noItem;
-    backSlot = noItem;
-    neckSlot = noItem;
-    leftRing = noItem;
-    rightRing = noItem;
+    for(int i = 0; i < 10; i++)
+    {
+        slots[i] = noItem;
+    }
 }
 
 Player::~Player()
@@ -121,4 +115,10 @@ void Player::setAC(int newAC)
 int Player::getAC()
 {
     return AC;
+}
+
+//equip
+void Player::equipItem(Item item, int slot)
+{
+    slots[slot] = item;
 }
