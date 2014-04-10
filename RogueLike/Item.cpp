@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-#include "Item.h"
-
-Item::Item(std::string name)
-{
-    this -> name = name;
-=======
 #include <string>
 #include <ctime>
 #include <fstream>
@@ -32,15 +25,12 @@ Item::Item()
     Speed = 0;
 
     rarity = ','; //this is initialize to , for item creation
->>>>>>> origin/items
 }
 
 Item::~Item()
 {
 
 }
-<<<<<<< HEAD
-=======
 
 //parameters are the player's level for stat adjustment,
 //and rarity table from chests or enemies to generate another stat adjustment variable
@@ -192,6 +182,11 @@ void Item::createItem(int playerLevel, int rarityTable)
 
 }
 
+string Item::getName()
+{
+    return name;
+}
+
 int Item::getSlot()
 {
     return slot;
@@ -206,4 +201,3 @@ void Item::findNextLine(ifstream& file, string& currentLine)
         getline (file,currentLine);
     }
 }
->>>>>>> origin/items

@@ -5,14 +5,14 @@ If one is, it returns true. Otherwise, it returns false.
 */
 
 template<typename T>
-bool place_meeting(int checkY, int checkX, std::vector<T> objs)
+int place_meeting(int checkY, int checkX, std::vector<T> objs)
 {
     for(int i = 0;i<objs.size();i++)
     {
         if(objs.at(i).x == checkX && objs.at(i).y == checkY)
         {
-            return true;
+            return i;
         }
     }
-    return false;
+    return -1;
 }

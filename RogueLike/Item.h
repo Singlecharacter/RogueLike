@@ -3,36 +3,27 @@
 
 //Placeholder item class
 
-<<<<<<< HEAD
 #include <string>
 
-=======
 #include <iostream>
 #include <string>
 
 using namespace std;
 
->>>>>>> origin/items
 class Item
 {
 public:
 
-<<<<<<< HEAD
-    Item(std::string name = "");
-    ~Item();
-=======
     Item();
     ~Item();
     void createItem(int playerLevel, int rarityTable); //create an item add everything to it's spot
+    string getName();
     int getSlot();
     void findNextLine (ifstream& file, string& currentLine); //will skip comments and whitespace in files
->>>>>>> origin/items
 
 private:
 
     std::string name;
-<<<<<<< HEAD
-=======
 
     /********************************
     * Vitality = maxHP boost	    *
@@ -71,7 +62,6 @@ private:
 
     int level;//this will be how we tell how much to add to stats
 
->>>>>>> origin/items
 };
 
 #endif // ITEM_H

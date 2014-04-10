@@ -57,8 +57,8 @@ Player::Player(int x, int y, int HD , int MD,
     this -> MRGain = MRGain;
 
     //Equipment initialization (empty)
-    Item noItem("");
-    for(int i = 0;i<RIGHTRING;i++)
+    Item noItem;
+    for(int i = 0;i<LEFTRING;i++)
     {
         equipment[i] = noItem;
     }
@@ -482,6 +482,11 @@ void Player::calculateSightRange(int levelArray[200][200])
 
 }
 
+void Player::equipItem(Item newItem)
+{
+    equipment[newItem.getSlot()] = newItem;
+}
+
 void Player::logStats()
 {
     std::ofstream statsFile;
@@ -495,6 +500,20 @@ void Player::logStats()
     statsFile << std::endl;
 
     statsFile.close();
+}
+
+void Player::logItems()
+{
+    std::ofstream itemsFile;
+    itemsFile.open("items.txt",std::ofstream::app);
+
+    for(int i = 0;i<10;i++)
+    {
+        itemsFile << equipment[i].getName() << std::endl;
+    }
+    itemsFile << std::endl;
+
+    itemsFile.close();
 }
 
 void Player::fullHeal()

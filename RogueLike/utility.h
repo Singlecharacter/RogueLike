@@ -4,6 +4,6 @@
 #include <vector>
 
 template<typename T>
-bool place_meeting(int checkY, int checkX, std::vector<T> objs);
+int place_meeting(int checkY, int checkX, std::vector<T> objs);
 
 #endif // UTILITY_H

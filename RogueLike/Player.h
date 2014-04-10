@@ -16,8 +16,8 @@
 #define HANDSLOT 5
 #define BACKSLOT 6
 #define NECKSLOT 7
-#define LEFTRING 8
-#define RIGHTRING 9
+#define RIGHTRING 8
+#define LEFTRING 9
 
 class Player
 {
@@ -51,8 +51,12 @@ public:
     //Determines which grid tiles the player can see from its current location.
     void calculateSightRange(int levelArray[200][200]);
 
+    void equipItem(Item newItem);
+
     //Logs the player's stats to a file
     void logStats();
+
+    void logItems();
 
     void setAC(int newAC);
     int getAC();

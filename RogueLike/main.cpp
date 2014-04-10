@@ -8,11 +8,10 @@
 #include "Player.h"
 #include "utility.cpp"
 #include "map loader.h"
+#include "Item.h"
+#include "Chest.h"
 
 using namespace std;
-
-template<typename T>
-bool place_meeting(int,int,vector<T>);
 
 int main()
 {
@@ -20,8 +19,6 @@ int main()
 
     int ch, newX, newY;
     int h, w;
-
-    Player player(10,10);//Creates a player object at position (10,10)
 
     int levelArray[200][200];                         //Changed this to 200x200 levels
     bool levelFlagArray[10];                         //Used to flag whether or not a level has already been loaded
@@ -35,9 +32,57 @@ int main()
     levelLoad(levelArray, levelFlagArray);          //Load and display a random level
 
     char inChar;
+    string inString;
+
+    ifstream level;
+    level.open("testlevel1.txt");
+
+    for(int i = 0;i < 200; i++)
+    {
+        getline(level,inString);
+        cout << inString.length() << endl;
+        for(int j = 0; j < 198; j++)
+        {
+            inChar = inString[i];
+            if(inChar == '#')
+            {
+                levelArray[i][j] = ACS_BLOCK;
+            }
+            else
+            {
+                levelArray[i][j] = inChar;
+            }
+        }
+        level.ignore();
+    }
+
+    int spawnX = 0,spawnY = 0;
+    for(int i = 0;i<200;i++)
+    {
+        for(int j = 0;j<198;j++)
+        {
+            if(levelArray[i][j] != ACS_BLOCK)
+            {
+                spawnY = i;
+                spawnX = j;
+                cout << spawnY << endl;
+                cout << spawnX << endl;
+                cout << levelArray[i][j] << endl;
+                cin.sync();
+                cin.get();
+                break;
+            }
+        }
+        if(spawnX != 0 || spawnY != 0)
+        {
+            break;
+        }
+    }
+
+    Player player(spawnX,spawnY);
 
     initscr(); //Start curses
-    WINDOW * win = newwin(25,80,0,0);//Create a new window
+    WINDOW * win = newwin(25,79,0,0);//Create a new window
     getmaxyx(win,h,w);//Set h and w to the height and width of the new window, respectively
     curs_set(0);//Hide the cursor
     keypad(win,TRUE);//Allow SPECIAL keys (They're special)
@@ -65,7 +110,7 @@ int main()
     vector<Wall> walls;
     for(int i = 0;i < 200;i++)
     {
-        for(int j = 0;j<200;j++)
+        for(int j = 0;j< 198;j++)
         {
             if(levelArray[i][j] == ACS_BLOCK)
             {
@@ -74,10 +119,21 @@ int main()
         }
     }
 
-    bool SEIZUREMODE = false;
+    vector<Chest> chests;
+    for(int i = 0;i < 200;i++)
+    {
+        for(int j = 0;j< 198;j++)
+        {
+            if(levelArray[i][j] == '@')
+            {
+                Chest newChest(i,j,2,1,"CHEST!");
+                newChest.generateItem();
+                chests.push_back(newChest);
+            }
+        }
+    }
 
-    ofstream test;
-    test.open("test.txt",ofstream::app);
+    bool SEIZUREMODE = false;
 
     int sightX,sightY;
 
@@ -87,10 +143,10 @@ int main()
         player.calculateSightRange(levelArray);
         for(int i=0;i<25;i++)
         {
-            for(int j=0;j<80;j++)
+            for(int j=0;j<79;j++)
             {
                 wmove(win,i,j);
-                waddch(win,' ');
+                waddch(win,levelArray[player.y - 12+i][player.x-39+j]);
             }
         }
 
@@ -103,7 +159,7 @@ int main()
                 wmove(win,i,j);
                 if(player.sightArray[i-sightY][j-sightX] == 1)
                 {
-                    waddch(win,levelArray[i][j]);
+                    waddch(win,levelArray[player.y - 12+i][player.x-39+j]);
                 }
             }
         }
@@ -119,9 +175,9 @@ int main()
         }
 
         //Print the player to the window
-        wmove(win,player.y,player.x);
+        wmove(win,12,39);
         waddch(win,ACS_LANTERN);
-        wmove(win,player.y,player.x);
+        wmove(win,12,39);
 
         wrefresh(win); //wrefresh updates changes to the window
 
@@ -181,36 +237,29 @@ int main()
         {
             SEIZUREMODE = !SEIZUREMODE;
         }
+        else if(ch == 'o' || ch == 'O')
+        {
+            int chestIndex = place_meeting(player.x,player.y,chests);
+            if(chestIndex >= 0)
+            {
+                Item gotItem = chests.at(chestIndex).getItem();
+                chests.erase(chests.begin()+chestIndex);
+                levelArray[player.y][player.x] = '.';
+
+                player.equipItem(gotItem);
+            }
+        }
 
         //Makes sure the desired new location of the player isn't a wall
-        if(!place_meeting(newY,newX,walls))
+        if(place_meeting(newY,newX,walls) < 0)
         {
             player.x = newX;
             player.y = newY;
         }
-
-        //Make sure the player doesn't go off the screen
-
-        if(player.y < 0)
-        {
-            player.y = 0;
-        }
-        else if(player.y >= h)
-        {
-            player.y = h-1;
-        }
-
-        if(player.x < 0)
-        {
-            player.x = 0;
-        }
-        else if(player.x >= w)
-        {
-            player.x = w-1;
-        }
     }
 
-    test.close();
+    player.logStats();
+    player.logItems();
 
     //////////////////
     //DAMAGE LOGGING//
