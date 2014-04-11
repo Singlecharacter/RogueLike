@@ -18,6 +18,7 @@
 #define NECKSLOT 7
 #define RIGHTRING 8
 #define LEFTRING 9
+#define INVSIZE 25
 
 class Player
 {
@@ -73,6 +74,7 @@ private:
 
     //Equipment slots
     Item equipment[10];
+    Item inventory[25];
 };
 
 #endif // PLAYER_H

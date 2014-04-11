@@ -53,55 +53,55 @@ void levelLoad(int levelArray[200][200], bool levelFlagArray[10])
         levelFlagArray[0] = true;                                                   //flags level as already loaded
     }
 
-    if (levelChoice == 2 && levelFlagArray[1] == false)                               //open level 2
+    else if (levelChoice == 2 && levelFlagArray[1] == false)                               //open level 2
     {
         level.open("level2.txt");
         levelFlagArray[1] = true;
     }
 
-    if (levelChoice == 3 && levelFlagArray[2] == false)                               //open level 3
+    else if (levelChoice == 3 && levelFlagArray[2] == false)                               //open level 3
     {
         level.open("level3.txt");
         levelFlagArray[2] = true;
     }
 
-    if (levelChoice == 4 && levelFlagArray[3] == false)                               //open level 4
+    else if (levelChoice == 4 && levelFlagArray[3] == false)                               //open level 4
     {
         level.open("level4.txt");
         levelFlagArray[3] = true;
     }
 
-    if (levelChoice == 5 && levelFlagArray[4] == false)                               //open level 5
+    else if (levelChoice == 5 && levelFlagArray[4] == false)                               //open level 5
     {
         level.open("level5.txt");
         levelFlagArray[4] = true;
     }
 
-    if (levelChoice == 6 && levelFlagArray[5] == false)                               //open level 6
+    else if (levelChoice == 6 && levelFlagArray[5] == false)                               //open level 6
     {
         level.open("level6.txt");
         levelFlagArray[5] = true;
     }
 
-    if (levelChoice == 7 && levelFlagArray[6] == false)                               //open level 7
+    else if (levelChoice == 7 && levelFlagArray[6] == false)                               //open level 7
     {
         level.open("level7.txt");
         levelFlagArray[6] = true;
     }
 
-    if (levelChoice == 8 && levelFlagArray[7] == false)                               //open level 8
+    else if (levelChoice == 8 && levelFlagArray[7] == false)                               //open level 8
     {
         level.open("level8.txt");
         levelFlagArray[7] = true;
     }
 
-    if (levelChoice == 9 && levelFlagArray[8] == false)                               //open level 9
+    else if (levelChoice == 9 && levelFlagArray[8] == false)                               //open level 9
     {
         level.open("level9.txt");
         levelFlagArray[8] = true;
     }
 
-    if (levelChoice == 10 && levelFlagArray[9] == false)                               //open level 10
+    else if (levelChoice == 10 && levelFlagArray[9] == false)                               //open level 10
     {
         level.open("level10.txt");
         levelFlagArray[9] = true;
@@ -120,7 +120,7 @@ void levelLoad(int levelArray[200][200], bool levelFlagArray[10])
             }
             else
             {
-                levelArray[i][j] = '.';
+                levelArray[i][j] = inChar;
             }
         }
         level.ignore();
@@ -129,55 +129,3 @@ void levelLoad(int levelArray[200][200], bool levelFlagArray[10])
     level.close();
 }
 
-
-//Unnecessary
-void levelCreate(int levelArray[200][200])                //initializes and prints the level after levelArray is passed to it
-{
-    int x, y, ch, newX, newY;
-    int h, w;
-
-    getmaxyx(stdscr,h,w);
-
-    vector<Wall> walls;
-    for(int i = 0; i < 200; i++)
-    {
-        for(int j = 0; j < 200; j++)
-        {
-            if(levelArray[i][j] == ACS_BLOCK)
-            {
-                walls.push_back(Wall(i,j));
-            }
-        }
-    }
-
-    bool SEIZUREMODE = false;
-
-    while(true)
-    {
-        clear();
-        for(int i = 0;i<walls.size();i++)
-        {
-            wmove(stdscr,walls.at(i).y,walls.at(i).x);
-            addch(ACS_BLOCK);
-        }
-
-        for(int i = 0; i < 200; i++)
-        {
-            for(int j = 0; j < 200; j++)
-            {
-                wmove(stdscr,i,j);
-                addch(levelArray[i][j]);
-            }
-        }
-
-        if(SEIZUREMODE)
-        {
-            wbkgd(stdscr,COLOR_PAIR(rand() % 7 + 1));
-        }
-        else
-        {
-            wbkgd(stdscr,COLOR_PAIR(8));
-        }
-        refresh();
-    }
-}

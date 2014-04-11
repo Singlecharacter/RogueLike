@@ -63,6 +63,11 @@ Player::Player(int x, int y, int HD , int MD,
         equipment[i] = noItem;
     }
 
+    for(int i = 0;i<INVSIZE;i++)
+    {
+        inventory[i] = noItem;
+    }
+
     for(int i=0;i<11;i++)
     {
         for(int j=0;j<11;j++)
@@ -509,7 +514,14 @@ void Player::logItems()
 
     for(int i = 0;i<10;i++)
     {
-        itemsFile << equipment[i].getName() << std::endl;
+        if(equipment[i].getName() == "")
+        {
+            itemsFile << "None." << endl;
+        }
+        else
+        {
+            itemsFile << equipment[i].getName() << std::endl;
+        }
     }
     itemsFile << std::endl;
 

@@ -1,0 +1,132 @@
+115
+49
+65584
+Number of walls: 37649
+Number of chests: 9
+
+Player Y: 0
+Player X: 0
+Tile at player's location: 65584
+Number of walls: 37649
+Number of chests: 9
+
+Player Y: 66
+Player X: 125
+Tile at player's location: 46
+Number of walls: 37649
+Number of chests: 9
+
+Player Y: 93
+Player X: 98
+Tile at player's location: 46
+Number of walls: 37649
+Number of chests: 9
+
+Player Y: 66
+Player X: 125
+Tile at player's location: 46
+Number of walls: 37649
+Number of chests: 9
+
+Player Y: 75
+Player X: 125
+Tile at player's location: 46
+Number of walls: 37649
+Number of chests: 9
+
+Player Y: 66
+Player X: 125
+Tile at player's location: 46
+Number of walls: 37649
+Number of chests: 9
+
+Player Y: 82
+Player X: 101
+Tile at player's location: 83
+Number of walls: 37649
+Number of chests: 9
+
+Player Y: 82
+Player X: 101
+Tile at player's location: 83
+Number of walls: 37649
+Number of chests: 9
+
+Player Y: 114
+Player X: 80
+Tile at player's location: 46
+Number of walls: 37649
+Number of chests: 9
+
+Player Y: 112
+Player X: 87
+Tile at player's location: 65584
+Number of walls: 37649
+Number of chests: 9
+
+Player Y: 111
+Player X: 75
+Tile at player's location: 65584
+Number of walls: 37649
+Number of chests: 9
+
+Player Y: 97
+Player X: 63
+Tile at player's location: 46
+Number of walls: 37649
+Number of chests: 9
+
+Player Y: 101
+Player X: 66
+Tile at player's location: 65584
+Number of walls: 37649
+Number of chests: 9
+
+Player Y: 81
+Player X: 52
+Tile at player's location: 46
+Number of walls: 37649
+Number of chests: 3
+
+Player Y: 85
+Player X: 107
+Tile at player's location: 64
+Number of walls: 37649
+Number of chests: 8
+
+Player Y: 88
+Player X: 107
+Tile at player's location: 46
+Number of walls: 37649
+Number of chests: 9
+
+Player Y: 67
+Player X: 131
+Tile at player's location: 46
+Number of walls: 37649
+Number of chests: 8
+
+Player Y: 82
+Player X: 90
+Tile at player's location: 46
+Number of walls: 37649
+Number of chests: 2
+
+Player Y: 140
+Player X: 81
+Tile at player's location: 46
+Number of walls: 37649
+Number of chests: 4
+
+Player Y: 67
+Player X: 126
+Tile at player's location: 46
+Number of walls: 37649
+Number of chests: 9
+
+Player Y: 71
+Player X: 87
+Tile at player's location: 46
+Number of walls: 37649
+Number of chests: 9
+
