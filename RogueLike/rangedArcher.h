@@ -17,7 +17,7 @@ public:
 	~rangedArcher();
 
 	//special rolls for the "boss" level enemies
-	void BossRoll(int damageDealt); //Minotaur "enrages" (some stats go up)
+	void BossRoll(int damageDealt); //Archer does something cool
 
 	//attack the player when player is on next tile and return the base damage
 	int attackPlayer();

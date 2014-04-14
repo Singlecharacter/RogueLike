@@ -101,7 +101,7 @@ void rangedMagic::BossRoll()
 		int healhp = ceil(maxhp/10); //get 10% of the max hp, and round up
 		currenthp += healhp; //heal with that 10%
 		//Example:
-		//maxhp = 25, currenthp = 17, 10% of 25 is 2.5, round up to 3, currenthp + 3 = 20
+		//maxhp = 25, currenthp = 17, 10% of 25 is 2.5, round up to 3, 17 + 3 = 20
     }
     else
     {
