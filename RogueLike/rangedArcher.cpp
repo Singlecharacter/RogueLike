@@ -77,7 +77,7 @@ rangedArcher::rangedArcher (int playerLevel = 0, int xCoord = 0, int yCoord = 0,
 
 	//assign moveSpeed
 	//ranged enemies are at base speed since they can attack player as soon as he enters LOS
-	speed = 0;
+	speed = 1;
     moveSpeed = speed;
     currentMoveSpeed = 0;
 
@@ -86,21 +86,22 @@ rangedArcher::rangedArcher (int playerLevel = 0, int xCoord = 0, int yCoord = 0,
 }
 
 
-void rangedArcher::BossRoll(int& damageDealt)
+bool rangedArcher::BossRoll()
 {
     //make a roll from 0 - 10
 	int roll = rand() % 11;
+	bool goodRoll = false;
 
 	//if the roll is good, adjust damage and add to the attackMessage
 	if (roll == 10)
     {
-        //still working on what to do with archer boss
-        //maybe evasive moves?
-        //maybe armor penetration?
-        //maybe crit?
+        goodRoll = true;
+        enemyAttackTurn += " and it shot a kink in the armor!";
     }
     else
     {
         enemyAttackTurn += ".";
     }
+
+    return goodRoll;
 }

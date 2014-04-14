@@ -75,7 +75,7 @@ meleeHumanoid::meleeHumanoid (int playerLevel = 0, int xCoord = 0, int yCoord = 
 
 	//assign moveSpeed
 	//every 5 turns it will get a free move (.2 + .2 + .2 + .2 + .2 = 1)
-	speed = .2;
+	speed = 1.2;
     moveSpeed = speed;
     currentMoveSpeed = 0;
 

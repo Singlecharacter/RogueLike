@@ -17,7 +17,7 @@ public:
 	~meleeHumanoid();
 
 	//special rolls for the "boss" level enemies
-	void BossRoll(int damageDealt); //Minotaur "enrages" (some stats go up)
+	void BossRoll(); //Minotaur "enrages" (some stats go up)
 
 	//attack the player when player is on next tile and return the base damage
 	int attackPlayer();

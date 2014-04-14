@@ -75,7 +75,7 @@ meleeCreature::meleeCreature (int playerLevel = 0, int xCoord = 0, int yCoord = 
 
 	//assign moveSpeed
 	//every 2 turns it will get a free move (.5 + .5 = 1)
-	speed = .5;
+	speed = 1.5;
     moveSpeed = speed;
     currentMoveSpeed = 0;
 
@@ -102,4 +102,9 @@ void meleeCreature::BossRoll(int& damageDealt)
     {
         enemyAttackTurn += ".";
     }
+}
+
+int meleeCreature::attackPlayer()
+{
+
 }

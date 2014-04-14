@@ -18,7 +18,7 @@ public:
 	~rangedMagic();
 
 	//special rolls for the "boss" level enemies
-	void BossRoll(int damageDealt); //Demon heals itself by about 10%
+	void BossRoll(); //Demon heals itself by about 10%
 
 	//attack the player when player is on next tile and return the base damage
 	int attackPlayer();
