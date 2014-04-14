@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "Item.h"
 #include "Chest.h"
+#include "Enemy.h"
 
 using namespace std;
 

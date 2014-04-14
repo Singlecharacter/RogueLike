@@ -2962,3 +2962,4 @@ Base Damage: 59	Average Actual: 23	Lowest: 0	 Highest: 48	AC: 49
 
 
 
+

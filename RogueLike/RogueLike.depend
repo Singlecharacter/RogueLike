@@ -109,7 +109,7 @@
 	"Wall.h"
 	"Player.h"
 
-1397081141 source:c:\users\michael\documents\college\cs 240\programs\roguelike\game\roguelike\main.cpp
+1397420548 source:c:\users\michael\documents\college\cs 240\programs\roguelike\game\roguelike\main.cpp
 	<curses.h>
 	<iostream>
 	<stdlib.h>
@@ -120,10 +120,11 @@
 	"Player.h"
 	"Item.h"
 	"Chest.h"
+	"Enemy.h"
 
 1396314028 c:\users\michael\documents\college\cs 240\programs\roguelike\game\roguelike\wall.h
 
-1397081125 c:\users\michael\documents\college\cs 240\programs\roguelike\game\roguelike\player.h
+1397422442 c:\users\michael\documents\college\cs 240\programs\roguelike\game\roguelike\player.h
 	"Item.h"
 	<cstdlib>
 	<ctime>
@@ -133,14 +134,14 @@
 	<iostream>
 	<string>
 
-1397081268 source:c:\users\michael\documents\college\cs 240\programs\roguelike\game\roguelike\player.cpp
+1397422439 source:c:\users\michael\documents\college\cs 240\programs\roguelike\game\roguelike\player.cpp
 	"Player.h"
 	<math.h>
 
 1396314028 source:c:\users\michael\documents\college\cs 240\programs\roguelike\game\roguelike\wall.cpp
 	"Wall.h"
 
-1397080101 source:c:\users\michael\documents\college\cs 240\programs\roguelike\game\roguelike\item.cpp
+1397425004 source:c:\users\michael\documents\college\cs 240\programs\roguelike\game\roguelike\item.cpp
 	<string>
 	<ctime>
 	<fstream>
@@ -157,15 +158,33 @@
 	<ctime>
 	<fstream>
 
-1397078344 source:c:\users\michael\documents\college\cs 240\programs\roguelike\game\roguelike\chest.cpp
+1397424561 source:c:\users\michael\documents\college\cs 240\programs\roguelike\game\roguelike\chest.cpp
 	<string>
 	<ctime>
 	<vector>
 	<sstream>
 	"Item.h"
 	"Chest.h"
-	"PlayerItems.h"
+	"Player.h"
 
-1397078345 c:\users\michael\documents\college\cs 240\programs\roguelike\game\roguelike\chest.h
+1397424578 c:\users\michael\documents\college\cs 240\programs\roguelike\game\roguelike\chest.h
 	<string>
+
+1397424971 source:c:\users\michael\documents\college\cs 240\programs\roguelike\game\roguelike\enemy.cpp
+	"Enemy.h"
+	"Chest.h"
+
+1397425841 c:\users\michael\documents\college\cs 240\programs\roguelike\game\roguelike\enemy.h
+	<cstdlib>
+	<ctime>
+	<fstream>
+	<cctype>
+	<string>
+	<sstream>
+	<vector>
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	"Item.h"
+	"Chest.h"
 

@@ -1,0 +1,62 @@
+/****************
+* Enemy Data	*
+*****************
+
+/********************************************************************************
+* Enemy Notes:									*
+*										*
+* Enemy Rarity: (rarer = better loot)						*
+* 1 = common enemy								*
+* 2 = rare enemy								*
+* 3 = epic enemy								*
+* 4 = boss enemy								*
+*										*
+* Enemy Types:									*
+* mc = melee-creature								*
+*	ex: Dragon								*
+* mh = melee-humanoid								*
+*	ex: Goblin Knight							*
+* rm = range-magic								*
+*	ex: Mage								*
+* ra = range-archer								*
+*	ex: Skeletal Archer							*
+*										*
+* Display:									*
+* after name is the display char for map					*
+*										*
+* Example of data: (omit ; from reading, it is for human reading purposes only)	*
+* rarity;enemyType							*
+* name,displayChar								*
+********************************************************************************/
+1mc
+Adder,~
+1mh
+Goblin,1
+1rm
+Imp,2
+1ra
+Goblin Slinger,3
+2mc
+Wolf,4
+2mh
+Goblin Knight,5
+2rm
+Mage,6
+2ra
+Goblin Archer,7
+3mc
+Drake,8
+3mh
+Skeletal Knight,9
+3rm
+Demon,A
+3ra
+Skeletal Archer,B
+4mc
+Dragon,C
+4mh
+Minotaur,D
+4rm
+Arch-Demon,E
+4ra
+Dragon Archer,F

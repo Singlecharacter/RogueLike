@@ -57,7 +57,7 @@ Player::Player(int x, int y, int HD , int MD,
     this -> MRGain = MRGain;
 
     //Equipment initialization (empty)
-    Item noItem; //edited by Michael on 4/2/2014
+    Item noItem;
     for(int i = 0; i < 10; i++)
     {
         slots[i] = noItem;

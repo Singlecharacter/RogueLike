@@ -37,7 +37,6 @@ private:
     int maxHP, currentHP, HD, maxMP, currentMP, MD, visionRange, STR, DEX, INT, AC, MR, poisonLevel, ACGain, MRGain;
 
     //Equipment slots
-    //edited by Michael on 4/2/2014
     Item slots[10];
 };
 

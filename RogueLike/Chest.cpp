@@ -4,7 +4,7 @@
 #include <sstream>
 #include "Item.h"
 #include "Chest.h"
-#include "PlayerItems.h"
+#include "Player.h"
 
 using namespace std;
 
