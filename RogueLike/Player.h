@@ -27,7 +27,7 @@ public:
     //See constructor documentation
     Player(int x = 0, int y = 0, int HD = 10, int MD = 5,
            int STRMod = 0, int DEXMod = 0, int INTMod = 0,
-           int ACMod = 0, int MRMod = 0, int ACGain = 0, int MRGain = 0);
+           int ACMod = 0, int MRMod = 0, int ACGain = 0, int MRGain = 0, string name = "");
 
     ~Player();
 
@@ -71,6 +71,8 @@ private:
 
     //Stat information
     int maxHP, currentHP, HD, maxMP, currentMP, MD, sightRange, STR, DEX, INT, AC, MR, poisonLevel, ACGain, MRGain;
+
+    string name;
 
     //Equipment slots
     Item equipment[10];

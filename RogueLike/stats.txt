@@ -70,3 +70,21 @@ STR: 14
 DEX: 13
 INT: 2
 
+Max HP: 15
+Max MP: 2
+STR: 10
+DEX: 10
+INT: 2
+
+Max HP: 17
+Max MP: 6
+STR: 12
+DEX: 11
+INT: 1
+
+Max HP: 19
+Max MP: 3
+STR: 11
+DEX: 7
+INT: 4
+

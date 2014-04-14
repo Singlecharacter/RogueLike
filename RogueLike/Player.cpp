@@ -3,7 +3,7 @@
 
 Player::Player(int x, int y, int HD , int MD,
                int STRMod, int DEXMod, int INTMod,
-               int ACMod, int MRMod, int ACGain, int MRGain)
+               int ACMod, int MRMod, int ACGain, int MRGain, string name)
 {
     sightRange = 5;
     poisonLevel = 0;

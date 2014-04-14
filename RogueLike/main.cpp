@@ -111,7 +111,8 @@ int main()
     nodelay(win,true);
     keypad(win,true);
     wbkgd(win,COLOR_PAIR(1));
-    int topLeftX = player.x - 39,topLeftY = player.y - 12,newX = player.x,newY = player.y;
+    int topLeftX = player.x - 39,topLeftY = player.y - 12;
+    int newX = player.x,newY = player.y;
     int ch = ' ';
 
     int centerX = 39;
