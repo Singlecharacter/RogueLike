@@ -11,6 +11,7 @@ Enemy::Enemy()
 		currentMoveSpeed = 0;//currentMoveSpeed equals 0
 		seePlayer = false;//seePlayer equals false
 		hesDeadJim = false;//is the enemy dead?
+		dropItemQuery = false; //drop the item?
 		rarity = (rand() % 4) + 1;//int of random number from 1 to the max amount of enemy rarity types (4 at the moment)
 }
 
@@ -29,7 +30,6 @@ void Enemy::hurtEnemy(int playerDamageDealt) //deal damage to the enemy, enemy d
 {
 	//declare variables
     int realDamage = playerDamageDealt;//int of what the real damage dealt will be equals playerDamageDealt
-    bool dropItemQuery = false;//bool dropItem equals false
 
 	//realDamage modified through equation using defence
 	if (defense > 0)
@@ -71,16 +71,8 @@ void Enemy::hurtEnemy(int playerDamageDealt) //deal damage to the enemy, enemy d
             cout << "ERROR IN ENEMY DROP CHANCE" << endl;
         }
 
-		//if the dropItem bool is true, run the onDeathCreateLoot() function which makes a "chest"
-        if (dropItemQuery)
-        {
-            enemyLoot = onDeathCreateLoot();
-        }
-		else //else, set the current x & y to '.' & set message
-        {
-            displayChar = '.';
-            enemyHealthStatus = name + " is now dead as a doornail.";
-        }
+        displayChar = '.';
+        enemyHealthStatus = name + " is now dead as a doornail.";
     }
 
 	else //else make the enemyHealthStatus what it is appropriate to the current health percentage
@@ -116,19 +108,6 @@ void Enemy::hurtEnemy(int playerDamageDealt) //deal damage to the enemy, enemy d
         }
 	}
 }
-
-Chest Enemy::onDeathCreateLoot()
-{
-	//create the chest obj for enemy drop
-	string chestName = name + " corpse.";
-	Chest enemyDrop(x, y, rarity, level, chestName);
-
-	//now generate an item for that chest
-	enemyDrop.generateItem();
-
-	return enemyDrop;
-}
-
 
 void Enemy::getNameAndChar()
 {
@@ -206,4 +185,36 @@ void Enemy::findNextLine(ifstream& file, string& currentLine)
     {
         getline (file,currentLine);
     }
+}
+
+char Enemy::getDisplayChar()
+{
+    return displayChar;
+}
+
+string Enemy::getName()
+{
+    return name;
+}
+
+string Enemy::getEnemeyType()
+{
+    return enemyType;
+}
+
+bool Enemy::getDeadOrNot()
+{
+    return hesDeadJim;
+}
+
+bool Enemy::getGoodLoot()
+{
+    return dropItemQuery;
+}
+
+Chest Enemy::getEnemyCorpse()
+{
+    Chest corpse(x, y, rarity, level, name + " corpse");
+    corpse.generateItem();
+    return corpse;
 }
