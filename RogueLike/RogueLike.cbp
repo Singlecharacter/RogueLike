@@ -15,7 +15,7 @@
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
-					<Add library="..\..\..\..\..\..\..\..\..\Program Files (x86)\CodeBlocks\MinGW\lib\pdcurses.lib" />
+					<Add library="..\..\..\..\Desktop\CodeBlocks\MinGW\lib\pdcurses.lib" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -36,8 +36,8 @@
 		</Compiler>
 		<Unit filename="Chest.cpp" />
 		<Unit filename="Chest.h" />
-		<Unit filename="Enemy.cpp" />
-		<Unit filename="Enemy.h" />
+		<Unit filename="Control.cpp" />
+		<Unit filename="Control.h" />
 		<Unit filename="Item.cpp" />
 		<Unit filename="Item.h" />
 		<Unit filename="Player.cpp" />
@@ -45,6 +45,10 @@
 		<Unit filename="Wall.cpp" />
 		<Unit filename="Wall.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="map loader.cpp" />
+		<Unit filename="map loader.h" />
+		<Unit filename="utility.cpp" />
+		<Unit filename="utility.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

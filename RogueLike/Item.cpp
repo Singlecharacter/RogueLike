@@ -182,6 +182,11 @@ void Item::createItem(int playerLevel, int rarityTable)
 
 }
 
+string Item::getName()
+{
+    return name;
+}
+
 int Item::getSlot()
 {
     return slot;
