@@ -27,7 +27,7 @@ public:
     //See constructor documentation
     Player(int x = 0, int y = 0, int HD = 10, int MD = 5,
            int STRMod = 0, int DEXMod = 0, int INTMod = 0,
-           int ACMod = 0, int MRMod = 0, int ACGain = 0, int MRGain = 0);
+           int ACMod = 0, int MRMod = 0, int ACGain = 0, int MRGain = 0, string name = "");
 
     ~Player();
 
@@ -54,6 +54,11 @@ public:
 
     void equipItem(Item newItem);
 
+    //attempts to unequip the item at slot, returns false if there is no item.
+    bool unequipItem(int slot);
+
+    void levelUp();
+
     //Logs the player's stats to a file
     void logStats();
 
@@ -61,20 +66,28 @@ public:
 
     void setAC(int newAC);
     int getAC();
+    int getMaxHP();
 
     int x,y;
 
     //Sight range
     int sightArray[11][11];
+    int sightRange;
 
 private:
 
     //Stat information
-    int maxHP, currentHP, HD, maxMP, currentMP, MD, sightRange, STR, DEX, INT, AC, MR, poisonLevel, ACGain, MRGain;
+    int maxHP, currentHP, HD, maxMP, currentMP, MD, STR, DEX, INT, AC, MR, poisonLevel, ACGain, MRGain;
+
+    int currentXP, neededXP, level;
+
+    int invSize;
+
+    string name;
 
     //Equipment slots
     Item equipment[10];
-    Item inventory[25];
+    Item *inventory;
 };
 
 #endif // PLAYER_H
