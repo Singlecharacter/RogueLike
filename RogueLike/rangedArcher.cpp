@@ -85,6 +85,10 @@ rangedArcher::rangedArcher (int playerLevel = 0, int xCoord = 0, int yCoord = 0,
 	getNameAndChar();
 }
 
+rangedArcher::~rangedArcher()
+{
+
+}
 
 bool rangedArcher::BossRoll()
 {

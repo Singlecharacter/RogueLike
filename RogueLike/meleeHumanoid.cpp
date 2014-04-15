@@ -83,6 +83,11 @@ meleeHumanoid::meleeHumanoid (int playerLevel = 0, int xCoord = 0, int yCoord = 
 	getNameAndChar();
 }
 
+meleeHumanoid::~meleeHumanoid()
+{
+
+}
+
 
 void meleeHumanoid::BossRoll()
 {

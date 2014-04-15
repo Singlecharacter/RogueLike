@@ -83,6 +83,11 @@ meleeCreature::meleeCreature (int playerLevel = 0, int xCoord = 0, int yCoord = 
 	getNameAndChar();
 }
 
+meleeCreature::~meleeCreature()
+{
+
+}
+
 
 void meleeCreature::BossRoll(int& damageDealt)
 {

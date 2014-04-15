@@ -85,6 +85,10 @@ rangedMagic::rangedMagic (int playerLevel = 0, int xCoord = 0, int yCoord = 0, i
 	getNameAndChar();
 }
 
+rangedMagic::~rangedMagic()
+{
+
+}
 
 void rangedMagic::BossRoll()
 {
