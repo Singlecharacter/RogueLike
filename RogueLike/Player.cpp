@@ -7,8 +7,14 @@ Player::Player(int x, int y, int HD , int MD,
 {
     sightRange = 5;
     poisonLevel = 0;
+    invSize = 25;
 
-    srand(time(NULL));
+    inventory = new Item[invSize];
+
+    level = 1;
+    currentXP = 0;
+    neededXP = 100;
+
     this -> x = x;
     this -> y = y;
 
@@ -156,7 +162,7 @@ int Player::calculatePoisonDamage()
     else if(poisonLevel >= 100)
     {
         hits += 1;
-        adjustedLevel = poisonLevel - 200;
+        adjustedLevel = poisonLevel - 100;
     }
     else
     {
@@ -173,30 +179,6 @@ int Player::calculatePoisonDamage()
 
 void Player::calculateSightRange(int levelArray[200][200])
 {
-    /*std::ofstream sightLog;
-    sightLog.open("sightlog.txt",std::ofstream::app);
-    sightLog << std::endl;
-
-    sightLog << "Map: " << std::endl;
-
-    char ch;
-    for(int i=0;i<11;i++)
-    {
-        for(int j=0;j<11;j++)
-        {
-            if(levelArray[y-5+j][x-5+i] == ACS_BLOCK)
-            {
-                ch = '#';
-            }
-            else
-            {
-                ch = levelArray[y-5+j][x-5+i];
-            }
-            sightLog << ch;
-        }
-        sightLog << std::endl;
-    }*/
-
     for(int i=0;i<11;i++)
     {
         for(int j=0;j<11;j++)
@@ -470,26 +452,36 @@ void Player::calculateSightRange(int levelArray[200][200])
             }
         }
     }
-
-    //Log the sight range
-    /*sightLog << std::endl << "Sight:" << std::endl;
-    for(int i = 0;i<11;i++)
-    {
-        for(int j = 0;j<11;j++)
-        {
-            sightLog << sightArray[i][j];
-        }
-        sightLog << std::endl;
-    }*/
-
-
-    //sightLog.close();
-
 }
 
 void Player::equipItem(Item newItem)
 {
     equipment[newItem.getSlot()] = newItem;
+}
+
+bool Player::unequipItem(int slot)
+{
+    Item temp = equipment[slot];
+    Item noItem;
+    int foundIndex = 0;
+    for(foundIndex;foundIndex < invSize;foundIndex++)
+    {
+        if(inventory[foundIndex].getName() == "")
+        {
+            break;
+        }
+    }
+
+    if(foundIndex == invSize)
+    {
+        return false;
+    }
+    else
+    {
+        equipment[slot] = noItem;
+        inventory[foundIndex] = temp;
+        return true;
+    }
 }
 
 void Player::logStats()
@@ -541,4 +533,9 @@ void Player::setAC(int newAC)
 int Player::getAC()
 {
     return AC;
+}
+
+int Player::getMaxHP()
+{
+    return maxHP;
 }

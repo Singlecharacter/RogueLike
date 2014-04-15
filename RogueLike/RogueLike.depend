@@ -13,7 +13,7 @@
 
 1395774642 c:\users\conor\desktop\240 stuff\assignments\roguelike\wall.h
 
-1397329097 source:c:\users\conor\documents\github\roguelike\roguelike\main.cpp
+1397586242 source:c:\users\conor\documents\github\roguelike\roguelike\main.cpp
 	<curses.h>
 	<iostream>
 	<stdlib.h>
@@ -22,17 +22,18 @@
 	<fstream>
 	"Wall.h"
 	"Player.h"
-	"utility.cpp"
+	"utility.h"
 	"map loader.h"
 	"Item.h"
 	"Chest.h"
+	"Control.h"
 
 1397144708 c:\users\conor\documents\github\roguelike\roguelike\wall.h
 
 1397144708 source:c:\users\conor\documents\github\roguelike\roguelike\wall.cpp
 	"Wall.h"
 
-1397487326 c:\users\conor\documents\github\roguelike\roguelike\player.h
+1397575848 c:\users\conor\documents\github\roguelike\roguelike\player.h
 	"Item.h"
 	<cstdlib>
 	<ctime>
@@ -40,7 +41,7 @@
 	<curses.h>
 	<iostream>
 
-1397234857 source:c:\users\conor\documents\github\roguelike\roguelike\player.cpp
+1397576270 source:c:\users\conor\documents\github\roguelike\roguelike\player.cpp
 	"Player.h"
 	<math.h>
 
@@ -79,14 +80,15 @@
 	"Player.h"
 	"Item.h"
 
-1397144708 c:\users\conor\documents\github\roguelike\roguelike\utility.h
+1397585475 c:\users\conor\documents\github\roguelike\roguelike\utility.h
+	<vector>
+	"utility.cpp"
+
+1397585416 source:c:\users\conor\documents\github\roguelike\roguelike\utility.cpp
 	<vector>
 
-1397144708 source:c:\users\conor\documents\github\roguelike\roguelike\utility.cpp
-	"utility.h"
-
-1397144708 c:\users\conor\documents\github\roguelike\roguelike\utility.cpp
-	"utility.h"
+1397585416 c:\users\conor\documents\github\roguelike\roguelike\utility.cpp
+	<vector>
 
 1397075130 c:\users\conor\documents\github\roguelike\roguelike\map loader.cpp
 	<curses.h>
@@ -110,4 +112,18 @@
 
 1397144708 c:\users\conor\documents\github\roguelike\roguelike\chest.h
 	<string>
+
+1397586975 source:c:\users\conor\documents\github\roguelike\roguelike\control.cpp
+	"Control.h"
+
+1397586127 c:\users\conor\documents\github\roguelike\roguelike\control.h
+	<vector>
+	<string>
+	<cstring>
+	<curses.h>
+	<fstream>
+	"Player.h"
+	"Chest.h"
+	"Wall.h"
+	"utility.h"
 

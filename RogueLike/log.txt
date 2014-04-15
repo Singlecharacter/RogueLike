@@ -148,3 +148,45 @@ Tile at player's location: 46
 Number of walls: 37649
 Number of chests: 9
 
+Player Y: 66
+Player X: 125
+Tile at player's location: Floor
+Number of walls: 0
+Number of chests: 0
+
+Player Y: 66
+Player X: 125
+Tile at player's location: Floor
+Number of walls: 0
+Number of chests: 0
+
+Player Y: 71
+Player X: 112
+Tile at player's location: Floor
+Number of walls: 38048
+Number of chests: 9
+
+Player Y: 71
+Player X: 114
+Tile at player's location: Floor
+Number of walls: 38048
+Number of chests: 9
+
+Player Y: 70
+Player X: 90
+Tile at player's location: Chest
+Number of walls: 38048
+Number of chests: 9
+
+Player Y: 71
+Player X: 117
+Tile at player's location: Floor
+Number of walls: 38048
+Number of chests: 9
+
+Player Y: 66
+Player X: 125
+Tile at player's location: Floor
+Number of walls: 38048
+Number of chests: 9
+
