@@ -11,6 +11,8 @@
 #include "Item.h"
 #include "Chest.h"
 #include "Control.h"
+
+//Enemies
 #include "Enemy.h"
 #include "meleeCreature.h"
 #include "meleeHumanoid.h"
