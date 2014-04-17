@@ -112,3 +112,9 @@ STR: 11
 DEX: 5
 INT: 6
 
+Max HP: 10
+Max MP: 3
+STR: 13
+DEX: 11
+INT: 2
+

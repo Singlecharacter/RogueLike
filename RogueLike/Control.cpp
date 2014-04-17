@@ -28,10 +28,16 @@ Control::Control() : currentFloor(1), currentEnemies(0), enemyCap(10), numberOfT
         floorFlags[i] = false;
     }
 
-    for(int i = 0;i<10;i++)
-    {
-        floorNames.push_back("testlevel1.txt");
-    }
+    floorNames.push_back("level1.txt");
+    floorNames.push_back("level2.txt");
+    floorNames.push_back("level3.txt");
+    floorNames.push_back("level4.txt");
+    floorNames.push_back("level5.txt");
+    floorNames.push_back("level6.txt");
+    floorNames.push_back("level7.txt");
+    floorNames.push_back("level8.txt");
+    floorNames.push_back("level9.txt");
+    floorNames.push_back("level10.txt");
 }
 
 Control::~Control()
