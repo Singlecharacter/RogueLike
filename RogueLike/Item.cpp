@@ -351,6 +351,7 @@ void Item::makeWeapon()
     if (slot == 2 || slot == 3)
     {
         twoH = true;
+        slot = 0;
     }
     else
     {
