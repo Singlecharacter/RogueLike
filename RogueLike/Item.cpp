@@ -50,20 +50,41 @@ Item::~Item()
 //parameters are the player's level for stat adjustment,
 //and rarity table from chests or enemies to generate another stat adjustment variable
 //I'm assuming that the player, enemies, and chests will have a get function to grab these
-void Item::createItem(int playerLevel, int rarityTable)
+void Item::createItem(int playerLevel, int rarityTable, int forcedSlot)
 {
     rarity = rarityTable; //get the rarity
     level = playerLevel;
+    int whatToMake;
+    bool force;
 
-    int whatToMake = rand() % 3; //0 is armor, 1 is weapons, 2 is potion
+    if (forcedSlot != 200) //user defined
+    {
+        slot = forcedSlot; //slot is forced
+
+        if (forcedSlot == 0 || forcedSlot == 1) //make a weapon
+        {
+            whatToMake = 0;
+        }
+        else //make armor
+        {
+            whatToMake = 1;
+        }
+        force = true; //it is a forced assignment
+    }
+    else //it is random selection
+    {
+        whatToMake = rand() % 3;
+
+        force = false;
+    }
 
     switch(whatToMake)
     {
     case 0:
-        makeArmor();
+        makeArmor(force);
         break;
     case 1:
-        makeWeapon();
+        makeWeapon(force);
         break;
     case 2:
         makePotion();
@@ -83,9 +104,9 @@ int Item::getSlot()
     return slot;
 }
 
-void Item::makeArmor()
+void Item::makeArmor(bool force)
 {
-    int choice = rarity, ArmorIndex, itemNumber = 0; //this will hold the number for the type of item
+    int choice = rarity, ArmorIndex, itemSlotChoice, itemNumber = 0; //this will hold the number for the type of item
     string Input, itemType;
     ifstream myfile ("dropArmor.txt");
     vector <string> listOfItems;
@@ -93,7 +114,14 @@ void Item::makeArmor()
 
     srand(time(NULL)); //seed the random
 
-    int itemSlotChoice = (rand() % 8) + 2; //item slots 2 - 9
+    if (force == true) //force it
+    {
+        itemSlotChoice = slot;
+    }
+    else //random
+    {
+    itemSlotChoice = (rand() % 8) + 2; //item slots 2 - 9
+    }
 
     findNextLine (myfile, Input);
 
@@ -221,9 +249,9 @@ void Item::makeArmor()
     itemOrPotion = true; //it is an item
 }
 
-void Item::makeWeapon()
+void Item::makeWeapon(bool force)
 {
-    int choice = rarity, itemNumber = 0; //this will hold the number for the type of item
+    int choice = rarity, itemSlotChoice, itemNumber = 0; //this will hold the number for the type of item
     string Input, itemType;
     ifstream myfile ("dropWeapon.txt");
     vector <string> listOfItems;
@@ -231,7 +259,14 @@ void Item::makeWeapon()
 
     srand(time(NULL)); //seed the random
 
-    int itemSlotChoice = rand() % 4; //item slots 0 - 3
+    if (force == true)
+    {
+        itemSlotChoice = slot;
+    }
+    else
+    {
+        itemSlotChoice = rand() % 4; //item slots 0 - 3
+    }
 
     findNextLine (myfile, Input);
 

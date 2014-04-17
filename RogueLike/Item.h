@@ -16,7 +16,7 @@ public:
 
     Item();
     ~Item();
-    void createItem(int playerLevel, int rarityTable); //create an item add everything to it's spot
+    void createItem(int playerLevel = 0, int rarityTable = 0, int forcedSlot = 200); //create an item add everything to it's spot
 
     //potions
     void makePotion(); //create the item as a potion
@@ -24,10 +24,10 @@ public:
     int useMagicPotion(); //use potion and return amount restored
 
     //weapons
-    void makeWeapon(); //create a weapon item
+    void makeWeapon(bool force); //create a weapon item
 
     //armor
-    void makeArmor(); //create an armor item
+    void makeArmor(bool force); //create an armor item
 
     //get functions
     string getName();
@@ -88,6 +88,7 @@ private:
     bool ranged; //is the weapon ranged or melee? t = ranged, f = melee
     bool twoH; //is it 1 or two handed weapon? t = 2h, f = 1h
     bool itemOrPotion; //is it armor and weapons or potions? t = equipable, f = potion
+    bool force;//make the item gen choose the correct thing
 
     int level;//this will be how we tell how much to add to stats
 
