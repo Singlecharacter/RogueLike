@@ -106,3 +106,9 @@ STR: 6
 DEX: 15
 INT: 1
 
+Max HP: 12
+Max MP: 4
+STR: 11
+DEX: 5
+INT: 6
+

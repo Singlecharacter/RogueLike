@@ -8,8 +8,8 @@
 #include "rangedArcher.h"
 
 Control::Control() : currentFloor(1), currentEnemies(0), enemyCap(10), numberOfTurns(0), floorWidth(200), floorHeight(200),
-                     mapHeight(19),mapWidth(51),logHeight(6),logWidth(51),statusHeight(25),statusWidth(29),
-                     mapStartX(0),mapStartY(0),logStartX(0),logStartY(19),statusStartX(51),statusStartY(0)
+                     mapHeight(19),mapWidth(51),logHeight(6),logWidth(51),statusHeight(25),statusWidth(29),invHeight(25),invWidth(80),
+                     mapStartX(0),mapStartY(0),logStartX(0),logStartY(19),statusStartX(51),statusStartY(0),invStartX(0),invStartY(0)
 {
     screenState = MAPSCREEN;
 
@@ -52,6 +52,7 @@ void Control::startCurses()
     mapWin = newwin(mapHeight,mapWidth,mapStartY,mapStartX);
     logWin = newwin(logHeight,logWidth,logStartY,logStartX);
     statusWin = newwin(statusHeight,statusWidth,statusStartY,statusStartX);
+    invWin = newwin(invHeight,invWidth,invStartY,invStartX);
     cbreak();
     nodelay(mapWin,true);
     keypad(mapWin,true);
@@ -130,11 +131,20 @@ void Control::printMapScreen()
         waddstr(logWin,tempCStr);
     }
 
-    //Print status window
+    ///////////////////////
+    //Print status window//
+    ///////////////////////
+
+
 
     wrefresh(mapWin);
     wrefresh(logWin);
     wrefresh(statusWin);
+}
+
+void Control::printInvScreen()
+{
+
 }
 
 void Control::loadNewFloor()
@@ -325,7 +335,7 @@ bool Control::processInput()
     }
     else if(screenState == INVENTORY)
     {
-        //input = wgetch(invWin);
+        input = wgetch(invWin);
     }
 
 
@@ -341,7 +351,7 @@ bool Control::processInput()
     }
     else if(screenState == INVENTORY)
     {
-        //printInvScreen();
+        printInvScreen();
     }
 
     return true;

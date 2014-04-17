@@ -32,6 +32,7 @@ public:
     void startCurses();
     void endCurses();
     void printMapScreen();
+    void printInvScreen();
     void introMenu();
 
     void loadNewFloor();
@@ -71,9 +72,9 @@ private:
     //floorFlags stores whether a level has been previously loaded to avoid duplicates
     bool floorFlags[10];
 
-    WINDOW *mapWin, *logWin, *statusWin;
-    int mapHeight,mapWidth,logHeight,logWidth,statusHeight,statusWidth;
-    int mapStartX,mapStartY,logStartX,logStartY,statusStartX,statusStartY;
+    WINDOW *mapWin, *logWin, *statusWin, *invWin;
+    int mapHeight,mapWidth,logHeight,logWidth,statusHeight,statusWidth,invHeight,invWidth;
+    int mapStartX,mapStartY,logStartX,logStartY,statusStartX,statusStartY,invStartX,invStartY;
 
     int currentEnemies, enemyCap;
 

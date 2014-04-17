@@ -117,7 +117,7 @@
 1397144708 c:\users\conor\documents\github\roguelike\roguelike\chest.h
 	<string>
 
-1397746644 source:c:\users\conor\documents\github\roguelike\roguelike\control.cpp
+1397763364 source:c:\users\conor\documents\github\roguelike\roguelike\control.cpp
 	"Control.h"
 	"Enemy.h"
 	"meleeCreature.h"
@@ -125,7 +125,7 @@
 	"rangedMagic.h"
 	"rangedArcher.h"
 
-1397742214 c:\users\conor\documents\github\roguelike\roguelike\control.h
+1397763155 c:\users\conor\documents\github\roguelike\roguelike\control.h
 	<vector>
 	<string>
 	<cstring>
