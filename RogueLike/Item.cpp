@@ -53,6 +53,7 @@ Item::~Item()
 void Item::createItem(int playerLevel, int rarityTable)
 {
     rarity = rarityTable; //get the rarity
+    level = playerLevel;
 
     int whatToMake = rand() % 3; //0 is armor, 1 is weapons, 2 is potion
 
