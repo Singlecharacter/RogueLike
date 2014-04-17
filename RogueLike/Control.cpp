@@ -7,6 +7,12 @@
 #include "rangedMagic.h"
 #include "rangedArcher.h"
 
+void printTitle();            //Control object doesn't use these; the intromenu method does
+void wait(int sec);
+void clearScreen();
+
+
+
 Control::Control() : currentFloor(1), currentEnemies(0), enemyCap(10), numberOfTurns(0), floorWidth(200), floorHeight(200),
                      mapHeight(19),mapWidth(51),logHeight(6),logWidth(51),statusHeight(25),statusWidth(29),invHeight(25),invWidth(80),
                      mapStartX(0),mapStartY(0),logStartX(0),logStartY(19),statusStartX(51),statusStartY(0),invStartX(0),invStartY(0)
@@ -423,4 +429,199 @@ void Control::debugLog()
 void Control::logMessage(std::string message)
 {
     log.push_back(message);
+}
+
+
+void Control::introMenu()
+{
+    int raceChoice = 1;
+    int typeChoice = 1;
+
+    string racePrint = "";
+    string typePrint = "";
+    string playerName = "";                   //Stores player name
+
+    Player characterPlayer;
+
+    printTitle();
+    clearScreen();
+
+    cout << endl;
+    cout << endl;
+    cout << "Enter your name: ";
+    cin >> playerName;
+    cout << endl;
+    cout << endl;
+    cout << "Select Your Race" << endl;
+    cout << "_______________________________" << endl;
+    cout << "1. Human" << endl;
+    cout << endl;
+    cout << "2. Dwarf" << endl;
+    cout << endl;
+    cout << "3. Elf" << endl;
+    cout << endl;
+    cin >> raceChoice;
+
+    switch (raceChoice)                                         //Race Switch Statement
+    {
+        case 1     :cout << "You have chosen Human." << endl;
+                    //Human gets no special attributes.
+                    racePrint = " a Human ";
+                    break;
+
+        case 2     :cout << "You have chosen Dwarf." << endl;
+                    //set dwarf attributes
+                    racePrint = " a Dwarf ";
+                    break;
+
+        case 3     :cout << "You have chosen Elf." << endl;
+                    //set elf attributes
+                    racePrint = " an Elven ";
+                    break;
+
+        default    :cout << "You have chosen Human by default." << endl;
+                    raceChoice = 1;
+                    //Humans suck...
+                    racePrint = " a Human ";
+                    break;
+    }
+
+    clearScreen();
+
+
+    cout << "Select Your Type" << endl;
+    cout << "_______________________________" << endl;
+    cout << "1. Warrior" << endl;
+    cout << setw(35) << "-Melee attributes..." << endl;
+    cout << endl;
+    cout << "2. Mage" << endl;
+    cout << setw(35) << "-Mage attributes..." << endl;
+    cout << endl;
+    cout << "3. Thief" << endl;
+    cout << setw(35) << "-Thief attributes..." << endl;
+    cout << endl;
+    cin >> typeChoice;
+
+
+
+    switch (typeChoice)                                         //Class Switch Statement
+    {
+        case 1     :cout << "You are a Warrior." << endl;
+                    //Set melee attributes...
+                    typePrint = "Warrior.";
+                    break;
+
+        case 2     :cout << "You are a Mage." << endl;
+                    //Set mage attributes...
+                    typePrint = "Mage.";
+                    break;
+
+        case 3     :cout << "You are a Thief." << endl;
+                    //Set thief attributes...
+                    typePrint = "Thief.";
+                    break;
+
+        default    :cout << "You are a Warrior by default." << endl;
+                    raceChoice = 1;
+                    //Set warrior attributes...
+                    typePrint = "Warrior.";
+                    break;
+    }
+
+
+    clearScreen();
+
+    cout << "You are" << racePrint << typePrint << endl;
+
+
+    clearScreen();
+
+    cout << setw(45) << "Map Screen Controls" << endl;                     //Controls
+    cout << setw(45) << "___________________" << endl;
+    cout << "Up Arrow - Move up" << endl;
+    cout << "Down Arrow - Move down" << endl;
+    cout << "Left Arrow - Move left" << endl;
+    cout << "Right Arrow - Move right" << endl;
+    cout << "A - Ranged attack" << endl;
+    cout << "I - Open Inventory" << endl;
+    cout << "E - Open equipment" << endl;
+    cout << "< - Ascend a level" << endl;
+    cout << "> - Descend a level" << endl;
+
+    cout << setw(44) << "Inventory Controls" << endl;
+    cout << setw(44) << "__________________" << endl;
+    cout << "U - Use item" << endl;
+    cout << "W - Equip item" << endl;
+    cout << "D - Drop item" << endl;
+
+    cout << setw(44) << "Equipment Controls" << endl;
+    cout << setw(44) << "__________________" << endl;
+    cout << "ESC - Return to map" << endl;
+    cout << "W - Unequip item" << endl;
+
+    cout << endl;
+
+
+    cout << "Press enter to begin the game..." << endl;
+    cin.sync();
+    cin.get();
+
+    return;
+}
+
+void clearScreen()
+{
+    wait(2);
+    cout << string(SCREEN_HEIGHT, '\n');
+    return;
+}
+
+void wait(int sec)
+{
+    clock_t endwait;
+    endwait = clock() + sec * CLK_TCK;
+    while (clock() < endwait)
+        {
+        }
+    return;
+}
+
+void printTitle()                                           //Slightly fancier title :)
+{
+    char title[25][80];
+
+    for (int i = 0; i < 25; i++)
+    {
+        for (int j = 0; j < 80; j++)
+        {
+            title[i][j] = '#';
+            if ((i == 12 && (j <= 46 && j >= 33))
+                || (i == 14 && (j <= 46 && j >= 33)))
+            {
+                title[i][j] = ' ';
+            }
+        }
+    }
+    title[13][33] = ' ';
+    title[13][34] = 'S';
+    title[13][35] = 'E';
+    title[13][36] = 'I';
+    title[13][37] = 'Z';
+    title[13][38] = 'U';
+    title[13][39] = 'R';
+    title[13][40] = 'E';
+    title[13][41] = ' ';
+    title[13][42] = 'T';
+    title[13][43] = 'I';
+    title[13][44] = 'M';
+    title[13][45] = 'E';
+    title[13][46] = ' ';
+
+    for (int i = 0; i < 25; i++)
+    {
+        for (int j = 0; j < 80; j++)
+        {
+            cout << title[i][j];
+        }
+    }
 }
