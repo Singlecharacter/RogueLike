@@ -11,7 +11,7 @@ rangedMagic::rangedMagic (int playerLevel = 0, int xCoord = 0, int yCoord = 0, i
     //first, if the rarity of the enemy is not appropriate for the mapLevel, adjust it
     while ((rarity == 4 && currentMapLevel >= 3) || (rarity == 3 && currentMapLevel >= 2))
     {
-        rarity == (rand() % 4) + 1;
+        rarity = (rand() % 4) + 1;
     }
 
     /****************

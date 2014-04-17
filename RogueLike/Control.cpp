@@ -48,6 +48,7 @@ void Control::startCurses()
     init_pair(1,COLOR_WHITE,COLOR_BLACK);
     init_pair(2,COLOR_WHITE,COLOR_CYAN);
     init_pair(3,COLOR_WHITE,COLOR_GREEN);
+    init_pair(4,COLOR_CYAN,COLOR_BLACK);
     mapWin = newwin(mapHeight,mapWidth,mapStartY,mapStartX);
     logWin = newwin(logHeight,logWidth,logStartY,logStartX);
     statusWin = newwin(statusHeight,statusWidth,statusStartY,statusStartX);
@@ -97,7 +98,7 @@ void Control::printMapScreen()
     }
 
     wmove(mapWin,centerY,centerX);
-    waddch(mapWin,ACS_LANTERN);
+    waddch(mapWin,ACS_LANTERN | COLOR_PAIR(4));
 
     /////////////////
     //Print the log//
@@ -372,8 +373,11 @@ void Control::getObjects()
     }
 }
 
-void Control::genLog()
+void Control::debugLog()
 {
+    player.logStats();
+    player.logItems();
+
     ofstream genLog;
     genLog.open("log.txt",std::ofstream::app);
 

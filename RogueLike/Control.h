@@ -55,7 +55,7 @@ public:
     void clearObjects();
     void getObjects();
 
-    void genLog();
+    void debugLog();
 
     void logMessage(std::string);
 

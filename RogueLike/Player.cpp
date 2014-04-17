@@ -457,6 +457,7 @@ void Player::calculateSightRange(int levelArray[200][200])
 void Player::equipItem(Item newItem)
 {
     equipment[newItem.getSlot()] = newItem;
+
 }
 
 bool Player::unequipItem(int slot)
@@ -523,11 +524,6 @@ void Player::logItems()
 void Player::fullHeal()
 {
     currentHP = maxHP;
-}
-
-void Player::setAC(int newAC)
-{
-    AC = newAC;
 }
 
 int Player::getAC()

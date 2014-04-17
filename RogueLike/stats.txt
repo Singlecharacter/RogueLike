@@ -88,3 +88,21 @@ STR: 11
 DEX: 7
 INT: 4
 
+Max HP: 19
+Max MP: 3
+STR: 5
+DEX: 11
+INT: 7
+
+Max HP: 14
+Max MP: 4
+STR: 7
+DEX: 15
+INT: 7
+
+Max HP: 13
+Max MP: 3
+STR: 6
+DEX: 15
+INT: 1
+

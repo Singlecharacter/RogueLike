@@ -7,7 +7,6 @@
 #include "Wall.h"
 #include "Player.h"
 #include "utility.h"
-#include "map loader.h"
 #include "Item.h"
 #include "Chest.h"
 #include "Control.h"
@@ -34,7 +33,7 @@ int main()
     control.spawnPlayer();
     while(control.processInput());
     control.endCurses();
-    control.genLog();
+    control.debugLog();
 
     return 0;
 }

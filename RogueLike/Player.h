@@ -54,8 +54,10 @@ public:
 
     void equipItem(Item newItem);
 
-    //attempts to unequip the item at slot, returns false if there is no item.
+    //attempts to unequip the item at slot, returns false if there is no item or no room to unequip it.
     bool unequipItem(int slot);
+
+    void calcStats();
 
     void levelUp();
 
@@ -64,7 +66,6 @@ public:
 
     void logItems();
 
-    void setAC(int newAC);
     int getAC();
     int getMaxHP();
 
@@ -78,6 +79,9 @@ private:
 
     //Stat information
     int maxHP, currentHP, HD, maxMP, currentMP, MD, STR, DEX, INT, AC, MR, poisonLevel, ACGain, MRGain;
+
+    //Stats adjusted by items/potion effects
+    int adjSTR,adjDEX,adjINT,adjAC,adjMR;
 
     int currentXP, neededXP, level;
 
