@@ -25,6 +25,21 @@ Item::Item()
     Speed = 0;
 
     rarity = ','; //this is initialize to , for item creation
+
+    ranged = false; //is the weapon ranged or melee? t = ranged, f = melee
+    twoH = false; //is it 1 or two handed weapon? t = 2h, f = 1h
+    itemOrPotion = false; //is it armor and weapons or potions? t = equipable, f = potion
+
+    level = 0;//this will be how we tell how much to add to stats
+
+    AC = 0; //armor for items
+    armorType = 0; //1 - cloth, 2 - leather, 3 - plate, 4 - jewelry
+
+    damage = 0; //damage for weapons
+    accuracy = 0; //how accurate the weapons
+
+    potionType = 0; //0 = mana, 1 = hp
+    effectiveness = 0; //how effective are the potions?
 }
 
 Item::~Item()
@@ -37,19 +52,186 @@ Item::~Item()
 //I'm assuming that the player, enemies, and chests will have a get function to grab these
 void Item::createItem(int playerLevel, int rarityTable)
 {
-    int choice, itemNumber = 0; //this will hold the number for the type of item
+    rarity = rarityTable; //get the rarity
+
+    int whatToMake = rand() % 3; //0 is armor, 1 is weapons, 2 is potion
+
+    switch(whatToMake)
+    {
+    case 0:
+        makeArmor();
+        break;
+    case 1:
+        makeWeapon();
+        break;
+    case 2:
+        makePotion();
+        break;
+    default:
+        cout << "wtf..." << endl;
+    }
+}
+
+string Item::getName()
+{
+    return name;
+}
+
+int Item::getSlot()
+{
+    return slot;
+}
+
+void Item::makeArmor()
+{
+    int choice = rarity, ArmorIndex, itemNumber = 0; //this will hold the number for the type of item
     string Input, itemType;
-    ifstream myfile ("enemyDropTable.txt");
+    ifstream myfile ("dropArmor.txt");
     vector <string> listOfItems;
     vector <string> listOfStats;
 
     srand(time(NULL)); //seed the random
 
-    int itemSlotChoice = rand() % 10 + 1; //adjust 10 for however many item slots
+    int itemSlotChoice = (rand() % 8) + 2; //item slots 2 - 9
 
-    //choose the rarity table
-    //can represent enemy difficulty or chests on the map rarity
-    choice = rarityTable;
+    findNextLine (myfile, Input);
+
+    //find the rarity of the table to use
+    while (atoi(Input.substr(0,1).c_str()) != choice)
+    {
+        findNextLine (myfile, Input);
+    }
+
+    //now choose the rarity from that subTable
+    //if it is a ',' it will choose again
+    while (rarity == ',')
+    {
+        //will choose from 1 - last element of the subTable
+        choice = rand() % (Input.length() - 1) + 1;
+        rarity = Input[choice];
+    }
+
+    //add the rarity to the string name for the item
+    switch(rarity)
+    {
+    case 'c':
+        name = name + "Common ";
+        break;
+    case 'r':
+        name = name + "Rare ";
+        break;
+    case 'e':
+        name = name + "Epic ";
+        break;
+    case 'l':
+        name = name + "Legendary ";
+        break;
+    default:
+        name = name + "Common "; //if there is an error, just make it common
+    }
+
+    //now that we have the rarity, get the type of item
+    findNextLine (myfile, Input); //go down once more to get off of 1 if that was the rarity table
+
+    //now keep going intil it is in the section for item types
+    while (atoi(Input.substr(0,1).c_str()) != 2)
+    {
+        findNextLine (myfile, Input);
+    }
+
+    //now that we are at the correct file position, get the item slot
+    choice = itemSlotChoice; //will the cooresponding item slot from a random int
+
+    //now assign the slot variable for the item
+    slot = choice;
+
+    //find the item slot to use
+    while (itemNumber != choice)
+    {
+        stringstream StrToNum(Input);
+        StrToNum >> itemNumber;
+        findNextLine (myfile, Input);
+    }
+
+    //now choose the item name from that subTable
+    //first, put all of the subTable onto a vector to choose from
+    istringstream itemStream(Input);
+    string temp;
+
+    //now the things from the comma and stick them in the vector for choice
+    while (getline(itemStream, temp, ','))
+    {
+        listOfItems.push_back(temp);
+    }
+    //now pick a random item base from the vector of items
+    choice = rand() %  listOfItems.size(); //will choose from 0 - last element
+
+    name = name + listOfItems[choice]; //now add the type of item
+
+    ArmorIndex = choice; //use to determine armor type
+
+    //if the rarity is common it will exclude
+    if (rarity != 'c')
+    {
+        //now get the file to the correct place for the stat addage
+        while (Input.substr(0,1) != "V")
+        {
+            findNextLine (myfile, Input);
+        }
+
+        //now put all possible stats into a vector
+        istringstream statStream(Input);
+        while (getline(statStream, temp, ','))
+        {
+            listOfStats.push_back(temp);
+        }
+
+        //now add the stat to the item and put it into the itemType string for stat addage
+        //pick a random item stat from the vector of stats
+        choice = rand() %  listOfStats.size(); //will choose from 0 - last element
+
+        //now put it into the item string
+        itemType = listOfStats[choice];
+        name = name + " of " + itemType;
+    }
+    else //if it's common, set itemType to Nothing, to exclude big bonuses
+    {
+        itemType = "Nothing";
+    }
+
+    //now for some item setting
+    if (slot == 2 || slot == 3 || slot == 4 || slot == 5 && ArmorIndex == 0) //it is cloth
+    {
+        armorType = 1;
+    }
+    else if (slot == 2 || slot == 3 || slot == 4 || slot == 5 && ArmorIndex == 1) //it is leather
+    {
+        armorType = 2;
+    }
+    else if (slot == 2 || slot == 3 || slot == 4 || slot == 5 && ArmorIndex == 2) //it is plate
+    {
+        armorType = 3;
+    }
+    else //it is jewelry
+    {
+        armorType = 4;
+    }
+
+    itemOrPotion = true; //it is an item
+}
+
+void Item::makeWeapon()
+{
+    int choice = rarity, itemNumber = 0; //this will hold the number for the type of item
+    string Input, itemType;
+    ifstream myfile ("dropWeapon.txt");
+    vector <string> listOfItems;
+    vector <string> listOfStats;
+
+    srand(time(NULL)); //seed the random
+
+    int itemSlotChoice = rand() % 4; //item slots 0 - 3
+
     findNextLine (myfile, Input);
 
     //find the rarity of the table to use
@@ -153,43 +335,80 @@ void Item::createItem(int playerLevel, int rarityTable)
         itemType = "Nothing";
     }
 
-    //now that we've built the name of the item and chosen the key features, we can now
-    //apply it's stats
+    //now for some item setting
+    //choose melee or ranged boolean
+    if (slot == 0 || slot == 1 || slot == 3)
+    {
+        ranged = false;
+    }
+    else
+    {
+        ranged = true;
+    }
 
-    /************************************************************************************
-    * Stat Assignment Notes:                                                                       *
-    *                                                                                   *
-    * 'itemType' will hold the string of it's dominant stat, unless it's common         *
-    * 'rarity' will hold it's modifier, if it's common, it is just base stats           *
-    * 'level' will be determined with a rand +/- player's level, which is a parameter   *
-    *                                                                                   *
-    * Weapons:                                                                          *
-    *   'Damage' will be the base damage for that item without multipliers              *
-    *   'Accuracy' will be a value to roll to see if the weapon will hit                *
-    * Armor:                                                                            *
-    *   'Armor' will be the AC, which helps with defense in damage mitigation           *
-    *                                                                                   *
-    * if the 'slot' is == 1 - 2, it is a weapon or offhand                              *
-    * if the 'slot' is == 3 - 7, it is a piece of armor                                 *
-    * if the 'slot' is == 8 - 10, it is a piece of jewelry                              *
-    *                                                                                   *
-    * The current 2h weapons added in the file are:                                     *
-    * Bow, Spear, Greatsword, Staff                                                     *
-    *                                                                                   *
-    * Also, for anything I edited on the player I left a note that I edited or added    *
-    * I renamed those playerItems, so it doesn't conflict and you can just see changes  *
-    ************************************************************************************/
+    //is it 1h or 2h
+    if (slot == 2 || slot == 3)
+    {
+        twoH = true;
+    }
+    else
+    {
+        twoH = false;
+    }
 
+    itemOrPotion = true; //it is an item
 }
 
-string Item::getName()
+void Item::makePotion()
 {
-    return name;
+    int choice = rand() % 2; //0 for mana, 1 for hp
+    effectiveness = (rand() % 15) + 25; //restore 25 - 40% of the resource
+    itemOrPotion = false; //it is a potion
 }
 
-int Item::getSlot()
+bool Item::getRangedWep()
 {
-    return slot;
+    return ranged;
+}
+
+bool Item::get2h()
+{
+    return twoH;
+}
+
+bool Item::getItemOrPotion()
+{
+    return itemOrPotion;
+}
+
+int Item::getAC()
+{
+    return AC;
+}
+
+int Item::getArmorType()
+{
+    return armorType;
+}
+
+int Item::getDamage()
+{
+    return damage;
+}
+
+int Item::getAccuracy()
+{
+    return accuracy;
+}
+
+int Item::getPotionType()
+{
+    return potionType;
+}
+
+int Item::getPotionEffect()
+{
+    return effectiveness;
 }
 
 void Item::findNextLine(ifstream& file, string& currentLine)

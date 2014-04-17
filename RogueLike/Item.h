@@ -17,8 +17,33 @@ public:
     Item();
     ~Item();
     void createItem(int playerLevel, int rarityTable); //create an item add everything to it's spot
+
+    //potions
+    void makePotion(); //create the item as a potion
+    int useHealthPotion(); //use potion and return amount restored
+    int useMagicPotion(); //use potion and return amount restored
+
+    //weapons
+    void makeWeapon(); //create a weapon item
+
+    //armor
+    void makeArmor(); //create an armor item
+
+    //get functions
     string getName();
     int getSlot();
+    bool getRangedWep();
+    bool get2h();
+    bool getItemOrPotion();
+    int getAC();
+    int getArmorType();
+    int getDamage();
+    int getAccuracy();
+    int getPotionType();
+    int getPotionEffect();
+
+
+protected:
     void findNextLine (ifstream& file, string& currentLine); //will skip comments and whitespace in files
 
 private:
@@ -60,7 +85,20 @@ private:
     ********************/
     char rarity;
 
+    bool ranged; //is the weapon ranged or melee? t = ranged, f = melee
+    bool twoH; //is it 1 or two handed weapon? t = 2h, f = 1h
+    bool itemOrPotion; //is it armor and weapons or potions? t = equipable, f = potion
+
     int level;//this will be how we tell how much to add to stats
+
+    int AC; //armor for items
+    int armorType; //1 - cloth, 2 - leather, 3 - plate, 4 - jewelry
+
+    int damage; //damage for weapons
+    int accuracy; //how accurate the weapons
+
+    int potionType; //0 = mana, 1 = hp
+    int effectiveness; //how effective are the potions?
 
 };
 
