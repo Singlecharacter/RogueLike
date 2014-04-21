@@ -51,7 +51,7 @@ public:
     //Determines which grid tiles the player can see from its current location.
     void calculateSightRange(int levelArray[200][200]);
 
-    void equipItem(Item newItem);
+    bool equipItem(int invSlot);
 
     //attempts to unequip the item at slot, returns false if there is no item or no room to unequip it.
     bool unequipItem(int slot);
@@ -74,23 +74,25 @@ public:
     int sightArray[11][11];
     int sightRange;
 
-private:
-
-    //Stat information
-    int maxHP, currentHP, HD, maxMP, currentMP, MD, STR, DEX, INT, AC, MR, poisonLevel, ACGain, MRGain;
-
-    //Stats adjusted by items/potion effects
-    int adjSTR,adjDEX,adjINT,adjAC,adjMR;
-
-    int currentXP, neededXP, level;
-
-    int invSize;
-
-    std::string name;
-
     //Equipment slots
     Item equipment[10];
     Item *inventory;
+
+    int invSize;
+
+private:
+
+    //Stat information
+    int maxHP, baseMaxHP, currentHP, HD, maxMP, baseMaxMP, currentMP, MD, STR, DEX, INT, AC, baseAC, MR, baseMR, poisonLevel, ACGain, MRGain;
+
+    //Stats adjusted by items/potion effects
+    int adjSTR,adjDEX,adjINT,purityLevel;
+
+    int maxMeleeDamage,maxRangedDamage,maxMagicDamage, accuracy;
+
+    int currentXP, neededXP, level;
+
+    std::string name;
 };
 
 #endif // PLAYER_H

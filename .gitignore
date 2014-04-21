@@ -2,3 +2,14 @@ RogueLike/obj/Debug/Item.o
 RogueLike/items.txt
 RogueLike/stats.txt
 RogueLike/Item.h
+*.o
+RogueLike/obj/Debug/Chest.o
+RogueLike/obj/Debug/Control.o
+RogueLike/obj/Debug/Enemy.o
+RogueLike/obj/Debug/Item.o
+RogueLike/obj/Debug/Player.o
+RogueLike/obj/Debug/main.o
+RogueLike/obj/Debug/meleeCreature.o
+RogueLike/obj/Debug/meleeHumanoid.o
+RogueLike/obj/Debug/rangedArcher.o
+RogueLike/obj/Debug/rangedMagic.o

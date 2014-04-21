@@ -7,7 +7,7 @@ int main()
 
     Control control;
 
-    control.introMenu();
+    //control.introMenu();
     control.startCurses();
     control.loadNewFloor();
     control.getObjects();

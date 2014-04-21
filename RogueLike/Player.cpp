@@ -6,6 +6,8 @@ Player::Player(int x, int y, int HD , int MD,
 {
     sightRange = 5;
     poisonLevel = 0;
+    purityLevel = 0;
+
     invSize = 25;
 
     inventory = new Item[invSize];
@@ -30,9 +32,13 @@ Player::Player(int x, int y, int HD , int MD,
     currentHP = maxHP;
     this -> HD = HD;
 
+    baseMaxHP = maxHP;
+
     maxMP = rand() % MD + MD/2;
     currentMP = maxMP;
     this -> MD = MD;
+
+    baseMaxMP = maxMP;
 
     int statCap = rand() % 8 + 22;
 
@@ -56,8 +62,10 @@ Player::Player(int x, int y, int HD , int MD,
     DEX += DEXMod;
     INT += INTMod;
 
-    AC = ACMod;
-    MR = MRMod;
+    baseAC = ACMod;
+    AC = baseAC;
+    baseMR = MRMod;
+    MR = baseMR;
     this -> ACGain = ACGain;
     this -> MRGain = MRGain;
 
@@ -138,14 +146,21 @@ int Player::calculateMagicDamage(int damage)
 
 void Player::poisonChange(int poisonAmount)
 {
-    poisonLevel += poisonAmount;
-    if(poisonLevel > 300)
+    if(poisonAmount > 0)
     {
-        poisonLevel = 300;
+        poisonLevel += poisonAmount/(purityLevel+1);
+        if(poisonLevel > 300)
+        {
+            poisonLevel = 300;
+        }
     }
-    else if(poisonLevel < 0)
+    else
     {
-        poisonLevel = 0;
+        poisonLevel += poisonAmount*(1+purityLevel);
+        if(poisonLevel < 0)
+        {
+            poisonLevel = 0;
+        }
     }
 }
 
@@ -453,10 +468,143 @@ void Player::calculateSightRange(int levelArray[200][200])
     }
 }
 
-void Player::equipItem(Item newItem)
+//Attempts to equip an item to the player, returns whether it was successful
+bool Player::equipItem(int invSlot)
 {
-    equipment[newItem.getSlot()] = newItem;
+    Item newItem = inventory[invSlot];
+    Item noItem;
+    int emptyIndex = -1;
 
+    if(newItem.getName() == "")
+    {
+        return false;
+    }
+
+    //If there's already an item in the slot we want to equip to, unequip it first.
+    if(equipment[newItem.getSlot()].getName() == "")
+    {
+        //Two-handed weapon check
+        if(newItem.getSlot() == OFFHAND)
+        {
+            if(equipment[MAINHAND].get2h())
+            {
+                return false;
+            }
+            else
+            {
+                equipment[newItem.getSlot()] = newItem;
+                inventory[invSlot] = noItem;
+            }
+        }
+        else
+        {
+            equipment[newItem.getSlot()] = newItem;
+        }
+    }
+    else
+    {
+        //Two-handed weapon check
+        if(newItem.get2h() && equipment[OFFHAND].getName() != "")
+        {
+            return false;
+        }
+        else
+        {
+            inventory[invSlot] = equipment[newItem.getSlot()];
+            equipment[newItem.getSlot()] = newItem;
+        }
+    }
+
+    calcStats();
+
+    return true;
+}
+
+//adjust the player's stats based on his items and attributes
+void Player::calcStats()
+{
+    maxHP = baseMaxHP;
+    maxMP = baseMaxMP;
+    adjSTR = STR;
+    adjDEX = DEX;
+    adjINT = INT;
+    AC = baseAC;
+    MR = baseMR;
+
+    int meleeMod = 0;
+    int rangedMod = 0;
+    int magicMod = 0;
+
+    for(int i = 0;i<10;i++)
+    {
+        AC += equipment[i].getAC();
+        if(equipment[i].Vitality)
+        {
+            maxHP += 10;
+        }
+        else if(equipment[i].Mana)
+        {
+            maxMP += 10;
+        }
+        else if(equipment[i].Strength)
+        {
+            adjSTR += 3;
+        }
+        else if(equipment[i].Dexterity)
+        {
+            adjDEX += 3;
+        }
+        else if(equipment[i].Intellect)
+        {
+            adjINT += 3;
+        }
+        else if(equipment[i].Purity)
+        {
+            purityLevel += 1;
+        }
+        else if(equipment[i].Armor)
+        {
+            AC += 5;
+        }
+        else if(equipment[i].Ward)
+        {
+            MR += 5;
+        }
+    }
+
+    accuracy = equipment[MAINHAND].getAccuracy();
+
+    if(!equipment[MAINHAND].getRangedWep())
+    {
+        meleeMod += equipment[MAINHAND].getDamage();
+        accuracy += (5*DEX/5)+(5*STR/3);
+    }
+    else
+    {
+        if(adjDEX > adjINT)
+        {
+            rangedMod += equipment[MAINHAND].getDamage();
+            accuracy += (5*DEX/3)+(5*STR/5);
+        }
+        else
+        {
+            magicMod += equipment[MAINHAND].getDamage();
+            accuracy += (10*INT/4);
+        }
+    }
+
+    if(accuracy > 95)
+    {
+        accuracy = 95;
+    }
+
+    meleeMod += STR/5;
+    rangedMod += DEX/5;
+    magicMod += INT/5;
+
+    maxMeleeDamage = meleeMod;
+    maxRangedDamage = rangedMod;
+    maxMagicDamage = magicMod;
 }
 
 bool Player::unequipItem(int slot)
@@ -480,6 +628,7 @@ bool Player::unequipItem(int slot)
     {
         equipment[slot] = noItem;
         inventory[foundIndex] = temp;
+        calcStats();
         return true;
     }
 }

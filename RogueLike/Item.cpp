@@ -35,7 +35,7 @@ Item::Item()
     armorType = 0; //1 - cloth, 2 - leather, 3 - plate, 4 - jewelry
 
     Damage = 0; //damage for weapons
-    Accuracy = 0; //how accurate the weapons
+    Accuracy = 50; //how accurate the weapons
 
     potionType = 0; //0 = mana, 1 = hp
     effectiveness = 0; //how effective are the potions?
@@ -51,7 +51,7 @@ Item::~Item()
 //I'm assuming that the player, enemies, and chests will have a get function to grab these
 void Item::createItem(int playerLevel, int rarityTable, int forcedSlot)
 {
-    rarity = rarityTable; //get the rarity
+    rarityChoice = rarityTable; //get the rarity
     level = playerLevel;
     int whatToMake;
     bool force;
@@ -62,11 +62,11 @@ void Item::createItem(int playerLevel, int rarityTable, int forcedSlot)
 
         if (forcedSlot == 0 || forcedSlot == 1) //make a weapon
         {
-            whatToMake = 0;
+            whatToMake = 1;
         }
         else //make armor
         {
-            whatToMake = 1;
+            whatToMake = 0;
         }
         force = true; //it is a forced assignment
     }
@@ -105,7 +105,7 @@ int Item::getSlot()
 
 void Item::makeArmor(bool force)
 {
-    int choice = rarity, ArmorIndex, itemSlotChoice, itemNumber = 0; //this will hold the number for the type of item
+    int choice = rarityChoice, ArmorIndex, itemSlotChoice, itemNumber = 0; //this will hold the number for the type of item
     string Input, itemType;
     ifstream myfile ("dropArmor.txt");
     vector <string> listOfItems;
@@ -250,7 +250,7 @@ void Item::makeArmor(bool force)
 
 void Item::makeWeapon(bool force)
 {
-    int choice = rarity, itemSlotChoice, itemNumber = 0; //this will hold the number for the type of item
+    int choice = rarityChoice, itemSlotChoice, itemNumber = 0; //this will hold the number for the type of item
     string Input, itemType;
     ifstream myfile ("dropWeapon.txt");
     vector <string> listOfItems;
@@ -398,6 +398,17 @@ void Item::makeWeapon(bool force)
 void Item::makePotion()
 {
     int choice = rand() % 2; //0 for mana, 1 for hp
+
+    switch (choice)
+    {
+    case 0:
+        name = "Mana Potion";
+        break;
+    case 1:
+        name = "Health Potion";
+        break;
+    }
+
     effectiveness = (rand() % 15) + 25; //restore 25 - 40% of the resource
     itemOrPotion = false; //it is a potion
 }

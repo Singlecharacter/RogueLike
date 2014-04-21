@@ -52,14 +52,6 @@ public:
     int getPotionType();
     int getPotionEffect();
 
-
-protected:
-    void findNextLine (ifstream& file, string& currentLine); //will skip comments and whitespace in files
-
-private:
-
-    std::string name;
-
     /********************************
     * Vitality = maxHP boost	    *
     * Mana = maxMP boost			*
@@ -71,6 +63,13 @@ private:
     * Ward = MR boost				*
     ********************************/
     int Vitality, Mana, Strength, Dexterity, Intellect, Purity, Armor, Ward, Damage, Accuracy;
+
+protected:
+    void findNextLine (ifstream& file, string& currentLine); //will skip comments and whitespace in files
+
+private:
+
+    std::string name;
 
     /*****************
     * 1 = mainHand	 *
@@ -93,6 +92,7 @@ private:
     * l = Legendary Item*
     ********************/
     char rarity;
+    int rarityChoice;
 
     bool ranged; //is the weapon ranged or melee? t = ranged, f = melee
     bool twoH; //is it 1 or two handed weapon? t = 2h, f = 1h
