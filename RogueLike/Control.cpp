@@ -365,10 +365,13 @@ bool Control::processInput()
 
 void Control::gameFrame()
 {
+    /**
+        To run ai, run meleeAIFrame() for ALL melee enemies
+        run rangedAIFrame() for ALL ranged enemies
 
-    //meleeAIFrame();
-    //rangedAIFrame();
-
+        differentate using enemy.getEnemyType()
+        will return mc or mh for melee & ra or rm for ranged
+    */
 }
 
 void Control::getObjects()

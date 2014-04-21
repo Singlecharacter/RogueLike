@@ -140,6 +140,7 @@ int rangedArcher::attackPlayer()
     {
         enemyAttackTurn += name + " has attacked";
         //do damage
+        damageDone = rand() % power + 1; //1-powerMax
 
         //if enemy is a boss, do the boss roll
         if (rarity == 4)
