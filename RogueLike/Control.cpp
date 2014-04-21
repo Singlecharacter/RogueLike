@@ -5,6 +5,7 @@ void printTitle();            //Control object doesn't use these; the intromenu 
 void wait(int sec);
 void clearScreen();
 
+std::string intToString(int num);
 
 
 Control::Control() : currentFloor(1), currentEnemies(0), enemyCap(10), numberOfTurns(0), floorWidth(200), floorHeight(200),
@@ -160,9 +161,7 @@ void Control::printInvScreen()
         }
 
         wmove(invWin,i,0);
-        waddch(invWin,i+48);
-        wmove(invWin,i,1);
-        std::string tempStr = (i+48)+ " - " + player.inventory[i].getName();
+        std::string tempStr = intToString(i+1) + " - " + player.inventory[i].getName();
         char * temp = new char[tempStr.length()+1];
         strcpy(temp,tempStr.c_str());
         waddstr(invWin,temp);
@@ -974,4 +973,19 @@ void Control::rangedAIFrame()
         enemyPatrol(enemy.x, enemy.y);
     }
     */
+}
+
+std::string intToString(int num)
+{
+    std::string temp = "";
+    std::string chStr = " ";
+    char ch;
+    while(num > 0)
+    {
+        ch = (num%10)+48;
+        chStr[0] = ch;
+        temp.insert(0,chStr);
+        num = num / 10;
+    }
+    return temp;
 }

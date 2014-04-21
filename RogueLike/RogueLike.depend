@@ -31,7 +31,7 @@
 1398106142 source:c:\users\conor\documents\github\roguelike\roguelike\player.cpp
 	"Player.h"
 
-1398106146 source:c:\users\conor\documents\github\roguelike\roguelike\item.cpp
+1398106430 source:c:\users\conor\documents\github\roguelike\roguelike\item.cpp
 	<string>
 	<ctime>
 	<fstream>
@@ -42,7 +42,7 @@
 	<sstream>
 	"Item.h"
 
-1398106146 c:\users\conor\documents\github\roguelike\roguelike\item.h
+1398106486 c:\users\conor\documents\github\roguelike\roguelike\item.h
 	<iostream>
 	<string>
 	<fstream>
@@ -66,15 +66,19 @@
 	"Player.h"
 	"Item.h"
 
-1397763714 c:\users\conor\documents\github\roguelike\roguelike\utility.h
+1398109685 c:\users\conor\documents\github\roguelike\roguelike\utility.h
 	<vector>
-	"utility.cpp"
+	<string>
 
-1397763714 source:c:\users\conor\documents\github\roguelike\roguelike\utility.cpp
+1398109685 source:c:\users\conor\documents\github\roguelike\roguelike\utility.cpp
+	"utility.h"
 	<vector>
+	<string>
 
-1397763714 c:\users\conor\documents\github\roguelike\roguelike\utility.cpp
+1398109685 c:\users\conor\documents\github\roguelike\roguelike\utility.cpp
+	"utility.h"
 	<vector>
+	<string>
 
 1397075130 c:\users\conor\documents\github\roguelike\roguelike\map loader.cpp
 	<curses.h>
@@ -99,10 +103,10 @@
 1397763563 c:\users\conor\documents\github\roguelike\roguelike\chest.h
 	<string>
 
-1398106146 source:c:\users\conor\documents\github\roguelike\roguelike\control.cpp
+1398109685 source:c:\users\conor\documents\github\roguelike\roguelike\control.cpp
 	"Control.h"
 
-1398106142 c:\users\conor\documents\github\roguelike\roguelike\control.h
+1398109627 c:\users\conor\documents\github\roguelike\roguelike\control.h
 	<vector>
 	<string>
 	<cstring>
@@ -113,7 +117,7 @@
 	"Player.h"
 	"Chest.h"
 	"Wall.h"
-	"utility.h"
+	"utility.cpp"
 	"Enemy.h"
 	"meleeCreature.h"
 	"meleeHumanoid.h"
