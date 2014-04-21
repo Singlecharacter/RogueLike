@@ -12,7 +12,7 @@
 #include "Player.h"
 #include "Chest.h"
 #include "Wall.h"
-#include "utility.cpp"
+#include "utility.h"
 
 //enemies
 #include "Enemy.h"

@@ -674,6 +674,11 @@ void Player::fullHeal()
     currentHP = maxHP;
 }
 
+/*
+Getter Methods
+Used In Stat Window Stuff
+*/
+
 int Player::getAC()
 {
     return AC;
@@ -682,4 +687,44 @@ int Player::getAC()
 int Player::getMaxHP()
 {
     return maxHP;
+}
+
+int Player::getCurrentHP()
+{
+    return currentHP;
+}
+
+std::string Player::getName()
+{
+    return name;
+}
+
+int Player::getMaxMP()
+{
+    return maxMP;
+}
+
+int Player::getCurrentMP()
+{
+    return currentMP;
+}
+
+int Player::getSTR()
+{
+    return STR;
+}
+
+int Player::getDEX()
+{
+    return DEX;
+}
+
+int Player::getINT()
+{
+    return INT;
+}
+
+int Player::getMR()
+{
+    return MR;
 }

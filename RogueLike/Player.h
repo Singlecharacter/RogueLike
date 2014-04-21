@@ -67,6 +67,17 @@ public:
 
     int getAC();
     int getMaxHP();
+    int getCurrentHP();
+
+    int getMaxMP();
+    int getCurrentMP();
+
+    int getSTR();
+    int getDEX();
+    int getINT();
+    int getMR();
+
+    std::string getName();
 
     int x,y;
 

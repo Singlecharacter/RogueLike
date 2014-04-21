@@ -1,11 +1,10 @@
 #include "Control.h"
 
 
-void printTitle();            //Control object doesn't use these; the intromenu method does
+void printTitle();            //Control object doesn't use these directly; the introMenu method does
 void wait(int sec);
 void clearScreen();
 
-std::string intToString(int num);
 
 
 Control::Control() : currentFloor(1), currentEnemies(0), enemyCap(10), numberOfTurns(0), floorWidth(200), floorHeight(200),
@@ -49,7 +48,6 @@ Control::~Control()
 
 void Control::startCurses()
 {
-    cout << "hello" << endl;
     initscr();
     noecho();
     start_color();
@@ -145,10 +143,90 @@ void Control::printMapScreen()
     //Print status window//
     ///////////////////////
 
+    char *tempStatCStr;
+
+    for (int i = 0; i < statusHeight; i++)            //Clear Status Window
+    {
+        for (int j = 0; j < statusWidth; j++)
+        {
+            wmove(statusWin, i, j);
+            waddch(statusWin, ' ');
+        }
+    }
+
+    string health = "HP: ";
+    string name = player.getName();
+    string mana = "MP: ";
+    string strength = "STR: ";
+    string dexterity = "DEX: ";
+    string intellect = "INT: ";
+    string ac = "AC: ";
+    string mr = "MR: ";
+
+    health += player.getCurrentHP();        //Set Up Health Stat
+    health += "/";
+    health += player.getMaxHP();
+
+    mana += player.getCurrentMP();         //Set Up Mana Stat
+    mana += "/";
+    mana += player.getMaxHP();
+
+    strength += player.getSTR();           //...Strength
+
+    dexterity += player.getDEX();         //...Dexterity
+
+    intellect += player.getINT();         //...Intellect
+
+    ac += player.getAC();                 //...AC
+
+    mr += player.getMR();                 //...MR
+
+
+    tempStatCStr = new char[name.length()+1];          //Output Name
+    strcpy(tempStatCStr, name.c_str());
+    wmove(statusWin, 1, 0);
+    waddstr(statusWin, tempStatCStr);
+
+    tempStatCStr = new char[health.length()+1];          //Output Health
+    strcpy(tempStatCStr, health.c_str());
+    wmove(statusWin, 2, 0);
+    waddstr(statusWin, tempStatCStr);
+
+    tempStatCStr = new char[mana.length()+1];          //Output Mana
+    strcpy(tempStatCStr, mana.c_str());
+    wmove(statusWin, 3, 0);
+    waddstr(statusWin, tempStatCStr);
+
+    tempStatCStr = new char[strength.length()+1];          //Output Strength
+    strcpy(tempStatCStr, strength.c_str());
+    wmove(statusWin, 5, 0);
+    waddstr(statusWin, tempStatCStr);
+
+    tempStatCStr = new char[dexterity.length()+1];          //Output Dexterity
+    strcpy(tempStatCStr, dexterity.c_str());
+    wmove(statusWin, 6, 0);
+    waddstr(statusWin, tempStatCStr);
+
+    tempStatCStr = new char[intellect.length()+1];          //Output Intellect
+    strcpy(tempStatCStr, intellect.c_str());
+    wmove(statusWin, 7, 0);
+    waddstr(statusWin, tempStatCStr);
+
+    tempStatCStr = new char[ac.length()+1];          //Output AC
+    strcpy(tempStatCStr, ac.c_str());
+    wmove(statusWin, 8, 0);
+    waddstr(statusWin, tempStatCStr);
+
+    tempStatCStr = new char[mr.length()+1];          //Output MR
+    strcpy(tempStatCStr, mr.c_str());
+    wmove(statusWin, 9, 0);
+    waddstr(statusWin, tempStatCStr);
+
 
 
     wrefresh(mapWin);
     wrefresh(logWin);
+    wrefresh(statusWin);
     wrefresh(statusWin);
 }
 
@@ -160,7 +238,6 @@ void Control::printInvScreen()
         {
             break;
         }
-<<<<<<< HEAD
 
         wmove(invWin,i,0);
         waddch(invWin,i+48);
@@ -222,67 +299,6 @@ void Control::clearWindows()
         }
     }
 
-=======
-
-        wmove(invWin,i,0);
-        std::string tempStr = intToString(i+1) + " - " + player.inventory[i].getName();
-        char * temp = new char[tempStr.length()+1];
-        strcpy(temp,tempStr.c_str());
-        waddstr(invWin,temp);
-    }
-
-    wrefresh(invWin);
-}
-
-void Control::printEquipScreen()
-{
-
-}
-
-void Control::clearWindows()
-{
-    for(int i = 0;i<mapHeight;i++)
-    {
-        for(int j = 0;j<mapWidth;j++)
-        {
-            wmove(mapWin,i,j);
-            waddch(mapWin,' ');
-        }
-    }
-    for(int i = 0;i<logHeight;i++)
-    {
-        for(int j = 0;j<logWidth;j++)
-        {
-            wmove(logWin,i,j);
-            waddch(logWin,' ');
-        }
-    }
-    for(int i = 0;i<statusHeight;i++)
-    {
-        for(int j = 0;j<statusWidth;j++)
-        {
-            wmove(statusWin,i,j);
-            waddch(statusWin,' ');
-        }
-    }
-    for(int i = 0;i<equipHeight;i++)
-    {
-        for(int j = 0;j<equipWidth;j++)
-        {
-            wmove(equipWin,i,j);
-            waddch(equipWin,' ');
-        }
-    }
-    for(int i = 0;i<invHeight;i++)
-    {
-        for(int j = 0;j<invWidth;j++)
-        {
-            wmove(invWin,i,j);
-            waddch(invWin,' ');
-        }
-    }
-
->>>>>>> ab2616d83fd542fd6eb138cc193a2174230e0fbf
     wrefresh(mapWin);
     wrefresh(logWin);
     wrefresh(statusWin);
@@ -860,32 +876,24 @@ void Control::enemyPatrol(int& x, int& y)
         {
         case 0: //up
             y -= 1;
-            break;
         case 1: //u-r
             y -= 1;
             x += 1;
-            break;
         case 2: //right
             x += 1;
-            break;
         case 3: //d-r
             y += 1;
             x += 1;
-            break;
         case 4: //down
             y += 1;
-            break;
         case 5: //d-l
             y += 1;
             x -= 1;
-            break;
         case 6: //left
             x -= 1;
-            break;
         case 7: //u-l
             y -= 1;
             x -= 1;
-            break;
         default: //move up on default
             y -= 1;
         }
@@ -1046,19 +1054,4 @@ void Control::rangedAIFrame()
         enemyPatrol(enemy.x, enemy.y);
     }
     */
-}
-
-std::string intToString(int num)
-{
-    std::string temp = "";
-    std::string chStr = " ";
-    char ch;
-    while(num > 0)
-    {
-        ch = (num%10)+48;
-        chStr[0] = ch;
-        temp.insert(0,chStr);
-        num = num / 10;
-    }
-    return temp;
 }
