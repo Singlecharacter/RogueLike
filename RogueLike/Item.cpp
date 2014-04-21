@@ -467,6 +467,11 @@ int Item::getPotionEffect()
     return effectiveness;
 }
 
+int Item::getItemRarity()
+{
+    return rarityChoice;
+}
+
 void Item::findNextLine(ifstream& file, string& currentLine)
 {
     getline (file, currentLine);

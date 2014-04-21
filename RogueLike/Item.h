@@ -51,6 +51,7 @@ public:
     int getAccuracy();
     int getPotionType();
     int getPotionEffect();
+    int getItemRarity();
 
     /********************************
     * Vitality = maxHP boost	    *
