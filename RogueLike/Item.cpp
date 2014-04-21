@@ -55,7 +55,6 @@ void Item::createItem(int playerLevel, int rarityTable, int forcedSlot)
     level = playerLevel;
     int whatToMake;
     bool force;
-    cout << rarity << endl;
 
     if (forcedSlot != 200) //user defined
     {
@@ -318,6 +317,7 @@ void Item::makeWeapon(bool force)
 
     //now assign the slot variable for the item
     slot = choice;
+    cout << slot << endl;
 
     //find the item slot to use
     while (itemNumber != choice)
@@ -326,6 +326,13 @@ void Item::makeWeapon(bool force)
         StrToNum >> itemNumber;
         findNextLine (myfile, Input);
     }
+
+    //was an error for main hands, so this is to offset that error
+    if (Input == "0")
+    {
+        findNextLine(myfile, Input);
+    }
+    cout << Input << endl;
 
     //now choose the item name from that subTable
     //first, put all of the subTable onto a vector to choose from
@@ -336,6 +343,7 @@ void Item::makeWeapon(bool force)
     while (getline(itemStream, temp, ','))
     {
         listOfItems.push_back(temp);
+        cout << temp << endl;
     }
     //now pick a random item base from the vector of items
     choice = rand() %  listOfItems.size(); //will choose from 0 - last element
