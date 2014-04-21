@@ -1,15 +1,15 @@
 #include "Control.h"
 
-//enemies
-#include "Enemy.h"
-#include "meleeCreature.h"
-#include "meleeHumanoid.h"
-#include "rangedMagic.h"
-#include "rangedArcher.h"
+
+void printTitle();            //Control object doesn't use these; the intromenu method does
+void wait(int sec);
+void clearScreen();
+
+
 
 Control::Control() : currentFloor(1), currentEnemies(0), enemyCap(10), numberOfTurns(0), floorWidth(200), floorHeight(200),
-                     mapHeight(19),mapWidth(51),logHeight(6),logWidth(51),statusHeight(25),statusWidth(29),
-                     mapStartX(0),mapStartY(0),logStartX(0),logStartY(19),statusStartX(51),statusStartY(0)
+                     mapHeight(19),mapWidth(51),logHeight(6),logWidth(51),statusHeight(25),statusWidth(29),invHeight(25),invWidth(80),
+                     mapStartX(0),mapStartY(0),logStartX(0),logStartY(19),statusStartX(51),statusStartY(0),invStartX(0),invStartY(0)
 {
     screenState = MAPSCREEN;
 
@@ -28,10 +28,16 @@ Control::Control() : currentFloor(1), currentEnemies(0), enemyCap(10), numberOfT
         floorFlags[i] = false;
     }
 
-    for(int i = 0;i<10;i++)
-    {
-        floorNames.push_back("testlevel1.txt");
-    }
+    floorNames.push_back("level1.txt");
+    floorNames.push_back("level2.txt");
+    floorNames.push_back("level3.txt");
+    floorNames.push_back("level4.txt");
+    floorNames.push_back("level5.txt");
+    floorNames.push_back("level6.txt");
+    floorNames.push_back("level7.txt");
+    floorNames.push_back("level8.txt");
+    floorNames.push_back("level9.txt");
+    floorNames.push_back("level10.txt");
 }
 
 Control::~Control()
@@ -48,9 +54,11 @@ void Control::startCurses()
     init_pair(1,COLOR_WHITE,COLOR_BLACK);
     init_pair(2,COLOR_WHITE,COLOR_CYAN);
     init_pair(3,COLOR_WHITE,COLOR_GREEN);
+    init_pair(4,COLOR_CYAN,COLOR_BLACK);
     mapWin = newwin(mapHeight,mapWidth,mapStartY,mapStartX);
     logWin = newwin(logHeight,logWidth,logStartY,logStartX);
     statusWin = newwin(statusHeight,statusWidth,statusStartY,statusStartX);
+    invWin = newwin(invHeight,invWidth,invStartY,invStartX);
     cbreak();
     nodelay(mapWin,true);
     keypad(mapWin,true);
@@ -97,7 +105,7 @@ void Control::printMapScreen()
     }
 
     wmove(mapWin,centerY,centerX);
-    waddch(mapWin,ACS_LANTERN);
+    waddch(mapWin,ACS_LANTERN | COLOR_PAIR(4));
 
     /////////////////
     //Print the log//
@@ -129,11 +137,20 @@ void Control::printMapScreen()
         waddstr(logWin,tempCStr);
     }
 
-    //Print status window
+    ///////////////////////
+    //Print status window//
+    ///////////////////////
+
+
 
     wrefresh(mapWin);
     wrefresh(logWin);
     wrefresh(statusWin);
+}
+
+void Control::printInvScreen()
+{
+
 }
 
 void Control::loadNewFloor()
@@ -221,7 +238,7 @@ void Control::loadNewFloor()
     }
 
     char inChar;
-    string inString;
+    std::string inString;
 
     int lineCounter = 0;
     getline(level,inString);
@@ -324,7 +341,7 @@ bool Control::processInput()
     }
     else if(screenState == INVENTORY)
     {
-        //input = wgetch(invWin);
+        input = wgetch(invWin);
     }
 
 
@@ -340,7 +357,7 @@ bool Control::processInput()
     }
     else if(screenState == INVENTORY)
     {
-        //printInvScreen();
+        printInvScreen();
     }
 
     return true;
@@ -372,8 +389,11 @@ void Control::getObjects()
     }
 }
 
-void Control::genLog()
+void Control::debugLog()
 {
+    player.logStats();
+    player.logItems();
+
     ofstream genLog;
     genLog.open("log.txt",std::ofstream::app);
 
@@ -403,4 +423,199 @@ void Control::genLog()
 void Control::logMessage(std::string message)
 {
     log.push_back(message);
+}
+
+
+void Control::introMenu()
+{
+    int raceChoice = 1;
+    int typeChoice = 1;
+
+    std::string racePrint = "";
+    std::string typePrint = "";
+    std::string playerName = "";                   //Stores player name
+
+    Player characterPlayer;
+
+    printTitle();
+    clearScreen();
+
+    std::cout << endl;
+    std::cout << endl;
+    std::cout << "Enter your name: ";
+    std::cin >> playerName;
+    std::cout << endl;
+    std::cout << endl;
+    std::cout << "Select Your Race" << endl;
+    std::cout << "_______________________________" << endl;
+    std::cout << "1. Human" << endl;
+    std::cout << endl;
+    std::cout << "2. Dwarf" << endl;
+    std::cout << endl;
+    std::cout << "3. Elf" << endl;
+    std::cout << endl;
+    std::cin >> raceChoice;
+
+    switch (raceChoice)                                         //Race Switch Statement
+    {
+        case 1     :std::cout << "You have chosen Human." << endl;
+                    //Human gets no special attributes.
+                    racePrint = " a Human ";
+                    break;
+
+        case 2     :std::cout << "You have chosen Dwarf." << endl;
+                    //set dwarf attributes
+                    racePrint = " a Dwarf ";
+                    break;
+
+        case 3     :std::cout << "You have chosen Elf." << endl;
+                    //set elf attributes
+                    racePrint = " an Elven ";
+                    break;
+
+        default    :std::cout << "You have chosen Human by default." << endl;
+                    raceChoice = 1;
+                    //Humans suck...
+                    racePrint = " a Human ";
+                    break;
+    }
+
+    clearScreen();
+
+
+    std::cout << "Select Your Type" << std::endl;
+    std::cout << "_______________________________" << std::endl;
+    std::cout << "1. Warrior" << endl;
+    std::cout << std::string(' ',35) << "-Melee attributes..." << std::endl;
+    std::cout << std::endl;
+    std::cout << "2. Mage" << endl;
+    std::cout << std::string(' ',35) << "-Mage attributes..." << std::endl;
+    std::cout << std::endl;
+    std::cout << "3. Thief" << endl;
+    std::cout << std::string(' ',35) << "-Thief attributes..." << std::endl;
+    std::cout << std::endl;
+    std::cin >> typeChoice;
+
+
+
+    switch (typeChoice)                                         //Class Switch Statement
+    {
+        case 1     :std::cout << "You are a Warrior." << endl;
+                    //Set melee attributes...
+                    typePrint = "Warrior.";
+                    break;
+
+        case 2     :std::cout << "You are a Mage." << endl;
+                    //Set mage attributes...
+                    typePrint = "Mage.";
+                    break;
+
+        case 3     :std::cout << "You are a Thief." << endl;
+                    //Set thief attributes...
+                    typePrint = "Thief.";
+                    break;
+
+        default    :std::cout << "You are a Warrior by default." << endl;
+                    raceChoice = 1;
+                    //Set warrior attributes...
+                    typePrint = "Warrior.";
+                    break;
+    }
+
+
+    clearScreen();
+
+    std::cout << "You are" << racePrint << typePrint << endl;
+
+
+    clearScreen();
+
+    std::cout << std::string(' ',45) << "Map Screen Controls" << endl;                     //Controls
+    std::cout << std::string(' ',45) << "___________________" << endl;
+    std::cout << "Up Arrow - Move up" << endl;
+    std::cout << "Down Arrow - Move down" << endl;
+    std::cout << "Left Arrow - Move left" << endl;
+    std::cout << "Right Arrow - Move right" << endl;
+    std::cout << "A - Ranged attack" << endl;
+    std::cout << "I - Open Inventory" << endl;
+    std::cout << "E - Open equipment" << endl;
+    std::cout << "< - Ascend a level" << endl;
+    std::cout << "> - Descend a level" << endl;
+
+    std::cout << std::string(' ',44) << "Inventory Controls" << endl;
+    std::cout << std::string(' ',44) << "__________________" << endl;
+    std::cout << "U - Use item" << endl;
+    std::cout << "W - Equip item" << endl;
+    std::cout << "D - Drop item" << endl;
+
+    std::cout << std::string(' ',44) << "Equipment Controls" << endl;
+    std::cout << std::string(' ',44) << "__________________" << endl;
+    std::cout << "ESC - Return to map" << endl;
+    std::cout << "W - Unequip item" << endl;
+
+    std::cout << endl;
+
+
+    std::cout << "Press enter to begin the game..." << endl;
+    std::cin.sync();
+    std::cin.get();
+
+    return;
+}
+
+void clearScreen()
+{
+    wait(2);
+    std::cout << std::string(SCREEN_HEIGHT, '\n');
+    return;
+}
+
+void wait(int sec)
+{
+    clock_t endwait;
+    endwait = clock() + sec * CLK_TCK;
+    while (clock() < endwait)
+        {
+        }
+    return;
+}
+
+void printTitle()                                           //Slightly fancier title :)
+{
+    char title[25][80];
+
+    for (int i = 0; i < 25; i++)
+    {
+        for (int j = 0; j < 80; j++)
+        {
+            title[i][j] = '#';
+            if ((i == 12 && (j <= 46 && j >= 33))
+                || (i == 14 && (j <= 46 && j >= 33)))
+            {
+                title[i][j] = ' ';
+            }
+        }
+    }
+    title[13][33] = ' ';
+    title[13][34] = 'S';
+    title[13][35] = 'E';
+    title[13][36] = 'I';
+    title[13][37] = 'Z';
+    title[13][38] = 'U';
+    title[13][39] = 'R';
+    title[13][40] = 'E';
+    title[13][41] = ' ';
+    title[13][42] = 'T';
+    title[13][43] = 'I';
+    title[13][44] = 'M';
+    title[13][45] = 'E';
+    title[13][46] = ' ';
+
+    for (int i = 0; i < 25; i++)
+    {
+        for (int j = 0; j < 80; j++)
+        {
+            cout << title[i][j];
+        }
+    }
 }

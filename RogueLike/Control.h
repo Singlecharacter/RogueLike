@@ -6,15 +6,27 @@
 #include <cstring>
 #include <curses.h>
 #include <fstream>
+#include <stdlib.h>
+#include <iostream>
 
 #include "Player.h"
 #include "Chest.h"
 #include "Wall.h"
 #include "utility.h"
 
+//enemies
+#include "Enemy.h"
+#include "meleeCreature.h"
+#include "meleeHumanoid.h"
+#include "rangedMagic.h"
+#include "rangedArcher.h"
+
 //screen state definitions
 #define MAPSCREEN 0
 #define INVENTORY 1
+#define EQUIPSCREEN 2
+
+#define SCREEN_HEIGHT 40
 
 /*
 Control is an organizational class that will handle most of the actual running of the game,
@@ -32,9 +44,12 @@ public:
     void startCurses();
     void endCurses();
     void printMapScreen();
+    void printInvScreen();
     void introMenu();
 
     void loadNewFloor();
+    void loadOldFloor();
+    void saveFloor();
 
     void spawnPlayer();
 
@@ -55,7 +70,7 @@ public:
     void clearObjects();
     void getObjects();
 
-    void genLog();
+    void debugLog();
 
     void logMessage(std::string);
 
@@ -71,9 +86,9 @@ private:
     //floorFlags stores whether a level has been previously loaded to avoid duplicates
     bool floorFlags[10];
 
-    WINDOW *mapWin, *logWin, *statusWin;
-    int mapHeight,mapWidth,logHeight,logWidth,statusHeight,statusWidth;
-    int mapStartX,mapStartY,logStartX,logStartY,statusStartX,statusStartY;
+    WINDOW *mapWin, *logWin, *statusWin, *invWin;
+    int mapHeight,mapWidth,logHeight,logWidth,statusHeight,statusWidth,invHeight,invWidth;
+    int mapStartX,mapStartY,logStartX,logStartY,statusStartX,statusStartY,invStartX,invStartY;
 
     int currentEnemies, enemyCap;
 

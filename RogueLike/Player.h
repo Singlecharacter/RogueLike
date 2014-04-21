@@ -1,12 +1,11 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "Item.h"
 #include <cstdlib>
-#include <ctime>
-#include <fstream>
+#include <math.h>
 #include <curses.h>
-#include <iostream>
+
+#include "Item.h"
 
 #define MAINHAND 0
 #define OFFHAND 1
@@ -27,7 +26,7 @@ public:
     //See constructor documentation
     Player(int x = 0, int y = 0, int HD = 10, int MD = 5,
            int STRMod = 0, int DEXMod = 0, int INTMod = 0,
-           int ACMod = 0, int MRMod = 0, int ACGain = 0, int MRGain = 0, string name = "");
+           int ACMod = 0, int MRMod = 0, int ACGain = 0, int MRGain = 0, std::string name = "");
 
     ~Player();
 
@@ -54,8 +53,10 @@ public:
 
     void equipItem(Item newItem);
 
-    //attempts to unequip the item at slot, returns false if there is no item.
+    //attempts to unequip the item at slot, returns false if there is no item or no room to unequip it.
     bool unequipItem(int slot);
+
+    void calcStats();
 
     void levelUp();
 
@@ -64,7 +65,6 @@ public:
 
     void logItems();
 
-    void setAC(int newAC);
     int getAC();
     int getMaxHP();
 
@@ -79,11 +79,14 @@ private:
     //Stat information
     int maxHP, currentHP, HD, maxMP, currentMP, MD, STR, DEX, INT, AC, MR, poisonLevel, ACGain, MRGain;
 
+    //Stats adjusted by items/potion effects
+    int adjSTR,adjDEX,adjINT,adjAC,adjMR;
+
     int currentXP, neededXP, level;
 
     int invSize;
 
-    string name;
+    std::string name;
 
     //Equipment slots
     Item equipment[10];

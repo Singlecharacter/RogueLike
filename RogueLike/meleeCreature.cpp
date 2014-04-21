@@ -101,7 +101,7 @@ void meleeCreature::BossRoll(int& damageDealt)
 		enemyAttackTurn += " and it breathed fire!";
 
 		//150% damage is dealt
-		damgeDealt += damageDealt/2;
+		damageDealt += damageDealt/2;
     }
 	else //else enemyAttackTurn is: enemyAttackTurn + "."
     {

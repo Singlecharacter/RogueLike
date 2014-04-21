@@ -17,10 +17,14 @@ public:
 	~meleeCreature();
 
 	//special rolls for the "boss" level enemies
-	void BossRoll(int damageDealt); //Dragon breathes fire on chance (150% damage)
+	void BossRoll(int &damageDealt); //Dragon breathes fire on chance (150% damage)
 
 	//attack the player when player is on next tile and return the base damage
 	int attackPlayer();
+
+private:
+
+    float speed;
 };
 
 #endif

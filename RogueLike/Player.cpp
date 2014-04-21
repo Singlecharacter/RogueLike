@@ -1,9 +1,8 @@
 #include "Player.h"
-#include <math.h>
 
 Player::Player(int x, int y, int HD , int MD,
                int STRMod, int DEXMod, int INTMod,
-               int ACMod, int MRMod, int ACGain, int MRGain, string name)
+               int ACMod, int MRMod, int ACGain, int MRGain, std::string name)
 {
     sightRange = 5;
     poisonLevel = 0;
@@ -457,6 +456,7 @@ void Player::calculateSightRange(int levelArray[200][200])
 void Player::equipItem(Item newItem)
 {
     equipment[newItem.getSlot()] = newItem;
+
 }
 
 bool Player::unequipItem(int slot)
@@ -508,7 +508,7 @@ void Player::logItems()
     {
         if(equipment[i].getName() == "")
         {
-            itemsFile << "None." << endl;
+            itemsFile << "None." << std::endl;
         }
         else
         {
@@ -523,11 +523,6 @@ void Player::logItems()
 void Player::fullHeal()
 {
     currentHP = maxHP;
-}
-
-void Player::setAC(int newAC)
-{
-    AC = newAC;
 }
 
 int Player::getAC()
