@@ -18,7 +18,7 @@
 #define WARD 7
 #define SPEED 8
 
-using namespace std;
+#include <fstream>
 
 class Item
 {
@@ -27,9 +27,9 @@ public:
     Item();
     ~Item();
     void createItem(int playerLevel, int rarityTable); //create an item add everything to it's spot
-    string getName();
+    std::string getName();
     int getSlot();
-    void findNextLine (ifstream& file, string& currentLine); //will skip comments and whitespace in files
+    void findNextLine (std::ifstream& file, std::string& currentLine); //will skip comments and whitespace in files
 
 private:
 

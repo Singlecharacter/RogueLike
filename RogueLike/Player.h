@@ -1,12 +1,11 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include "Item.h"
 #include <cstdlib>
-#include <ctime>
-#include <fstream>
+#include <math.h>
 #include <curses.h>
-#include <iostream>
+
+#include "Item.h"
 
 #define MAINHAND 0
 #define OFFHAND 1
@@ -27,7 +26,7 @@ public:
     //See constructor documentation
     Player(int x = 0, int y = 0, int HD = 10, int MD = 5,
            int STRMod = 0, int DEXMod = 0, int INTMod = 0,
-           int ACMod = 0, int MRMod = 0, int ACGain = 0, int MRGain = 0, string name = "");
+           int ACMod = 0, int MRMod = 0, int ACGain = 0, int MRGain = 0, std::string name = "");
 
     ~Player();
 
@@ -87,7 +86,7 @@ private:
 
     int invSize;
 
-    string name;
+    std::string name;
 
     //Equipment slots
     Item equipment[10];

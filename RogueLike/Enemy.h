@@ -13,6 +13,7 @@
 
 #include "Item.h"
 #include "Chest.h"
+#include "Player.h"
 
 class Enemy
 {
@@ -20,7 +21,7 @@ public:
 	Enemy();
 	~Enemy();
 
-	void isSeenByPlayer(); //tells enemy if it should attack/chase
+	bool isSeenByPlayer(Player); //tells enemy if it should attack/chase
 	void hurtEnemy(int playerDamageDealt); //deal damage to the enemy, enemy dies if hp = 0,
 	void getNameAndChar(); //get the name and display char from a file
 
@@ -31,8 +32,8 @@ public:
 	//some get functions for control
 	char getDisplayChar();
 	string getName();
-	string getEnemeyType();
-	bool getDeadOrNot();
+	string getEnemyType();
+	bool isDead();
 	bool getGoodLoot();
 	Chest getEnemyCorpse();
 
@@ -43,7 +44,7 @@ public:
 protected:
 	int maxhp, currenthp, power, defense, accuracy, rarity, level, mapLevel;
 	char displayChar;
-	bool seePlayer, hesDeadJim, dropItemQuery;
+	bool hesDeadJim, dropItemQuery;
 	string name, enemyType, enemyHealthStatus, enemyAttackTurn;
 
 	//function to help read a file

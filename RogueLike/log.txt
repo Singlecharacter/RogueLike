@@ -226,3 +226,9 @@ Tile at player's location: Floor
 Number of walls: 38460
 Number of chests: 10
 
+Player Y: 143
+Player X: 75
+Tile at player's location: Floor
+Number of walls: 38463
+Number of chests: 18
+

@@ -1,11 +1,5 @@
 #include "Control.h"
 
-//enemies
-#include "Enemy.h"
-#include "meleeCreature.h"
-#include "meleeHumanoid.h"
-#include "rangedMagic.h"
-#include "rangedArcher.h"
 
 void printTitle();            //Control object doesn't use these; the intromenu method does
 void wait(int sec);
@@ -244,7 +238,7 @@ void Control::loadNewFloor()
     }
 
     char inChar;
-    string inString;
+    std::string inString;
 
     int lineCounter = 0;
     getline(level,inString);
@@ -437,49 +431,49 @@ void Control::introMenu()
     int raceChoice = 1;
     int typeChoice = 1;
 
-    string racePrint = "";
-    string typePrint = "";
-    string playerName = "";                   //Stores player name
+    std::string racePrint = "";
+    std::string typePrint = "";
+    std::string playerName = "";                   //Stores player name
 
     Player characterPlayer;
 
     printTitle();
     clearScreen();
 
-    cout << endl;
-    cout << endl;
-    cout << "Enter your name: ";
-    cin >> playerName;
-    cout << endl;
-    cout << endl;
-    cout << "Select Your Race" << endl;
-    cout << "_______________________________" << endl;
-    cout << "1. Human" << endl;
-    cout << endl;
-    cout << "2. Dwarf" << endl;
-    cout << endl;
-    cout << "3. Elf" << endl;
-    cout << endl;
-    cin >> raceChoice;
+    std::cout << endl;
+    std::cout << endl;
+    std::cout << "Enter your name: ";
+    std::cin >> playerName;
+    std::cout << endl;
+    std::cout << endl;
+    std::cout << "Select Your Race" << endl;
+    std::cout << "_______________________________" << endl;
+    std::cout << "1. Human" << endl;
+    std::cout << endl;
+    std::cout << "2. Dwarf" << endl;
+    std::cout << endl;
+    std::cout << "3. Elf" << endl;
+    std::cout << endl;
+    std::cin >> raceChoice;
 
     switch (raceChoice)                                         //Race Switch Statement
     {
-        case 1     :cout << "You have chosen Human." << endl;
+        case 1     :std::cout << "You have chosen Human." << endl;
                     //Human gets no special attributes.
                     racePrint = " a Human ";
                     break;
 
-        case 2     :cout << "You have chosen Dwarf." << endl;
+        case 2     :std::cout << "You have chosen Dwarf." << endl;
                     //set dwarf attributes
                     racePrint = " a Dwarf ";
                     break;
 
-        case 3     :cout << "You have chosen Elf." << endl;
+        case 3     :std::cout << "You have chosen Elf." << endl;
                     //set elf attributes
                     racePrint = " an Elven ";
                     break;
 
-        default    :cout << "You have chosen Human by default." << endl;
+        default    :std::cout << "You have chosen Human by default." << endl;
                     raceChoice = 1;
                     //Humans suck...
                     racePrint = " a Human ";
@@ -489,39 +483,39 @@ void Control::introMenu()
     clearScreen();
 
 
-    cout << "Select Your Type" << endl;
-    cout << "_______________________________" << endl;
-    cout << "1. Warrior" << endl;
-    cout << setw(35) << "-Melee attributes..." << endl;
-    cout << endl;
-    cout << "2. Mage" << endl;
-    cout << setw(35) << "-Mage attributes..." << endl;
-    cout << endl;
-    cout << "3. Thief" << endl;
-    cout << setw(35) << "-Thief attributes..." << endl;
-    cout << endl;
-    cin >> typeChoice;
+    std::cout << "Select Your Type" << std::endl;
+    std::cout << "_______________________________" << std::endl;
+    std::cout << "1. Warrior" << endl;
+    std::cout << std::string(' ',35) << "-Melee attributes..." << std::endl;
+    std::cout << std::endl;
+    std::cout << "2. Mage" << endl;
+    std::cout << std::string(' ',35) << "-Mage attributes..." << std::endl;
+    std::cout << std::endl;
+    std::cout << "3. Thief" << endl;
+    std::cout << std::string(' ',35) << "-Thief attributes..." << std::endl;
+    std::cout << std::endl;
+    std::cin >> typeChoice;
 
 
 
     switch (typeChoice)                                         //Class Switch Statement
     {
-        case 1     :cout << "You are a Warrior." << endl;
+        case 1     :std::cout << "You are a Warrior." << endl;
                     //Set melee attributes...
                     typePrint = "Warrior.";
                     break;
 
-        case 2     :cout << "You are a Mage." << endl;
+        case 2     :std::cout << "You are a Mage." << endl;
                     //Set mage attributes...
                     typePrint = "Mage.";
                     break;
 
-        case 3     :cout << "You are a Thief." << endl;
+        case 3     :std::cout << "You are a Thief." << endl;
                     //Set thief attributes...
                     typePrint = "Thief.";
                     break;
 
-        default    :cout << "You are a Warrior by default." << endl;
+        default    :std::cout << "You are a Warrior by default." << endl;
                     raceChoice = 1;
                     //Set warrior attributes...
                     typePrint = "Warrior.";
@@ -531,40 +525,40 @@ void Control::introMenu()
 
     clearScreen();
 
-    cout << "You are" << racePrint << typePrint << endl;
+    std::cout << "You are" << racePrint << typePrint << endl;
 
 
     clearScreen();
 
-    cout << setw(45) << "Map Screen Controls" << endl;                     //Controls
-    cout << setw(45) << "___________________" << endl;
-    cout << "Up Arrow - Move up" << endl;
-    cout << "Down Arrow - Move down" << endl;
-    cout << "Left Arrow - Move left" << endl;
-    cout << "Right Arrow - Move right" << endl;
-    cout << "A - Ranged attack" << endl;
-    cout << "I - Open Inventory" << endl;
-    cout << "E - Open equipment" << endl;
-    cout << "< - Ascend a level" << endl;
-    cout << "> - Descend a level" << endl;
+    std::cout << std::string(' ',45) << "Map Screen Controls" << endl;                     //Controls
+    std::cout << std::string(' ',45) << "___________________" << endl;
+    std::cout << "Up Arrow - Move up" << endl;
+    std::cout << "Down Arrow - Move down" << endl;
+    std::cout << "Left Arrow - Move left" << endl;
+    std::cout << "Right Arrow - Move right" << endl;
+    std::cout << "A - Ranged attack" << endl;
+    std::cout << "I - Open Inventory" << endl;
+    std::cout << "E - Open equipment" << endl;
+    std::cout << "< - Ascend a level" << endl;
+    std::cout << "> - Descend a level" << endl;
 
-    cout << setw(44) << "Inventory Controls" << endl;
-    cout << setw(44) << "__________________" << endl;
-    cout << "U - Use item" << endl;
-    cout << "W - Equip item" << endl;
-    cout << "D - Drop item" << endl;
+    std::cout << std::string(' ',44) << "Inventory Controls" << endl;
+    std::cout << std::string(' ',44) << "__________________" << endl;
+    std::cout << "U - Use item" << endl;
+    std::cout << "W - Equip item" << endl;
+    std::cout << "D - Drop item" << endl;
 
-    cout << setw(44) << "Equipment Controls" << endl;
-    cout << setw(44) << "__________________" << endl;
-    cout << "ESC - Return to map" << endl;
-    cout << "W - Unequip item" << endl;
+    std::cout << std::string(' ',44) << "Equipment Controls" << endl;
+    std::cout << std::string(' ',44) << "__________________" << endl;
+    std::cout << "ESC - Return to map" << endl;
+    std::cout << "W - Unequip item" << endl;
 
-    cout << endl;
+    std::cout << endl;
 
 
-    cout << "Press enter to begin the game..." << endl;
-    cin.sync();
-    cin.get();
+    std::cout << "Press enter to begin the game..." << endl;
+    std::cin.sync();
+    std::cin.get();
 
     return;
 }
@@ -572,7 +566,7 @@ void Control::introMenu()
 void clearScreen()
 {
     wait(2);
-    cout << string(SCREEN_HEIGHT, '\n');
+    std::cout << std::string(SCREEN_HEIGHT, '\n');
     return;
 }
 
