@@ -53,14 +53,6 @@ public:
     int getPotionType();
     int getPotionEffect();
 
-
-protected:
-    void findNextLine (ifstream& file, string& currentLine); //will skip comments and whitespace in files
-
-private:
-
-    std::string name;
-
     /********************************
     * Vitality = maxHP boost	    *
     * Mana = maxMP boost			*
@@ -72,7 +64,15 @@ private:
     * Ward = MR boost				*
     * Speed = movementSpeed			*
     ********************************/
-    int Vitality, Mana, Strength, Dexterity, Intellect, Purity, Armor, Ward, Speed, Damage, Accuracy;
+    int Vitality, Mana, Strength, Dexterity, Intellect, Purity, Armor, Ward, Damage, Accuracy;
+
+
+protected:
+    void findNextLine (ifstream& file, string& currentLine); //will skip comments and whitespace in files
+
+private:
+
+    std::string name;
 
     /*****************
     * 1 = mainHand	 *

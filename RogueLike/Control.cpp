@@ -9,7 +9,8 @@ void clearScreen();
 
 Control::Control() : currentFloor(1), currentEnemies(0), enemyCap(10), numberOfTurns(0), floorWidth(200), floorHeight(200),
                      mapHeight(19),mapWidth(51),logHeight(6),logWidth(51),statusHeight(25),statusWidth(29),invHeight(25),invWidth(80),
-                     mapStartX(0),mapStartY(0),logStartX(0),logStartY(19),statusStartX(51),statusStartY(0),invStartX(0),invStartY(0)
+                     mapStartX(0),mapStartY(0),logStartX(0),logStartY(19),statusStartX(51),statusStartY(0),invStartX(0),invStartY(0),
+                     equipWidth(80),equipHeight(25),equipStartX(0),equipStartY(0)
 {
     screenState = MAPSCREEN;
 
@@ -52,19 +53,20 @@ void Control::startCurses()
     start_color();
     curs_set(0);
     init_pair(1,COLOR_WHITE,COLOR_BLACK);
-    init_pair(2,COLOR_WHITE,COLOR_CYAN);
-    init_pair(3,COLOR_WHITE,COLOR_GREEN);
-    init_pair(4,COLOR_CYAN,COLOR_BLACK);
+    init_pair(2,COLOR_CYAN,COLOR_BLACK);
     mapWin = newwin(mapHeight,mapWidth,mapStartY,mapStartX);
     logWin = newwin(logHeight,logWidth,logStartY,logStartX);
     statusWin = newwin(statusHeight,statusWidth,statusStartY,statusStartX);
     invWin = newwin(invHeight,invWidth,invStartY,invStartX);
+    equipWin = newwin(equipHeight,equipWidth,equipStartY,equipStartX);
     cbreak();
     nodelay(mapWin,true);
     keypad(mapWin,true);
     wbkgd(mapWin,COLOR_PAIR(1));
-    wbkgd(logWin,COLOR_PAIR(2));
-    wbkgd(statusWin,COLOR_PAIR(3));
+    wbkgd(logWin,COLOR_PAIR(1));
+    wbkgd(statusWin,COLOR_PAIR(1));
+    wbkgd(invWin,COLOR_PAIR(1));
+    wbkgd(invWin,COLOR_PAIR(1));
 }
 
 void Control::endCurses()
@@ -105,7 +107,7 @@ void Control::printMapScreen()
     }
 
     wmove(mapWin,centerY,centerX);
-    waddch(mapWin,ACS_LANTERN | COLOR_PAIR(4));
+    waddch(mapWin,ACS_LANTERN | COLOR_PAIR(2));
 
     /////////////////
     //Print the log//
@@ -150,7 +152,78 @@ void Control::printMapScreen()
 
 void Control::printInvScreen()
 {
+    for(int i = 0;i<player.invSize;i++)
+    {
+        if(player.inventory[i].getName() == "")
+        {
+            break;
+        }
 
+        wmove(invWin,i,0);
+        waddch(invWin,i+48);
+        wmove(invWin,i,1);
+        std::string tempStr = (i+48)+ " - " + player.inventory[i].getName();
+        char * temp = new char[tempStr.length()+1];
+        strcpy(temp,tempStr.c_str());
+        waddstr(invWin,temp);
+    }
+
+    wrefresh(invWin);
+}
+
+void Control::printEquipScreen()
+{
+
+}
+
+void Control::clearWindows()
+{
+    for(int i = 0;i<mapHeight;i++)
+    {
+        for(int j = 0;j<mapWidth;j++)
+        {
+            wmove(mapWin,i,j);
+            waddch(mapWin,' ');
+        }
+    }
+    for(int i = 0;i<logHeight;i++)
+    {
+        for(int j = 0;j<logWidth;j++)
+        {
+            wmove(logWin,i,j);
+            waddch(logWin,' ');
+        }
+    }
+    for(int i = 0;i<statusHeight;i++)
+    {
+        for(int j = 0;j<statusWidth;j++)
+        {
+            wmove(statusWin,i,j);
+            waddch(statusWin,' ');
+        }
+    }
+    for(int i = 0;i<equipHeight;i++)
+    {
+        for(int j = 0;j<equipWidth;j++)
+        {
+            wmove(equipWin,i,j);
+            waddch(equipWin,' ');
+        }
+    }
+    for(int i = 0;i<invHeight;i++)
+    {
+        for(int j = 0;j<invWidth;j++)
+        {
+            wmove(invWin,i,j);
+            waddch(invWin,' ');
+        }
+    }
+
+    wrefresh(mapWin);
+    wrefresh(logWin);
+    wrefresh(statusWin);
+    wrefresh(invWin);
+    wrefresh(equipWin);
 }
 
 void Control::loadNewFloor()
@@ -293,6 +366,7 @@ void Control::spawnPlayer()
 bool Control::processInput()
 {
     bool validInput = true;
+    bool actionMade = false;
     int input = ERR;
     if(screenState == MAPSCREEN)
     {
@@ -323,7 +397,16 @@ bool Control::processInput()
         }
         else if(input == 'o' || input == 'O')
         {
-
+            openChest();
+            actionMade = true;
+        }
+        else if(input == 'i' || input == 'I')
+        {
+            screenState = INVENTORY;
+        }
+        else if(input == 'e' || input == 'E')
+        {
+            screenState = EQUIPSCREEN;
         }
         else
         {
@@ -335,6 +418,16 @@ bool Control::processInput()
             newX = player.x;
             newY = player.y;
         }
+        else
+        {
+            actionMade = true;
+            int enemyIndex = -1;
+            /*enemyIndex = place_meeting(newY,newX,meleeCreatures);
+            if(enemyIndex >= 0)
+            {
+
+            }*/
+        }
 
         player.x = newX;
         player.y = newY;
@@ -342,25 +435,83 @@ bool Control::processInput()
     else if(screenState == INVENTORY)
     {
         input = wgetch(invWin);
+        if(input == 'q' || input == 'Q')
+        {
+            validInput = true;
+            screenState = MAPSCREEN;
+        }
+    }
+    else if(screenState == EQUIPSCREEN)
+    {
+        input = wgetch(equipWin);
+        if(input == 'q' || input == 'Q')
+        {
+            validInput = true;
+            screenState = MAPSCREEN;
+        }
     }
 
 
 
     if(validInput)
     {
-        gameFrame();
-    }
+        clearWindows();
 
-    if(screenState == MAPSCREEN)
-    {
-        printMapScreen();
-    }
-    else if(screenState == INVENTORY)
-    {
-        printInvScreen();
+        if(screenState == MAPSCREEN)
+        {
+            if(actionMade)
+            {
+                gameFrame();
+            }
+            printMapScreen();
+        }
+        else if(screenState == INVENTORY)
+        {
+            printInvScreen();
+        }
+        else if(screenState == EQUIPSCREEN)
+        {
+            printEquipScreen();
+        }
     }
 
     return true;
+}
+
+void Control::openChest()
+{
+    int foundIndex = place_meeting(player.y,player.x,chests);
+
+    if(foundIndex < 0)
+    {
+        logMessage("There's nothing here to open.");
+    }
+    else
+    {
+        int emptyIndex = -1;
+        for(int i = 0;i<player.invSize;i++)
+        {
+            if(player.inventory[i].getName() == "")
+            {
+                emptyIndex = i;
+                break;
+            }
+        }
+
+        if(emptyIndex >= 0)
+        {
+            chests.at(foundIndex).generateItem();
+            player.inventory[emptyIndex] = chests.at(foundIndex).getItem();
+            logMessage("You found a " + player.inventory[emptyIndex].getName());
+            floorMap[player.y][player.x] = '.';
+            clearObjects();
+            getObjects();
+        }
+        else
+        {
+            logMessage("You don't have room for any more items.");
+        }
+    }
 }
 
 void Control::gameFrame()
@@ -369,6 +520,12 @@ void Control::gameFrame()
     //meleeAIFrame();
     //rangedAIFrame();
 
+}
+
+void Control::clearObjects()
+{
+    walls.clear();
+    chests.clear();
 }
 
 void Control::getObjects()

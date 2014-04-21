@@ -22,7 +22,6 @@ Item::Item()
     Purity = 0;
     Armor = 0;
     Ward = 0;
-    Speed = 0;
 
     rarity = ','; //this is initialize to , for item creation
 
@@ -36,7 +35,7 @@ Item::Item()
     armorType = 0; //1 - cloth, 2 - leather, 3 - plate, 4 - jewelry
 
     Damage = 0; //damage for weapons
-    Accuracy = 0; //how accurate the weapons
+    Accuracy = 50; //how accurate the weapons
 
     potionType = 0; //0 = mana, 1 = hp
     effectiveness = 0; //how effective are the potions?
