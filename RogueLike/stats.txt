@@ -214,3 +214,24 @@ STR: 12
 DEX: 11
 INT: 1
 
+<<<<<<< HEAD
+=======
+Max HP: 15
+Max MP: 2
+STR: 5
+DEX: 9
+INT: 9
+
+Max HP: 18
+Max MP: 4
+STR: 8
+DEX: 8
+INT: 12
+
+Max HP: 13
+Max MP: 6
+STR: 8
+DEX: 17
+INT: 4
+
+>>>>>>> ab2616d83fd542fd6eb138cc193a2174230e0fbf

@@ -55,6 +55,7 @@ void Item::createItem(int playerLevel, int rarityTable, int forcedSlot)
     level = playerLevel;
     int whatToMake;
     bool force;
+    cout << rarity << endl;
 
     if (forcedSlot != 200) //user defined
     {

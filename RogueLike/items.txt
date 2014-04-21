@@ -394,3 +394,39 @@ None.
 None.
 None.
 
+<<<<<<< HEAD
+=======
+None.
+None.
+None.
+None.
+None.
+None.
+None.
+None.
+None.
+None.
+
+None.
+None.
+None.
+None.
+None.
+None.
+None.
+None.
+None.
+None.
+
+None.
+None.
+None.
+None.
+None.
+None.
+None.
+None.
+None.
+None.
+
+>>>>>>> ab2616d83fd542fd6eb138cc193a2174230e0fbf
