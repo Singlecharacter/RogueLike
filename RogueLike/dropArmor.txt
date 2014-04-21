@@ -146,4 +146,4 @@ Left Ring,Left Band
 
 
 
-Vitality,Mana,Strength,Dexterity,Intellect,Purity,Ward,Speed
+Vitality,Mana,Strength,Dexterity,Intellect,Purity,Armor,Ward,Speed

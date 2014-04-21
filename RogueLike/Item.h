@@ -8,6 +8,16 @@
 #include <iostream>
 #include <string>
 
+#define VITALITY 0
+#define MANA 1
+#define STRENGTH 2
+#define DEXTERITY 3
+#define INTELLECT 4
+#define PURITY 5
+#define ARMOR 6
+#define WARD 7
+#define SPEED 8
+
 using namespace std;
 
 class Item
