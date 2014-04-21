@@ -22,7 +22,6 @@ Item::Item()
     Purity = 0;
     Armor = 0;
     Ward = 0;
-    Speed = 0;
 
     rarity = ','; //this is initialize to , for item creation
 
@@ -35,8 +34,8 @@ Item::Item()
     AC = 0; //armor for items
     armorType = 0; //1 - cloth, 2 - leather, 3 - plate, 4 - jewelry
 
-    damage = 0; //damage for weapons
-    accuracy = 0; //how accurate the weapons
+    Damage = 0; //damage for weapons
+    Accuracy = 50; //how accurate the weapons
 
     potionType = 0; //0 = mana, 1 = hp
     effectiveness = 0; //how effective are the potions?
@@ -52,7 +51,7 @@ Item::~Item()
 //I'm assuming that the player, enemies, and chests will have a get function to grab these
 void Item::createItem(int playerLevel, int rarityTable, int forcedSlot)
 {
-    rarity = rarityTable; //get the rarity
+    rarityChoice = rarityTable; //get the rarity
     level = playerLevel;
     int whatToMake;
     bool force;
@@ -63,11 +62,11 @@ void Item::createItem(int playerLevel, int rarityTable, int forcedSlot)
 
         if (forcedSlot == 0 || forcedSlot == 1) //make a weapon
         {
-            whatToMake = 0;
+            whatToMake = 1;
         }
         else //make armor
         {
-            whatToMake = 1;
+            whatToMake = 0;
         }
         force = true; //it is a forced assignment
     }
@@ -106,7 +105,7 @@ int Item::getSlot()
 
 void Item::makeArmor(bool force)
 {
-    int choice = rarity, ArmorIndex, itemSlotChoice, itemNumber = 0; //this will hold the number for the type of item
+    int choice = rarityChoice, ArmorIndex, itemSlotChoice, itemNumber = 0; //this will hold the number for the type of item
     string Input, itemType;
     ifstream myfile ("dropArmor.txt");
     vector <string> listOfItems;
@@ -251,7 +250,7 @@ void Item::makeArmor(bool force)
 
 void Item::makeWeapon(bool force)
 {
-    int choice = rarity, itemSlotChoice, itemNumber = 0; //this will hold the number for the type of item
+    int choice = rarityChoice, itemSlotChoice, itemNumber = 0; //this will hold the number for the type of item
     string Input, itemType;
     ifstream myfile ("dropWeapon.txt");
     vector <string> listOfItems;
@@ -318,6 +317,7 @@ void Item::makeWeapon(bool force)
 
     //now assign the slot variable for the item
     slot = choice;
+    cout << slot << endl;
 
     //find the item slot to use
     while (itemNumber != choice)
@@ -326,6 +326,13 @@ void Item::makeWeapon(bool force)
         StrToNum >> itemNumber;
         findNextLine (myfile, Input);
     }
+
+    //was an error for main hands, so this is to offset that error
+    if (Input == "0")
+    {
+        findNextLine(myfile, Input);
+    }
+    cout << Input << endl;
 
     //now choose the item name from that subTable
     //first, put all of the subTable onto a vector to choose from
@@ -336,6 +343,7 @@ void Item::makeWeapon(bool force)
     while (getline(itemStream, temp, ','))
     {
         listOfItems.push_back(temp);
+        cout << temp << endl;
     }
     //now pick a random item base from the vector of items
     choice = rand() %  listOfItems.size(); //will choose from 0 - last element
@@ -399,6 +407,17 @@ void Item::makeWeapon(bool force)
 void Item::makePotion()
 {
     int choice = rand() % 2; //0 for mana, 1 for hp
+
+    switch (choice)
+    {
+    case 0:
+        name = "Mana Potion";
+        break;
+    case 1:
+        name = "Health Potion";
+        break;
+    }
+
     effectiveness = (rand() % 15) + 25; //restore 25 - 40% of the resource
     itemOrPotion = false; //it is a potion
 }
@@ -430,12 +449,12 @@ int Item::getArmorType()
 
 int Item::getDamage()
 {
-    return damage;
+    return Damage;
 }
 
 int Item::getAccuracy()
 {
-    return accuracy;
+    return Accuracy;
 }
 
 int Item::getPotionType()

@@ -3,8 +3,6 @@
 
 //Placeholder item class
 
-#include <string>
-
 #include <iostream>
 #include <string>
 
@@ -16,9 +14,10 @@
 #define PURITY 5
 #define ARMOR 6
 #define WARD 7
-#define SPEED 8
 
 using namespace std;
+
+#include <fstream>
 
 class Item
 {
@@ -26,6 +25,7 @@ public:
 
     Item();
     ~Item();
+
     void createItem(int playerLevel = 0, int rarityTable = 0, int forcedSlot = 200); //create an item add everything to it's spot
 
     //potions
@@ -52,14 +52,6 @@ public:
     int getPotionType();
     int getPotionEffect();
 
-
-protected:
-    void findNextLine (ifstream& file, string& currentLine); //will skip comments and whitespace in files
-
-private:
-
-    std::string name;
-
     /********************************
     * Vitality = maxHP boost	    *
     * Mana = maxMP boost			*
@@ -69,9 +61,15 @@ private:
     * Purity = poisonLevel boost	*
     * Armor = AC boost				*
     * Ward = MR boost				*
-    * Speed = movementSpeed			*
     ********************************/
-    int Vitality, Mana, Strength, Dexterity, Intellect, Purity, Armor, Ward, Speed, Damage, Accuracy;
+    int Vitality, Mana, Strength, Dexterity, Intellect, Purity, Armor, Ward, Damage, Accuracy;
+
+protected:
+    void findNextLine (ifstream& file, string& currentLine); //will skip comments and whitespace in files
+
+private:
+
+    std::string name;
 
     /*****************
     * 1 = mainHand	 *
@@ -94,6 +92,7 @@ private:
     * l = Legendary Item*
     ********************/
     char rarity;
+    int rarityChoice;
 
     bool ranged; //is the weapon ranged or melee? t = ranged, f = melee
     bool twoH; //is it 1 or two handed weapon? t = 2h, f = 1h
@@ -104,9 +103,6 @@ private:
 
     int AC; //armor for items
     int armorType; //1 - cloth, 2 - leather, 3 - plate, 4 - jewelry
-
-    int damage; //damage for weapons
-    int accuracy; //how accurate the weapons
 
     int potionType; //0 = mana, 1 = hp
     int effectiveness; //how effective are the potions?

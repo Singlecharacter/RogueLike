@@ -1,0 +1,21 @@
+On map screen:
+
+a - ranged attack
+i - open inventory
+e - open equipment
+< - go up
+> - go down
+arrows - move
+
+
+In inventory:
+
+Esc - return to map screen
+d - drop an item
+w - equip an item
+u - use an item
+
+In equipment:
+
+Esc - return to map
+w - unequip an item

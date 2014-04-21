@@ -7,9 +7,6 @@ Enemy::Enemy()
 		currenthp = maxhp;//currenthp equals max hp
 		power = 0;//power equals 0
 		defense = 0;//defence equals 0
-		moveSpeed = 0;//moveSpeed equals 0
-		currentMoveSpeed = 0;//currentMoveSpeed equals 0
-		seePlayer = false;//seePlayer equals false
 		hesDeadJim = false;//is the enemy dead?
 		dropItemQuery = false; //drop the item?
 		rarity = (rand() % 4) + 1;//int of random number from 1 to the max amount of enemy rarity types (4 at the moment)
@@ -19,11 +16,16 @@ Enemy::~Enemy()
 {
 }
 
-void Enemy::isSeenByPlayer()
+bool Enemy::isSeenByPlayer(Player player)
 {
-	//by default, if this function is ever called, set seePlayer boolean to true,
-    //the bool will be set false every turn so this will set it to true if the enemy is seen
-    seePlayer = true;
+	if(player.x - x >= -5 && player.x - x <= 5 && player.y - y >= -5 && player.y - y <= 5)
+    {
+        if(player.sightArray[5-(player.y-y)][5-(player.x-x)] == 1)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 void Enemy::hurtEnemy(int playerDamageDealt) //deal damage to the enemy, enemy dies if hp = 0
@@ -83,17 +85,17 @@ void Enemy::hurtEnemy(int playerDamageDealt) //deal damage to the enemy, enemy d
         {
 			enemyHealthStatus = name + " is healthy.";
         }
-		else if (hpPerc > 50 && hpPerc <= 90)//else if percentage is > 50% and <= 90%
+		else if (hpPerc > 60 && hpPerc <= 90)//else if percentage is > 50% and <= 90%
         {
 			enemyHealthStatus = name + " is slightly wounded.";
         }
-		else if (hpPerc > 30 && hpPerc <= 50)//else if percentage is > 30% and <= 50%
+		else if (hpPerc > 30 && hpPerc <= 60)//else if percentage is > 30% and <= 50%
         {
 			enemyHealthStatus = name + " is greatly wounded.";
         }
 		else if (hpPerc > 1 && hpPerc <= 30)//else if percentage is > 1% and <= 30%
         {
-			enemyHealthStatus = name + " is seriously wounded.";
+			enemyHealthStatus = name + " is almost dead.";
         }
 		else //else the percentage is 1%
         {
@@ -192,17 +194,17 @@ char Enemy::getDisplayChar()
     return displayChar;
 }
 
-string Enemy::getName()
+std::string Enemy::getName()
 {
     return name;
 }
 
-string Enemy::getEnemeyType()
+std::string Enemy::getEnemyType()
 {
     return enemyType;
 }
 
-bool Enemy::getDeadOrNot()
+bool Enemy::isDead()
 {
     return hesDeadJim;
 }

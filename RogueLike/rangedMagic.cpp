@@ -11,7 +11,7 @@ rangedMagic::rangedMagic (int playerLevel = 0, int xCoord = 0, int yCoord = 0, i
     //first, if the rarity of the enemy is not appropriate for the mapLevel, adjust it
     while ((rarity == 4 && currentMapLevel >= 3) || (rarity == 3 && currentMapLevel >= 2))
     {
-        rarity == (rand() % 4) + 1;
+        rarity = (rand() % 4) + 1;
     }
 
     /****************
@@ -56,7 +56,22 @@ rangedMagic::rangedMagic (int playerLevel = 0, int xCoord = 0, int yCoord = 0, i
 
 	//using an equation using rarity, and level, and a rand, assign power
 		//a magic user is stronger than archers so put in a balancer
-		//generally, all ranged users are less powerful than melee (about 75% ?)
+		//generally, all ranged users are less powerful than melee
+
+    //using an equation using rarity, and level, and a rand, assign power
+    int basePower = 6; //melee has more attack than ranged
+
+	power = basePower; //set the power
+
+	//adjust for the level
+	for (int i = 1; i < level; i++) //i = 1 to account for starting at lvl 1
+    {
+		power += rand() % basePower;
+    }
+
+    //now adjust for the rarity
+    rareMod = ((rarity / 3) + .5);
+    power = power * rareMod;
 
     /*****************************
 	* DEFENSE                    *
@@ -68,23 +83,34 @@ rangedMagic::rangedMagic (int playerLevel = 0, int xCoord = 0, int yCoord = 0, i
 	* rarity 4 =                 *
 	*****************************/
 
-	//using an equation using rarity, and level, and a rand, assign defence
+    //using an equation using rarity, and level, and a rand, assign defence
+    int baseDefense = 5; //melee has more defense
+
+	defense = baseDefense; //set the defense
+
+	//adjust for the level
+	for (int i = 1; i < level; i++) //i = 1 to account for starting at lvl 1
+    {
+		defense += rand() % baseDefense;
+    }
+
+    //now adjust for the rarity
+    rareMod = ((rarity / 3) + .5);
+    defense = defense * rareMod;
 
 	//assign accuracy ( a rand between 55% and 70% ) for the magic user
 	//accuracy is lowest for magic due to large power and range
 	int hiVal = 70, lowVal = 55;
 	accuracy = (rand() % (hiVal - lowVal)) + lowVal;
 
-	//assign moveSpeed
-	//ranged enemies are at base speed since they can attack player as soon as he enters LOS
-	speed = 0;
-    moveSpeed = speed;
-    currentMoveSpeed = 0;
-
 	//run the getNameAndChar() function to get the name and displayChar
 	getNameAndChar();
 }
 
+rangedMagic::~rangedMagic()
+{
+
+}
 
 void rangedMagic::BossRoll()
 {
@@ -108,3 +134,34 @@ void rangedMagic::BossRoll()
         enemyAttackTurn += ".";
     }
 }
+
+int rangedMagic::attackPlayer()
+{
+    int damageDone = 0;
+    int accuracyRoll = rand() % 101; //0-100
+
+    //if the enemy's accuracy roll is good, do damage
+    if(accuracyRoll >= accuracy)
+    {
+        enemyAttackTurn += name + " has attacked";
+        //do damage
+        damageDone = rand() % power + 1; //1-powerMax
+
+        //if enemy is a boss, do the boss roll
+        if (rarity == 4)
+        {
+            BossRoll();
+        }
+        else
+        {
+            enemyAttackTurn += ".";
+        }
+    }
+    else //miss!
+    {
+        enemyAttackTurn += name + " has missed it's attack.";
+    }
+
+    return damageDone;
+}
+

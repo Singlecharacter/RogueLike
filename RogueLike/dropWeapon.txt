@@ -1,40 +1,58 @@
 /*******************
 
+
 * Enemy Drop Table *
+
 
 *******************/
 
 
 
+
 /********************************************************************************************************************************
 
-* now choose the rarity of the item; common will be base stats, and the higher the rarity will add more to the stats		*
+*
+ now choose the rarity of the item; common will be base stats, and the higher the rarity will add more to the stats		*
+
 
 * extras are added to make the chance of getting a better item less								*
 
+
 * enemies have a type also, this will be what chooses the drop table for they enemies particular difficuly			*
 
+
 *																*
+
 
 * 1 = Common Enemy														*
 
+
 * 2 = Rare Enemy														*
+
 
 * 3 = Epic Enemy														*
 
+
 * 4 = Boss-ish Enemy														*
+
 
 *																*
 
+
 * c = Common Item														*
+
 
 * r = Rare Item 														*
 
+
 * e = Epic Item   														*
+
 
 * l = Legendary Item														*
 
+
 ********************************************************************************************************************************/
+
 
 
 
@@ -48,65 +66,92 @@
 
 
 
+
 /********************************************************************************************************
+
 
 *now choose one of the player's item slots at random, also from that, choose a type of item string name	*
 
+
 *													*
 
+
 * 0 = mainHand weapon											*
+
 * 1 = offHand item											*
+
 * 2 = 2h ranged												*
+
 * 3 = 2h melee											*
+
 ********************************************************************************************************/
+
 0
 
+
 Mace,Sword,Dagger,Wand
+
 1
 
-Off-hand Dagger,Shield,Book,Artifact
 
+Off-hand Dagger,Shield,Book,Artifact
 2
+
 Bow,Staff
+
 3
+
 Spear,Greatsword
+
 
 
 
 /********************************************************************************
 
+
 *One of these 8 stats will be chosen at random to be the boost for an item	*
 
+
 *										*
+
 
 * Vitality = maxHP boost							*
 
-* Mana = maxMP boost								*
 
+* Mana = maxMP boost								*
 * Strength = STR boost								*
+
 
 * Dexterity = DEX boost								*
 
+
 * Intellect = INT boost								*
+
 
 * Purity = poisonLevel boost							*
 
+
 * Ward = MR boost								*
 
-* Speed = movementSpeed	boost							*
 
 * 										*
 
+
 * Can add as many stats as you want, but the code will have to be changed	*
+
 
 * for first stat if it does not start with a "V"				*
 
+
 *										*
 
+
 * I removed armor from the choice, since a dagger with armor doesn't make since	*
+
 
 ********************************************************************************/
 
 
 
-Vitality,Mana,Strength,Dexterity,Intellect,Purity,Armor,Ward,Speed
+
+Vitality,Mana,Strength,Dexterity,Intellect,Purity,Armor,Ward
