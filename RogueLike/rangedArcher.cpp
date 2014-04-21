@@ -56,7 +56,23 @@ rangedArcher::rangedArcher (int playerLevel = 0, int xCoord = 0, int yCoord = 0,
 
 	//using an equation using rarity, and level, and a rand, assign power
 		//an archer is less strong than magic users so put in a balancer
-		//generally, all ranged users are less powerful than melee (about 75% ?)
+		//generally, all ranged users are less powerful than melee
+
+    //using an equation using rarity, and level, and a rand, assign power
+    int basePower = 4; //melee has more attack than ranged
+
+	power = basePower; //set the power
+
+	//adjust for the level
+	for (int i = 1; i < level; i++) //i = 1 to account for starting at lvl 1
+    {
+		power += rand() % basePower;
+    }
+
+    //now adjust for the rarity
+    rareMod = ((rarity / 3) + .5);
+    power = power * rareMod;
+
 
     /*****************************
 	* DEFENSE                    *
@@ -68,7 +84,20 @@ rangedArcher::rangedArcher (int playerLevel = 0, int xCoord = 0, int yCoord = 0,
 	* rarity 4 =                 *
 	*****************************/
 
-	//using an equation using rarity, and level, and a rand, assign defence
+    //using an equation using rarity, and level, and a rand, assign defence
+    int baseDefense = 7; //melee has more defense
+
+	defense = baseDefense; //set the defense
+
+	//adjust for the level
+	for (int i = 1; i < level; i++) //i = 1 to account for starting at lvl 1
+    {
+		defense += rand() % baseDefense;
+    }
+
+    //now adjust for the rarity
+    rareMod = ((rarity / 3) + .5);
+    defense = defense * rareMod;
 
 	//assign accuracy ( a rand between 80% and 95% ) for the magic user
 	//accuracy is highest for archers due to low power and range
@@ -84,22 +113,49 @@ rangedArcher::~rangedArcher()
 
 }
 
-bool rangedArcher::BossRoll()
+void rangedArcher::BossRoll()
 {
     //make a roll from 0 - 10
 	int roll = rand() % 11;
-	bool goodRoll = false;
 
 	//if the roll is good, adjust damage and add to the attackMessage
 	if (roll == 10)
     {
-        goodRoll = true;
-        enemyAttackTurn += " and it shot a kink in the armor!";
+        power = power * 2; //enemy's power doubles
+        enemyAttackTurn += " and it found a kink in the armor!";
     }
     else
     {
         enemyAttackTurn += ".";
     }
-
-    return goodRoll;
 }
+
+int rangedArcher::attackPlayer()
+{
+    int damageDone = 0;
+    int accuracyRoll = rand() % 101; //0-100
+
+    //if the enemy's accuracy roll is good, do damage
+    if(accuracyRoll >= accuracy)
+    {
+        enemyAttackTurn += name + " has attacked";
+        //do damage
+
+        //if enemy is a boss, do the boss roll
+        if (rarity == 4)
+        {
+            BossRoll();
+        }
+        else
+        {
+            enemyAttackTurn += ".";
+        }
+    }
+    else //miss!
+    {
+        enemyAttackTurn += name + " has missed it's attack.";
+    }
+
+    return damageDone;
+}
+

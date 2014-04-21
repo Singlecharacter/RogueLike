@@ -28,7 +28,7 @@ meleeCreature::meleeCreature (int playerLevel = 0, int xCoord = 0, int yCoord = 
 	* rarity 4 = 16             *
 	****************************/
 
-	int basehp = 9;
+	int basehp = 11; //creatures have more hp
 
 	maxhp = basehp; //set the basehp
 
@@ -57,6 +57,21 @@ meleeCreature::meleeCreature (int playerLevel = 0, int xCoord = 0, int yCoord = 
 	//using an equation using rarity, and level, and a rand, assign power
 		//a creature is less strong than humanoids so put in a balancer
 
+    //using an equation using rarity, and level, and a rand, assign power
+    int basePower = 8; //melee has more attack than ranged
+
+	power = basePower; //set the power
+
+	//adjust for the level
+	for (int i = 1; i < level; i++) //i = 1 to account for starting at lvl 1
+    {
+		power += rand() % basePower;
+    }
+
+    //now adjust for the rarity
+    rareMod = ((rarity / 3) + .5);
+    power = power * rareMod;
+
     /*****************************
 	* DEFENSE                    *
     *                            *
@@ -68,6 +83,19 @@ meleeCreature::meleeCreature (int playerLevel = 0, int xCoord = 0, int yCoord = 
 	*****************************/
 
 	//using an equation using rarity, and level, and a rand, assign defence
+    int baseDefense = 10; //melee has more defense
+
+	defense = baseDefense; //set the defense
+
+	//adjust for the level
+	for (int i = 1; i < level; i++) //i = 1 to account for starting at lvl 1
+    {
+		defense += rand() % baseDefense;
+    }
+
+    //now adjust for the rarity
+    rareMod = ((rarity / 3) + .5);
+    defense = defense * rareMod;
 
 	//assign accuracy ( a rand between 70% and 90% ) for the creature
 	int hiVal = 90, lowVal = 70;
@@ -105,5 +133,30 @@ void meleeCreature::BossRoll(int& damageDealt)
 
 int meleeCreature::attackPlayer()
 {
+    int damageDone = 0;
+    int accuracyRoll = rand() % 101; //0-100
 
+    //if the enemy's accuracy roll is good, do damage
+    if(accuracyRoll >= accuracy)
+    {
+        enemyAttackTurn += name + " has attacked";
+        //do damage
+
+
+        //if enemy is a boss, do the boss roll
+        if (rarity == 4)
+        {
+            BossRoll(damageDone);
+        }
+        else
+        {
+            enemyAttackTurn += ".";
+        }
+    }
+    else //miss!
+    {
+        enemyAttackTurn += name + " has missed it's attack.";
+    }
+
+    return damageDone;
 }
