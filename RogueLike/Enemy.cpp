@@ -7,8 +7,6 @@ Enemy::Enemy()
 		currenthp = maxhp;//currenthp equals max hp
 		power = 0;//power equals 0
 		defense = 0;//defence equals 0
-		moveSpeed = 0;//moveSpeed equals 0
-		currentMoveSpeed = 0;//currentMoveSpeed equals 0
 		hesDeadJim = false;//is the enemy dead?
 		dropItemQuery = false; //drop the item?
 		rarity = (rand() % 4) + 1;//int of random number from 1 to the max amount of enemy rarity types (4 at the moment)

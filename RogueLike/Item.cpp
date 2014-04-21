@@ -62,11 +62,11 @@ void Item::createItem(int playerLevel, int rarityTable, int forcedSlot)
 
         if (forcedSlot == 0 || forcedSlot == 1) //make a weapon
         {
-            whatToMake = 0;
+            whatToMake = 1;
         }
         else //make armor
         {
-            whatToMake = 1;
+            whatToMake = 0;
         }
         force = true; //it is a forced assignment
     }

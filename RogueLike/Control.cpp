@@ -516,10 +516,13 @@ void Control::openChest()
 
 void Control::gameFrame()
 {
+    /**
+        To run ai, run meleeAIFrame() for ALL melee enemies
+        run rangedAIFrame() for ALL ranged enemies
 
-    //meleeAIFrame();
-    //rangedAIFrame();
-
+        differentate using enemy.getEnemyType()
+        will return mc or mh for melee & ra or rm for ranged
+    */
 }
 
 void Control::clearObjects()
@@ -950,7 +953,25 @@ void Control::meleeAIFrame()
     }
     else
     {
-        enemyPatrol(enemy.x, enemy.y)
+        enemyPatrol(enemy.x, enemy.y);
+    }
+    */
+}
+
+void Control::rangedAIFrame()
+{
+    /**
+    parts are commented out to show what they do, but have not been implemented yet
+
+    int damageDone = 0;
+
+    if (enemy.isSeenByPlayer) //if enemy is seen by the player
+    {
+        damageDone = enemy.attack(); //attack!
+    }
+    else //else, patrol
+    {
+        enemyPatrol(enemy.x, enemy.y);
     }
     */
 }

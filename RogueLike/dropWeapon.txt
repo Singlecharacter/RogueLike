@@ -93,8 +93,6 @@ Spear,Greatsword
 
 * Ward = MR boost								*
 
-* Speed = movementSpeed	boost							*
-
 * 										*
 
 * Can add as many stats as you want, but the code will have to be changed	*
@@ -109,4 +107,4 @@ Spear,Greatsword
 
 
 
-Vitality,Mana,Strength,Dexterity,Intellect,Purity,Armor,Ward,Speed
+Vitality,Mana,Strength,Dexterity,Intellect,Purity,Armor,Ward

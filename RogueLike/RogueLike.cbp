@@ -15,7 +15,7 @@
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
-					<Add library="..\..\..\..\Desktop\CodeBlocks\MinGW\lib\pdcurses.lib" />
+					<Add library="..\..\..\..\..\..\Program Files (x86)\CodeBlocks\MinGW\lib\pdcurses.lib" />
 				</Linker>
 			</Target>
 			<Target title="Release">
