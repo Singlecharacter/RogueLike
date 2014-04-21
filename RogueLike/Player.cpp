@@ -475,7 +475,7 @@ bool Player::equipItem(int invSlot)
     Item noItem;
     int emptyIndex = -1;
 
-    if(newItem.getName() == "")
+    if(newItem.getName() == "" || !newItem.getItemOrPotion())
     {
         return false;
     }
