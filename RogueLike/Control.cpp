@@ -49,6 +49,7 @@ Control::~Control()
 
 void Control::startCurses()
 {
+    cout << "hello" << endl;
     initscr();
     noecho();
     start_color();
@@ -795,24 +796,32 @@ void Control::enemyPatrol(int& x, int& y)
         {
         case 0: //up
             y -= 1;
+            break;
         case 1: //u-r
             y -= 1;
             x += 1;
+            break;
         case 2: //right
             x += 1;
+            break;
         case 3: //d-r
             y += 1;
             x += 1;
+            break;
         case 4: //down
             y += 1;
+            break;
         case 5: //d-l
             y += 1;
             x -= 1;
+            break;
         case 6: //left
             x -= 1;
+            break;
         case 7: //u-l
             y -= 1;
             x -= 1;
+            break;
         default: //move up on default
             y -= 1;
         }

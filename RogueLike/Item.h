@@ -92,6 +92,7 @@ private:
     * l = Legendary Item*
     ********************/
     char rarity;
+    int rarityChoice;
 
     bool ranged; //is the weapon ranged or melee? t = ranged, f = melee
     bool twoH; //is it 1 or two handed weapon? t = 2h, f = 1h

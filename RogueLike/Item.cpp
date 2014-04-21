@@ -51,10 +51,11 @@ Item::~Item()
 //I'm assuming that the player, enemies, and chests will have a get function to grab these
 void Item::createItem(int playerLevel, int rarityTable, int forcedSlot)
 {
-    rarity = rarityTable; //get the rarity
+    rarityChoice = rarityTable; //get the rarity
     level = playerLevel;
     int whatToMake;
     bool force;
+    cout << rarity << endl;
 
     if (forcedSlot != 200) //user defined
     {
@@ -105,7 +106,7 @@ int Item::getSlot()
 
 void Item::makeArmor(bool force)
 {
-    int choice = rarity, ArmorIndex, itemSlotChoice, itemNumber = 0; //this will hold the number for the type of item
+    int choice = rarityChoice, ArmorIndex, itemSlotChoice, itemNumber = 0; //this will hold the number for the type of item
     string Input, itemType;
     ifstream myfile ("dropArmor.txt");
     vector <string> listOfItems;
@@ -250,7 +251,7 @@ void Item::makeArmor(bool force)
 
 void Item::makeWeapon(bool force)
 {
-    int choice = rarity, itemSlotChoice, itemNumber = 0; //this will hold the number for the type of item
+    int choice = rarityChoice, itemSlotChoice, itemNumber = 0; //this will hold the number for the type of item
     string Input, itemType;
     ifstream myfile ("dropWeapon.txt");
     vector <string> listOfItems;
@@ -398,6 +399,17 @@ void Item::makeWeapon(bool force)
 void Item::makePotion()
 {
     int choice = rand() % 2; //0 for mana, 1 for hp
+
+    switch (choice)
+    {
+    case 0:
+        name = "Mana Potion";
+        break;
+    case 1:
+        name = "Health Potion";
+        break;
+    }
+
     effectiveness = (rand() % 15) + 25; //restore 25 - 40% of the resource
     itemOrPotion = false; //it is a potion
 }
