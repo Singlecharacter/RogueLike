@@ -75,12 +75,6 @@ rangedMagic::rangedMagic (int playerLevel = 0, int xCoord = 0, int yCoord = 0, i
 	int hiVal = 70, lowVal = 55;
 	accuracy = (rand() % (hiVal - lowVal)) + lowVal;
 
-	//assign moveSpeed
-	//ranged enemies are at base speed since they can attack player as soon as he enters LOS
-	speed = 0;
-    moveSpeed = speed;
-    currentMoveSpeed = 0;
-
 	//run the getNameAndChar() function to get the name and displayChar
 	getNameAndChar();
 }

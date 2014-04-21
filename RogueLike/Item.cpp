@@ -22,7 +22,6 @@ Item::Item()
     Purity = 0;
     Armor = 0;
     Ward = 0;
-    Speed = 0;
 
     rarity = ','; //this is initialize to , for item creation
 

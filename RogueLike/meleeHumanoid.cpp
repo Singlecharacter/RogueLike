@@ -73,12 +73,6 @@ meleeHumanoid::meleeHumanoid (int playerLevel = 0, int xCoord = 0, int yCoord = 
 	int hiVal = 80, lowVal = 70;
 	accuracy = (rand() % (hiVal - lowVal)) + lowVal;
 
-	//assign moveSpeed
-	//every 5 turns it will get a free move (.2 + .2 + .2 + .2 + .2 = 1)
-	speed = 1.2;
-    moveSpeed = speed;
-    currentMoveSpeed = 0;
-
 	//run the getNameAndChar() function to get the name and displayChar
 	getNameAndChar();
 }
@@ -108,7 +102,6 @@ void meleeHumanoid::BossRoll()
         power += power * decInc; //power increases by a rand of 10% to 30%
 		defense += defense * decInc; //defense increases by a rand of 10% to 30%
 		accuracy -= accuracy * decInc; //accuracy falls by a rand of 10% to 30%
-		moveSpeed = .5; //a mad minotaur is a fast minotaur, so free move every 2 turns
     }
     else
     {

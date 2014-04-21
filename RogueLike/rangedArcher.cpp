@@ -75,12 +75,6 @@ rangedArcher::rangedArcher (int playerLevel = 0, int xCoord = 0, int yCoord = 0,
 	int hiVal = 95, lowVal = 80;
 	accuracy = (rand() % (hiVal - lowVal)) + lowVal;
 
-	//assign moveSpeed
-	//ranged enemies are at base speed since they can attack player as soon as he enters LOS
-	speed = 1;
-    moveSpeed = speed;
-    currentMoveSpeed = 0;
-
 	//run the getNameAndChar() function to get the name and displayChar
 	getNameAndChar();
 }

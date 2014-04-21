@@ -14,7 +14,6 @@
 #define PURITY 5
 #define ARMOR 6
 #define WARD 7
-#define SPEED 8
 
 using namespace std;
 
@@ -70,9 +69,8 @@ private:
     * Purity = poisonLevel boost	*
     * Armor = AC boost				*
     * Ward = MR boost				*
-    * Speed = movementSpeed			*
     ********************************/
-    int Vitality, Mana, Strength, Dexterity, Intellect, Purity, Armor, Ward, Speed, Damage, Accuracy;
+    int Vitality, Mana, Strength, Dexterity, Intellect, Purity, Armor, Ward, Damage, Accuracy;
 
     /*****************
     * 1 = mainHand	 *

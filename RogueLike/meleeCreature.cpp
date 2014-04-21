@@ -73,12 +73,6 @@ meleeCreature::meleeCreature (int playerLevel = 0, int xCoord = 0, int yCoord = 
 	int hiVal = 90, lowVal = 70;
 	accuracy = (rand() % (hiVal - lowVal)) + lowVal;
 
-	//assign moveSpeed
-	//every 2 turns it will get a free move (.5 + .5 = 1)
-	speed = 1.5;
-    moveSpeed = speed;
-    currentMoveSpeed = 0;
-
 	//run the getNameAndChar() function to get the name and displayChar
 	getNameAndChar();
 }
