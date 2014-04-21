@@ -619,3 +619,181 @@ void printTitle()                                           //Slightly fancier t
         }
     }
 }
+
+ /***************
+ * Enemy Stuff! *
+ ***************/
+
+void Control::enemyPatrol(int& x, int& y)
+{
+    int moveChoice; //what way to move
+    //chose a move and check if it is valid, if not, choose again
+    while (floorMap[y][x] != ACS_BLOCK)
+    {
+        moveChoice = rand() % 7; //0 - 7
+
+        switch (moveChoice)
+        {
+        case 0: //up
+            y -= 1;
+        case 1: //u-r
+            y -= 1;
+            x += 1;
+        case 2: //right
+            x += 1;
+        case 3: //d-r
+            y += 1;
+            x += 1;
+        case 4: //down
+            y += 1;
+        case 5: //d-l
+            y += 1;
+            x -= 1;
+        case 6: //left
+            x -= 1;
+        case 7: //u-l
+            y -= 1;
+            x -= 1;
+        default: //move up on default
+            y -= 1;
+        }
+    }
+}
+
+bool Control::checkNextTiles(int x, int y)
+{
+    bool ATTACK = false; //return true if attacking is possible for melee
+
+    //check for the player's display char (not player obj!)
+    if (floorMap[y - 1][x] == ACS_LANTERN) //if player is U
+    {
+        ATTACK = true;
+    }
+    else if (floorMap[y - 1][x + 1] == ACS_LANTERN) //if player is UR
+    {
+        ATTACK = true;
+    }
+    else if (floorMap[y][x + 1] == ACS_LANTERN) //if player is R
+    {
+        ATTACK = true;
+    }
+    else if (floorMap[y + 1][x + 1] == ACS_LANTERN) //if player is DR
+    {
+        ATTACK = true;
+    }
+    else if (floorMap[y + 1][x] == ACS_LANTERN) //if player is D
+    {
+        ATTACK = true;
+    }
+    else if (floorMap[y + 1][x - 1] == ACS_LANTERN) //if player is DL
+    {
+        ATTACK = true;
+    }
+    else if (floorMap[y][x - 1] == ACS_LANTERN) //if player is L
+    {
+        ATTACK = true;
+    }
+    else if (floorMap[y - 1][x - 1] == ACS_LANTERN) //if player is UL
+    {
+        ATTACK = true;
+    }
+
+    return ATTACK;
+}
+
+void Control::enemyPursuit(int& enemyX, int& enemyY, int playerX, int playerY)
+{
+    bool horizMove = false, vertMove = false, diagMove = false;
+    int horiz = 0, vert = 0; //this will be a +1 or -1
+
+    //first check if horizontal move can be made
+    if (enemyX != playerX)
+    {
+        if(enemyX > playerX) //enemy is to the right of the player
+        {
+            if(floorMap[enemyY][enemyX-1] == '.') //if space is empty, horiz bool is good
+            {
+                horiz = -1;
+                horizMove = true;
+            }
+        }
+        else //enemy is to the left of the player
+        {
+            if(floorMap[enemyY][enemyX+1] == '.') //if space is empty, horiz bool is good
+            {
+                horiz = 1;
+                horizMove = true;
+            }
+        }
+    } //end horizontal check
+
+    //second, check if vertical move can be made
+    if (enemyY != playerY)
+    {
+        if(enemyY > playerY) //enemy is below the player
+        {
+            if(floorMap[enemyY-1][enemyX] == '.') //if space is empty, vert bool is good
+            {
+                vert = -1;
+                vertMove = true;
+            }
+        }
+        else //enemy is above the player
+        {
+            if(floorMap[enemyY+1][enemyX] == '.') //if space is empty, vert bool is good
+            {
+                vert = 1;
+                vertMove = true;
+            }
+        }
+    }//end of vert check
+
+    //third, check if diagnol move can be made(has to pass both horizontal and vertical tests)
+    if (horizMove && vertMove) //if both those moves were legal, check if a diagnol move is allowed
+    {
+        if (floorMap[enemyY + vert][enemyX + horiz] =='.') //if diagnol move is good, set diagnol bool
+        {
+            diagMove = true;
+        }
+    }//end of diag check
+
+    if (diagMove) //if diagnol move is legal, move
+    {
+        enemyX += horiz;
+        enemyY += vert;
+    }
+    else if (horizMove) //if no diagnol, but horizontal move is legal, move
+    {
+        enemyX += horiz;
+    }
+    else if (vertMove) //if no diagnol, but vert move is legal, move
+    {
+        enemyY += vert;
+    }
+    //should not be an else, because if no move is valid, nothing will happen
+}
+
+void Control::meleeAIFrame()
+{
+    /**
+    parts are commented out to show what they do, but have not been implemented yet
+
+    int damageDone = 0;
+
+    if(enemy.isSeenByPlayer()) //player is seen
+    {
+        if( checkNextTiles(enemy.x, enemy.y)) //is melee next to player? if so, attack!
+        {
+            damageDone = enemy.attack();
+        }
+        else //chase the player
+        {
+            enemyPursuit(enemy.x, enemy.y, player.x, player.y);
+        }
+    }
+    else
+    {
+        enemyPatrol(enemy.x, enemy.y)
+    }
+    */
+}

@@ -65,6 +65,9 @@ public:
     //The AI methods will move enemies and, if applicable, make them attack the player.
     void meleeAIFrame();
     void rangedAIFrame();
+    void enemyPatrol(int& x, int& y); //give new movement when not seen
+    bool checkNextTiles(int x, int y); //is the player on any of the tiles next to a melee enemy?
+    void enemyPursuit(int& enemyX, int& enemyY, int playerX, int playerY); //make enemy chase the player
 
 
     void clearObjects();
