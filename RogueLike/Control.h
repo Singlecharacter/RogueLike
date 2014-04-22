@@ -45,6 +45,8 @@ public:
     void endCurses();
     void printMapScreen();
     void printInvScreen();
+    void printEquipScreen();
+    void clearWindows();
     void introMenu();
 
     void loadNewFloor();
@@ -56,6 +58,7 @@ public:
     void spawnEnemies();
 
     bool processInput();
+    void openChest();
 
     //gameFrame runs a single frame of the game, accounting for things like menu choices.
     void gameFrame();
@@ -65,6 +68,9 @@ public:
     //The AI methods will move enemies and, if applicable, make them attack the player.
     void meleeAIFrame();
     void rangedAIFrame();
+    void enemyPatrol(int& x, int& y); //give new movement when not seen
+    bool checkNextTiles(int x, int y); //is the player on any of the tiles next to a melee enemy?
+    void enemyPursuit(int& enemyX, int& enemyY, int playerX, int playerY); //make enemy chase the player
 
 
     void clearObjects();
@@ -86,9 +92,9 @@ private:
     //floorFlags stores whether a level has been previously loaded to avoid duplicates
     bool floorFlags[10];
 
-    WINDOW *mapWin, *logWin, *statusWin, *invWin;
-    int mapHeight,mapWidth,logHeight,logWidth,statusHeight,statusWidth,invHeight,invWidth;
-    int mapStartX,mapStartY,logStartX,logStartY,statusStartX,statusStartY,invStartX,invStartY;
+    WINDOW *mapWin, *logWin, *statusWin, *invWin, *equipWin;
+    int mapHeight,mapWidth,logHeight,logWidth,statusHeight,statusWidth,invHeight,invWidth,equipWidth,equipHeight;
+    int mapStartX,mapStartY,logStartX,logStartY,statusStartX,statusStartY,invStartX,invStartY,equipStartX,equipStartY;
 
     int currentEnemies, enemyCap;
 

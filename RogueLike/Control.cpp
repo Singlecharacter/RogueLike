@@ -1,7 +1,7 @@
 #include "Control.h"
 
 
-void printTitle();            //Control object doesn't use these; the intromenu method does
+void printTitle();            //Control object doesn't use these directly; the introMenu method does
 void wait(int sec);
 void clearScreen();
 
@@ -9,7 +9,8 @@ void clearScreen();
 
 Control::Control() : currentFloor(1), currentEnemies(0), enemyCap(10), numberOfTurns(0), floorWidth(200), floorHeight(200),
                      mapHeight(19),mapWidth(51),logHeight(6),logWidth(51),statusHeight(25),statusWidth(29),invHeight(25),invWidth(80),
-                     mapStartX(0),mapStartY(0),logStartX(0),logStartY(19),statusStartX(51),statusStartY(0),invStartX(0),invStartY(0)
+                     mapStartX(0),mapStartY(0),logStartX(0),logStartY(19),statusStartX(51),statusStartY(0),invStartX(0),invStartY(0),
+                     equipWidth(80),equipHeight(25),equipStartX(0),equipStartY(0)
 {
     screenState = MAPSCREEN;
 
@@ -52,19 +53,20 @@ void Control::startCurses()
     start_color();
     curs_set(0);
     init_pair(1,COLOR_WHITE,COLOR_BLACK);
-    init_pair(2,COLOR_WHITE,COLOR_CYAN);
-    init_pair(3,COLOR_WHITE,COLOR_GREEN);
-    init_pair(4,COLOR_CYAN,COLOR_BLACK);
+    init_pair(2,COLOR_CYAN,COLOR_BLACK);
     mapWin = newwin(mapHeight,mapWidth,mapStartY,mapStartX);
     logWin = newwin(logHeight,logWidth,logStartY,logStartX);
     statusWin = newwin(statusHeight,statusWidth,statusStartY,statusStartX);
     invWin = newwin(invHeight,invWidth,invStartY,invStartX);
+    equipWin = newwin(equipHeight,equipWidth,equipStartY,equipStartX);
     cbreak();
     nodelay(mapWin,true);
     keypad(mapWin,true);
     wbkgd(mapWin,COLOR_PAIR(1));
-    wbkgd(logWin,COLOR_PAIR(2));
-    wbkgd(statusWin,COLOR_PAIR(3));
+    wbkgd(logWin,COLOR_PAIR(1));
+    wbkgd(statusWin,COLOR_PAIR(1));
+    wbkgd(invWin,COLOR_PAIR(1));
+    wbkgd(invWin,COLOR_PAIR(1));
 }
 
 void Control::endCurses()
@@ -105,7 +107,7 @@ void Control::printMapScreen()
     }
 
     wmove(mapWin,centerY,centerX);
-    waddch(mapWin,ACS_LANTERN | COLOR_PAIR(4));
+    waddch(mapWin,ACS_LANTERN | COLOR_PAIR(2));
 
     /////////////////
     //Print the log//
@@ -141,16 +143,167 @@ void Control::printMapScreen()
     //Print status window//
     ///////////////////////
 
+    char *tempStatCStr;
+
+    for (int i = 0; i < statusHeight; i++)            //Clear Status Window
+    {
+        for (int j = 0; j < statusWidth; j++)
+        {
+            wmove(statusWin, i, j);
+            waddch(statusWin, ' ');
+        }
+    }
+
+    string health = "HP: ";
+    string name = player.getName();
+    string mana = "MP: ";
+    string strength = "STR: ";
+    string dexterity = "DEX: ";
+    string intellect = "INT: ";
+    string ac = "AC: ";
+    string mr = "MR: ";
+
+    health += player.getCurrentHP();        //Set Up Health Stat
+    health += "/";
+    health += player.getMaxHP();
+
+    mana += player.getCurrentMP();         //Set Up Mana Stat
+    mana += "/";
+    mana += player.getMaxHP();
+
+    strength += player.getSTR();           //...Strength
+
+    dexterity += player.getDEX();         //...Dexterity
+
+    intellect += player.getINT();         //...Intellect
+
+    ac += player.getAC();                 //...AC
+
+    mr += player.getMR();                 //...MR
+
+
+    tempStatCStr = new char[name.length()+1];          //Output Name
+    strcpy(tempStatCStr, name.c_str());
+    wmove(statusWin, 1, 0);
+    waddstr(statusWin, tempStatCStr);
+
+    tempStatCStr = new char[health.length()+1];          //Output Health
+    strcpy(tempStatCStr, health.c_str());
+    wmove(statusWin, 2, 0);
+    waddstr(statusWin, tempStatCStr);
+
+    tempStatCStr = new char[mana.length()+1];          //Output Mana
+    strcpy(tempStatCStr, mana.c_str());
+    wmove(statusWin, 3, 0);
+    waddstr(statusWin, tempStatCStr);
+
+    tempStatCStr = new char[strength.length()+1];          //Output Strength
+    strcpy(tempStatCStr, strength.c_str());
+    wmove(statusWin, 5, 0);
+    waddstr(statusWin, tempStatCStr);
+
+    tempStatCStr = new char[dexterity.length()+1];          //Output Dexterity
+    strcpy(tempStatCStr, dexterity.c_str());
+    wmove(statusWin, 6, 0);
+    waddstr(statusWin, tempStatCStr);
+
+    tempStatCStr = new char[intellect.length()+1];          //Output Intellect
+    strcpy(tempStatCStr, intellect.c_str());
+    wmove(statusWin, 7, 0);
+    waddstr(statusWin, tempStatCStr);
+
+    tempStatCStr = new char[ac.length()+1];          //Output AC
+    strcpy(tempStatCStr, ac.c_str());
+    wmove(statusWin, 8, 0);
+    waddstr(statusWin, tempStatCStr);
+
+    tempStatCStr = new char[mr.length()+1];          //Output MR
+    strcpy(tempStatCStr, mr.c_str());
+    wmove(statusWin, 9, 0);
+    waddstr(statusWin, tempStatCStr);
+
 
 
     wrefresh(mapWin);
     wrefresh(logWin);
     wrefresh(statusWin);
+    wrefresh(statusWin);
 }
 
 void Control::printInvScreen()
 {
+    for(int i = 0;i<player.invSize;i++)
+    {
+        if(player.inventory[i].getName() == "")
+        {
+            break;
+        }
 
+        wmove(invWin,i,0);
+        waddch(invWin,i+48);
+        wmove(invWin,i,1);
+        std::string tempStr = (i+48)+ " - " + player.inventory[i].getName();
+        char * temp = new char[tempStr.length()+1];
+        strcpy(temp,tempStr.c_str());
+        waddstr(invWin,temp);
+    }
+
+    wrefresh(invWin);
+}
+
+void Control::printEquipScreen()
+{
+
+}
+
+void Control::clearWindows()
+{
+    for(int i = 0;i<mapHeight;i++)
+    {
+        for(int j = 0;j<mapWidth;j++)
+        {
+            wmove(mapWin,i,j);
+            waddch(mapWin,' ');
+        }
+    }
+    for(int i = 0;i<logHeight;i++)
+    {
+        for(int j = 0;j<logWidth;j++)
+        {
+            wmove(logWin,i,j);
+            waddch(logWin,' ');
+        }
+    }
+    for(int i = 0;i<statusHeight;i++)
+    {
+        for(int j = 0;j<statusWidth;j++)
+        {
+            wmove(statusWin,i,j);
+            waddch(statusWin,' ');
+        }
+    }
+    for(int i = 0;i<equipHeight;i++)
+    {
+        for(int j = 0;j<equipWidth;j++)
+        {
+            wmove(equipWin,i,j);
+            waddch(equipWin,' ');
+        }
+    }
+    for(int i = 0;i<invHeight;i++)
+    {
+        for(int j = 0;j<invWidth;j++)
+        {
+            wmove(invWin,i,j);
+            waddch(invWin,' ');
+        }
+    }
+
+    wrefresh(mapWin);
+    wrefresh(logWin);
+    wrefresh(statusWin);
+    wrefresh(invWin);
+    wrefresh(equipWin);
 }
 
 void Control::loadNewFloor()
@@ -293,6 +446,7 @@ void Control::spawnPlayer()
 bool Control::processInput()
 {
     bool validInput = true;
+    bool actionMade = false;
     int input = ERR;
     if(screenState == MAPSCREEN)
     {
@@ -323,7 +477,16 @@ bool Control::processInput()
         }
         else if(input == 'o' || input == 'O')
         {
-
+            openChest();
+            actionMade = true;
+        }
+        else if(input == 'i' || input == 'I')
+        {
+            screenState = INVENTORY;
+        }
+        else if(input == 'e' || input == 'E')
+        {
+            screenState = EQUIPSCREEN;
         }
         else
         {
@@ -335,6 +498,16 @@ bool Control::processInput()
             newX = player.x;
             newY = player.y;
         }
+        else
+        {
+            actionMade = true;
+            int enemyIndex = -1;
+            /*enemyIndex = place_meeting(newY,newX,meleeCreatures);
+            if(enemyIndex >= 0)
+            {
+
+            }*/
+        }
 
         player.x = newX;
         player.y = newY;
@@ -342,33 +515,100 @@ bool Control::processInput()
     else if(screenState == INVENTORY)
     {
         input = wgetch(invWin);
+        if(input == 'q' || input == 'Q')
+        {
+            validInput = true;
+            screenState = MAPSCREEN;
+        }
+    }
+    else if(screenState == EQUIPSCREEN)
+    {
+        input = wgetch(equipWin);
+        if(input == 'q' || input == 'Q')
+        {
+            validInput = true;
+            screenState = MAPSCREEN;
+        }
     }
 
 
 
     if(validInput)
     {
-        gameFrame();
-    }
+        clearWindows();
 
-    if(screenState == MAPSCREEN)
-    {
-        printMapScreen();
-    }
-    else if(screenState == INVENTORY)
-    {
-        printInvScreen();
+        if(screenState == MAPSCREEN)
+        {
+            if(actionMade)
+            {
+                gameFrame();
+            }
+            printMapScreen();
+        }
+        else if(screenState == INVENTORY)
+        {
+            printInvScreen();
+        }
+        else if(screenState == EQUIPSCREEN)
+        {
+            printEquipScreen();
+        }
     }
 
     return true;
 }
 
+void Control::openChest()
+{
+    int foundIndex = place_meeting(player.y,player.x,chests);
+
+    if(foundIndex < 0)
+    {
+        logMessage("There's nothing here to open.");
+    }
+    else
+    {
+        int emptyIndex = -1;
+        for(int i = 0;i<player.invSize;i++)
+        {
+            if(player.inventory[i].getName() == "")
+            {
+                emptyIndex = i;
+                break;
+            }
+        }
+
+        if(emptyIndex >= 0)
+        {
+            chests.at(foundIndex).generateItem();
+            player.inventory[emptyIndex] = chests.at(foundIndex).getItem();
+            logMessage("You found a " + player.inventory[emptyIndex].getName());
+            floorMap[player.y][player.x] = '.';
+            clearObjects();
+            getObjects();
+        }
+        else
+        {
+            logMessage("You don't have room for any more items.");
+        }
+    }
+}
+
 void Control::gameFrame()
 {
+    /**
+        To run ai, run meleeAIFrame() for ALL melee enemies
+        run rangedAIFrame() for ALL ranged enemies
 
-    //meleeAIFrame();
-    //rangedAIFrame();
+        differentate using enemy.getEnemyType()
+        will return mc or mh for melee & ra or rm for ranged
+    */
+}
 
+void Control::clearObjects()
+{
+    walls.clear();
+    chests.clear();
 }
 
 void Control::getObjects()
@@ -618,4 +858,200 @@ void printTitle()                                           //Slightly fancier t
             cout << title[i][j];
         }
     }
+}
+
+ /***************
+ * Enemy Stuff! *
+ ***************/
+
+void Control::enemyPatrol(int& x, int& y)
+{
+    int moveChoice; //what way to move
+    //chose a move and check if it is valid, if not, choose again
+    while (floorMap[y][x] != ACS_BLOCK)
+    {
+        moveChoice = rand() % 7; //0 - 7
+
+        switch (moveChoice)
+        {
+        case 0: //up
+            y -= 1;
+        case 1: //u-r
+            y -= 1;
+            x += 1;
+        case 2: //right
+            x += 1;
+        case 3: //d-r
+            y += 1;
+            x += 1;
+        case 4: //down
+            y += 1;
+        case 5: //d-l
+            y += 1;
+            x -= 1;
+        case 6: //left
+            x -= 1;
+        case 7: //u-l
+            y -= 1;
+            x -= 1;
+        default: //move up on default
+            y -= 1;
+        }
+    }
+}
+
+bool Control::checkNextTiles(int x, int y)
+{
+    bool ATTACK = false; //return true if attacking is possible for melee
+
+    //check for the player's display char (not player obj!)
+    if (floorMap[y - 1][x] == ACS_LANTERN) //if player is U
+    {
+        ATTACK = true;
+    }
+    else if (floorMap[y - 1][x + 1] == ACS_LANTERN) //if player is UR
+    {
+        ATTACK = true;
+    }
+    else if (floorMap[y][x + 1] == ACS_LANTERN) //if player is R
+    {
+        ATTACK = true;
+    }
+    else if (floorMap[y + 1][x + 1] == ACS_LANTERN) //if player is DR
+    {
+        ATTACK = true;
+    }
+    else if (floorMap[y + 1][x] == ACS_LANTERN) //if player is D
+    {
+        ATTACK = true;
+    }
+    else if (floorMap[y + 1][x - 1] == ACS_LANTERN) //if player is DL
+    {
+        ATTACK = true;
+    }
+    else if (floorMap[y][x - 1] == ACS_LANTERN) //if player is L
+    {
+        ATTACK = true;
+    }
+    else if (floorMap[y - 1][x - 1] == ACS_LANTERN) //if player is UL
+    {
+        ATTACK = true;
+    }
+
+    return ATTACK;
+}
+
+void Control::enemyPursuit(int& enemyX, int& enemyY, int playerX, int playerY)
+{
+    bool horizMove = false, vertMove = false, diagMove = false;
+    int horiz = 0, vert = 0; //this will be a +1 or -1
+
+    //first check if horizontal move can be made
+    if (enemyX != playerX)
+    {
+        if(enemyX > playerX) //enemy is to the right of the player
+        {
+            if(floorMap[enemyY][enemyX-1] == '.') //if space is empty, horiz bool is good
+            {
+                horiz = -1;
+                horizMove = true;
+            }
+        }
+        else //enemy is to the left of the player
+        {
+            if(floorMap[enemyY][enemyX+1] == '.') //if space is empty, horiz bool is good
+            {
+                horiz = 1;
+                horizMove = true;
+            }
+        }
+    } //end horizontal check
+
+    //second, check if vertical move can be made
+    if (enemyY != playerY)
+    {
+        if(enemyY > playerY) //enemy is below the player
+        {
+            if(floorMap[enemyY-1][enemyX] == '.') //if space is empty, vert bool is good
+            {
+                vert = -1;
+                vertMove = true;
+            }
+        }
+        else //enemy is above the player
+        {
+            if(floorMap[enemyY+1][enemyX] == '.') //if space is empty, vert bool is good
+            {
+                vert = 1;
+                vertMove = true;
+            }
+        }
+    }//end of vert check
+
+    //third, check if diagnol move can be made(has to pass both horizontal and vertical tests)
+    if (horizMove && vertMove) //if both those moves were legal, check if a diagnol move is allowed
+    {
+        if (floorMap[enemyY + vert][enemyX + horiz] =='.') //if diagnol move is good, set diagnol bool
+        {
+            diagMove = true;
+        }
+    }//end of diag check
+
+    if (diagMove) //if diagnol move is legal, move
+    {
+        enemyX += horiz;
+        enemyY += vert;
+    }
+    else if (horizMove) //if no diagnol, but horizontal move is legal, move
+    {
+        enemyX += horiz;
+    }
+    else if (vertMove) //if no diagnol, but vert move is legal, move
+    {
+        enemyY += vert;
+    }
+    //should not be an else, because if no move is valid, nothing will happen
+}
+
+void Control::meleeAIFrame()
+{
+    /**
+    parts are commented out to show what they do, but have not been implemented yet
+
+    int damageDone = 0;
+
+    if(enemy.isSeenByPlayer()) //player is seen
+    {
+        if( checkNextTiles(enemy.x, enemy.y)) //is melee next to player? if so, attack!
+        {
+            damageDone = enemy.attack();
+        }
+        else //chase the player
+        {
+            enemyPursuit(enemy.x, enemy.y, player.x, player.y);
+        }
+    }
+    else
+    {
+        enemyPatrol(enemy.x, enemy.y);
+    }
+    */
+}
+
+void Control::rangedAIFrame()
+{
+    /**
+    parts are commented out to show what they do, but have not been implemented yet
+
+    int damageDone = 0;
+
+    if (enemy.isSeenByPlayer) //if enemy is seen by the player
+    {
+        damageDone = enemy.attack(); //attack!
+    }
+    else //else, patrol
+    {
+        enemyPatrol(enemy.x, enemy.y);
+    }
+    */
 }

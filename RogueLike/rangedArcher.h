@@ -17,14 +17,10 @@ public:
 	~rangedArcher();
 
 	//special rolls for the "boss" level enemies
-	bool BossRoll(); //Archer does something cool
+	void BossRoll(); //Archer does something cool
 
 	//attack the player when player is on next tile and return the base damage
 	int attackPlayer();
-
-private:
-
-    float speed;
 };
 
 #endif
