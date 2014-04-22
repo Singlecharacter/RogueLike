@@ -243,7 +243,14 @@ void Control::printInvScreen()
 
 void Control::printEquipScreen()
 {
-
+    for(int i = 0;i<10;i++)
+    {
+        wmove(equipWin,i,0);
+        std::string tempStr = intToString(i+1) + " - " + player.equipment[i].getName();
+        char * temp = new char[tempStr.length()+1];
+        strcpy(temp,tempStr.c_str());
+        waddstr(equipWin,temp);
+    }
 }
 
 void Control::clearWindows()
@@ -296,6 +303,24 @@ void Control::clearWindows()
     wrefresh(equipWin);
 }
 
+void Control::getEmptyTiles()
+{
+    emptyXList.clear();
+    emptyYList.clear();
+
+    for(int i = 0;i<floorHeight;i++)
+    {
+        for(int j = 0;j<floorWidth;j++)
+        {
+            if(floorMap[i][j] == '.')
+            {
+                emptyXList.push_back(j);
+                emptyYList.push_back(i);
+            }
+        }
+    }
+}
+
 void Control::loadNewFloor()
 {
     ifstream level;
@@ -311,62 +336,55 @@ void Control::loadNewFloor()
             int levelChoice = 1 + (rand()% 10);                                               //Random level selection
 
             if (levelChoice == 1 && floorFlags[0] == false)                               //open level 1
-            {
-                temp = floorNames.at(0);
-                floorFlags[0] = true;                                                   //flags level as already loaded
+            {if(player.getCurrentHP() > player.getMaxHP())
+    {
+        player.fullHeal();
+    }
+                temp = floorNames.at(0);                                                  //flags level as already loaded
             }
 
             else if (levelChoice == 2 && floorFlags[1] == false)                               //open level 2
             {
                 temp = floorNames.at(1);
-                floorFlags[1] = true;
             }
 
             else if (levelChoice == 3 && floorFlags[2] == false)                               //open level 3
             {
                 temp = floorNames.at(2);
-                floorFlags[2] = true;
             }
             else if (levelChoice == 4 && floorFlags[3] == false)                               //open level 4
             {
                 temp = floorNames.at(3);
-                floorFlags[3] = true;
             }
 
             else if (levelChoice == 5 && floorFlags[4] == false)                               //open level 5
             {
                 temp = floorNames.at(4);
-                floorFlags[4] = true;
             }
 
             else if (levelChoice == 6 && floorFlags[5] == false)                               //open level 6
             {
                 temp = floorNames.at(5);
-                floorFlags[5] = true;
             }
 
             else if (levelChoice == 7 && floorFlags[6] == false)                               //open level 7
             {
                 temp = floorNames.at(6);
-                floorFlags[6] = true;
             }
 
             else if (levelChoice == 8 && floorFlags[7] == false)                               //open level 8
             {
                 temp = floorNames.at(7);
-                floorFlags[7] = true;
             }
 
             else if (levelChoice == 9 && floorFlags[8] == false)                               //open level 9
             {
                 temp = floorNames.at(8);
-                floorFlags[8] = true;
             }
 
             else if (levelChoice == 10 && floorFlags[9] == false)                               //open level 10
             {
                 temp = floorNames.at(9);
-                floorFlags[9] = true;
             }
 
             filename = new char[temp.length()+1];
@@ -406,30 +424,20 @@ void Control::loadNewFloor()
     }
 
     floorHeight = lineCounter;
+
+    getEmptyTiles();
+    spawnPlayer();
+    printMapScreen();
 }
 
 void Control::spawnPlayer()
 {
-    int spawnX = -1,spawnY = -1;
-    for(int i = 0;i<200;i++)
-    {
-        for(int j = 0;j<200;j++)
-        {
-            if(floorMap[i][j] != ACS_BLOCK)
-            {
-                spawnX = j;
-                spawnY = i;
-                break;
-            }
-        }
-        if(spawnX >= 0)
-        {
-            break;
-        }
-    }
+    int spawnIndex = rand() % emptyXList.size();
 
-    Player temp(spawnX,spawnY);
-    player = temp;
+    player.x = emptyXList.at(spawnIndex);
+    player.y = emptyYList.at(spawnIndex);
+    emptyXList.erase(emptyXList.begin()+spawnIndex);
+    emptyYList.erase(emptyYList.begin()+spawnIndex);
 }
 
 bool Control::processInput()
@@ -442,7 +450,10 @@ bool Control::processInput()
         int newX = player.x;
         int newY = player.y;
 
-        input = wgetch(mapWin);
+        input = wgetch(mapWin);if(player.getCurrentHP() > player.getMaxHP())
+    {
+        player.fullHeal();
+    }
 
         if(input == KEY_DOWN)
         {
@@ -568,8 +579,60 @@ bool Control::processInput()
         input = wgetch(equipWin);
         if(input == 'q' || input == 'Q')
         {
-            validInput = true;
             screenState = MAPSCREEN;
+        }
+        else if(input == 'w' || input == 'W')
+        {
+            equippingItem = true;
+        }
+        else if(equippingItem)
+        {
+
+            if(input == '1')
+            {
+               player.unequipItem(0);
+            }
+            else if(input == '2')
+            {
+                player.unequipItem(1);
+            }
+            else if(input == '3')
+            {
+                player.unequipItem(2);
+            }
+            else if(input == '4')
+            {
+                player.unequipItem(3);
+            }
+            else if(input == '5')
+            {
+                player.unequipItem(4);
+            }
+            else if(input == '6')
+            {
+                player.unequipItem(5);
+            }
+            else if(input == '7')
+            {
+                player.unequipItem(6);
+            }
+            else if(input == '8')
+            {
+                player.unequipItem(7);
+            }
+            else if(input == '9')
+            {
+                player.unequipItem(8);
+            }
+            else
+            {
+                validInput = false;
+                equippingItem = true;
+            }
+        }
+        else
+        {
+            validInput = false;
         }
     }
 
@@ -636,17 +699,38 @@ void Control::openChest()
 
 void Control::gameFrame()
 {
-    //Player health regeneration
+    //Player health and mana regeneration
     player.regenTimer++;
-    if(player.regenTimer >= 10)
+    if(player.regenTimer % 10 == 0)
     {
-        player.regenTimer = 0;
         player.hurt(-1);
+    }
+
+    if(player.regenTimer % 5 == 0)
+    {
+        player.hurtMana(-1);
     }
 
     if(player.getCurrentHP() > player.getMaxHP())
     {
         player.fullHeal();
+    }
+
+    if(player.getCurrentMP() > player.getMaxMP())
+    {
+        player.fullManaHeal();
+    }
+
+    getEmptyTiles();
+
+    if(rand() % 10 == 4)
+    {
+        spawnEnemies();
+    }
+
+    for(int i = 0;i<meleeCreatures.size();i++)
+    {
+        meleeAIFrame(meleeCreatures.at(i));
     }
 
     /**
@@ -656,6 +740,22 @@ void Control::gameFrame()
         differentate using enemy.getEnemyType()
         will return mc or mh for melee & ra or rm for ranged
     */
+}
+
+void Control::spawnEnemies()
+{
+    if(currentEnemies < enemyCap)
+    {
+        int newEnemies = rand() % (enemyCap-currentEnemies);
+        while(newEnemies > 0)
+        {
+            int tileIndex = rand() % emptyXList.size();
+            meleeCreatures.push_back(meleeCreature(player.getLevel(),emptyXList.at(tileIndex),emptyYList.at(tileIndex),currentFloor));
+            emptyXList.erase(emptyXList.begin()+tileIndex);
+            emptyYList.erase(emptyYList.begin()+tileIndex);
+            newEnemies--;
+        }
+    }
 }
 
 void Control::clearObjects()
@@ -917,76 +1017,76 @@ void printTitle()                                           //Slightly fancier t
  * Enemy Stuff! *
  ***************/
 
-void Control::enemyPatrol(int& x, int& y)
+void Control::enemyPatrol(meleeCreature enemy)
 {
     int moveChoice; //what way to move
     //chose a move and check if it is valid, if not, choose again
-    while (floorMap[y][x] != ACS_BLOCK)
+    while (floorMap[enemy.y][enemy.x] != ACS_BLOCK)
     {
         moveChoice = rand() % 7; //0 - 7
 
         switch (moveChoice)
         {
         case 0: //up
-            y -= 1;
+            enemy.y -= 1;
         case 1: //u-r
-            y -= 1;
-            x += 1;
+            enemy.y -= 1;
+            enemy.x += 1;
         case 2: //right
-            x += 1;
+            enemy.x += 1;
         case 3: //d-r
-            y += 1;
-            x += 1;
+            enemy.y += 1;
+            enemy.x += 1;
         case 4: //down
-            y += 1;
+            enemy.y += 1;
         case 5: //d-l
-            y += 1;
-            x -= 1;
+            enemy.y += 1;
+            enemy.x -= 1;
         case 6: //left
-            x -= 1;
+            enemy.x -= 1;
         case 7: //u-l
-            y -= 1;
-            x -= 1;
+            enemy.y -= 1;
+            enemy.x -= 1;
         default: //move up on default
-            y -= 1;
+            enemy.y -= 1;
         }
     }
 }
 
-bool Control::checkNextTiles(int x, int y)
+bool Control::checkNextTiles(meleeCreature enemy)
 {
     bool ATTACK = false; //return true if attacking is possible for melee
 
     //check for the player's display char (not player obj!)
-    if (floorMap[y - 1][x] == ACS_LANTERN) //if61299998790625884883 player is U
+    if (floorMap[enemy.y - 1][enemy.x] == ACS_LANTERN) //if61299998790625884883 player is U
     {
         ATTACK = true;
     }
-    else if (floorMap[y - 1][x + 1] == ACS_LANTERN) //if player is UR
+    else if (floorMap[enemy.y - 1][enemy.x + 1] == ACS_LANTERN) //if player is UR
     {
         ATTACK = true;
     }
-    else if (floorMap[y][x + 1] == ACS_LANTERN) //if player is R
+    else if (floorMap[enemy.y][enemy.x + 1] == ACS_LANTERN) //if player is R
     {
         ATTACK = true;
     }
-    else if (floorMap[y + 1][x + 1] == ACS_LANTERN) //if player is DR
+    else if (floorMap[enemy.y + 1][enemy.x + 1] == ACS_LANTERN) //if player is DR
     {
         ATTACK = true;
     }
-    else if (floorMap[y + 1][x] == ACS_LANTERN) //if player is D
+    else if (floorMap[enemy.y + 1][enemy.x] == ACS_LANTERN) //if player is D
     {
         ATTACK = true;
     }
-    else if (floorMap[y + 1][x - 1] == ACS_LANTERN) //if player is DL
+    else if (floorMap[enemy.y + 1][enemy.x - 1] == ACS_LANTERN) //if player is DL
     {
         ATTACK = true;
     }
-    else if (floorMap[y][x - 1] == ACS_LANTERN) //if player is L
+    else if (floorMap[enemy.y][enemy.x - 1] == ACS_LANTERN) //if player is L
     {
         ATTACK = true;
     }
-    else if (floorMap[y - 1][x - 1] == ACS_LANTERN) //if player is UL
+    else if (floorMap[enemy.y - 1][enemy.x - 1] == ACS_LANTERN) //if player is UL
     {
         ATTACK = true;
     }
@@ -994,17 +1094,17 @@ bool Control::checkNextTiles(int x, int y)
     return ATTACK;
 }
 
-void Control::enemyPursuit(int& enemyX, int& enemyY, int playerX, int playerY)
+void Control::enemyPursuit(meleeCreature enemy)
 {
     bool horizMove = false, vertMove = false, diagMove = false;
     int horiz = 0, vert = 0; //this will be a +1 or -1
 
     //first check if horizontal move can be made
-    if (enemyX != playerX)
+    if (enemy.x != player.x)
     {
-        if(enemyX > playerX) //enemy is to the right of the player
+        if(enemy.x > player.x) //enemy is to the right of the player
         {
-            if(floorMap[enemyY][enemyX-1] == '.') //if space is empty, horiz bool is good
+            if(floorMap[enemy.y][enemy.x-1] == '.') //if space is empty, horiz bool is good
             {
                 horiz = -1;
                 horizMove = true;
@@ -1012,7 +1112,7 @@ void Control::enemyPursuit(int& enemyX, int& enemyY, int playerX, int playerY)
         }
         else //enemy is to the left of the player
         {
-            if(floorMap[enemyY][enemyX+1] == '.') //if space is empty, horiz bool is good
+            if(floorMap[enemy.y][enemy.x+1] == '.') //if space is empty, horiz bool is good
             {
                 horiz = 1;
                 horizMove = true;
@@ -1021,11 +1121,11 @@ void Control::enemyPursuit(int& enemyX, int& enemyY, int playerX, int playerY)
     } //end horizontal check
 
     //second, check if vertical move can be made
-    if (enemyY != playerY)
+    if (enemy.y != player.y)
     {
-        if(enemyY > playerY) //enemy is below the player
+        if(enemy.y > player.y) //enemy is below the player
         {
-            if(floorMap[enemyY-1][enemyX] == '.') //if space is empty, vert bool is good
+            if(floorMap[enemy.y-1][enemy.x] == '.') //if space is empty, vert bool is good
             {
                 vert = -1;
                 vertMove = true;
@@ -1033,7 +1133,7 @@ void Control::enemyPursuit(int& enemyX, int& enemyY, int playerX, int playerY)
         }
         else //enemy is above the player
         {
-            if(floorMap[enemyY+1][enemyX] == '.') //if space is empty, vert bool is good
+            if(floorMap[enemy.y+1][enemy.x] == '.') //if space is empty, vert bool is good
             {
                 vert = 1;
                 vertMove = true;
@@ -1044,7 +1144,7 @@ void Control::enemyPursuit(int& enemyX, int& enemyY, int playerX, int playerY)
     //third, check if diagnol move can be made(has to pass both horizontal and vertical tests)
     if (horizMove && vertMove) //if both those moves were legal, check if a diagnol move is allowed
     {
-        if (floorMap[enemyY + vert][enemyX + horiz] =='.') //if diagnol move is good, set diagnol bool
+        if (floorMap[enemy.y + vert][enemy.x + horiz] =='.') //if diagnol move is good, set diagnol bool
         {
             diagMove = true;
         }
@@ -1052,44 +1152,41 @@ void Control::enemyPursuit(int& enemyX, int& enemyY, int playerX, int playerY)
 
     if (diagMove) //if diagnol move is legal, move
     {
-        enemyX += horiz;
-        enemyY += vert;
+        enemy.x += horiz;
+        enemy.y += vert;
     }
     else if (horizMove) //if no diagnol, but horizontal move is legal, move
     {
-        enemyX += horiz;
+        enemy.x += horiz;
     }
     else if (vertMove) //if no diagnol, but vert move is legal, move
     {
-        enemyY += vert;
+        enemy.y += vert;
     }
     //should not be an else, because if no move is valid, nothing will happen
 }
 
-void Control::meleeAIFrame()
+void Control::meleeAIFrame(meleeCreature enemy)
 {
-    /**
-    parts are commented out to show what they do, but have not been implemented yet
-
     int damageDone = 0;
 
-    if(enemy.isSeenByPlayer()) //player is seen
+    if(enemy.isSeenByPlayer(player)) //player is seen
     {
-        if( checkNextTiles(enemy.x, enemy.y)) //is melee next to player? if so, attack!
+        if(checkNextTiles(enemy)) //is melee next to player? if so, attack!
         {
-            damageDone = enemy.attack();
+            damageDone = rand() % enemy.getPower();
         }
         else //chase the player
         {
-            enemyPursuit(enemy.x, enemy.y, player.x, player.y);
+            enemyPursuit(enemy);
         }
     }
     else
     {
-        enemyPatrol(enemy.x, enemy.y);
+        enemyPatrol(enemy);
     }
-    */
 }
+
 
 void Control::rangedAIFrame()
 {

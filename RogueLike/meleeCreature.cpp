@@ -160,3 +160,15 @@ int meleeCreature::attackPlayer()
 
     return damageDone;
 }
+
+bool meleeCreature::isSeenByPlayer(Player player)
+{
+	if(player.x - x >= -5 && player.x - x <= 5 && player.y - y >= -5 && player.y - y <= 5)
+    {
+        if(player.sightArray[5-(player.y-y)][5-(player.x-x)] == 1)
+        {
+            return true;
+        }
+    }
+    return false;
+}

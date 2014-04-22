@@ -40,6 +40,8 @@ public:
     //variables in public for easy reference and use
 	int x,y; //x & y coordinates
 
+	int getPower();
+
 protected:
 	int maxhp, currenthp, power, defense, accuracy, rarity, level, mapLevel;
 	char displayChar;

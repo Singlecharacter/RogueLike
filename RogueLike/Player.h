@@ -32,6 +32,7 @@ public:
 
     //Hurts the player for damage.
     void hurt(int damage);
+    void hurtMana(int amount);
 
     //Affected by AC. Returns the actual amount of damage to be dealt to the player.
     int calculatePhysicalDamage(int damage);
@@ -48,6 +49,8 @@ public:
     //Sets the player's HP to maxHP
     void fullHeal();
 
+    void fullManaHeal();
+
     //Determines which grid tiles the player can see from its current location.
     void calculateSightRange(int levelArray[200][200]);
 
@@ -58,7 +61,9 @@ public:
 
     void calcStats();
 
-    void levelUp();
+    bool levelUp();
+
+    int getLevel();
 
     //Logs the player's stats to a file
     void logStats();

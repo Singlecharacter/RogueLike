@@ -67,6 +67,10 @@ Player::Player(int x, int y, int HD , int MD,
     DEX += DEXMod;
     INT += INTMod;
 
+    adjSTR = STR;
+    adjDEX = DEX;
+    adjINT = INT;
+
     baseAC = ACMod;
     AC = baseAC;
     baseMR = MRMod;
@@ -103,6 +107,11 @@ Player::~Player()
 void Player::hurt(int damage)
 {
     currentHP -= damage;
+}
+
+void Player::hurtMana(int amount)
+{
+    currentMP -= amount;
 }
 
 int Player::calculatePhysicalDamage(int damage)
@@ -478,58 +487,16 @@ bool Player::equipItem(int invSlot)
 {
     Item newItem = inventory[invSlot];
     Item noItem;
-    int emptyIndex = -1;
-
-    /*if(newItem.getName() == "" || !newItem.getItemOrPotion())
-    {
-        return false;
-    }
-
-    //If there's already an item in the slot we want to equip to, unequip it first.
-    if(equipment[newItem.getSlot()].getName() == "")
-    {
-        //Two-handed weapon check
-        if(newItem.getSlot() == OFFHAND)
-        {
-            if(equipment[MAINHAND].get2h())
-            {
-                return false;
-            }
-            else
-            {
-                equipment[newItem.getSlot()] = newItem;
-                inventory[invSlot] = noItem;
-            }
-        }
-        else
-        {
-            equipment[newItem.getSlot()] = newItem;
-        }
-    }
-    else
-    {
-        //Two-handed weapon check
-        if(newItem.get2h() && equipment[OFFHAND].getName() != "")
-        {
-            return false;
-        }
-        else
-        {
-            inventory[invSlot] = equipment[newItem.getSlot()];
-            equipment[newItem.getSlot()] = newItem;
-        }
-    }
-
-    calcStats();
-
-    return true;*/
 
     if(newItem.getName() != "")
     {
+        inventory[invSlot] = equipment[newItem.getSlot()];
         equipment[newItem.getSlot()] = newItem;
-        inventory[invSlot] = noItem;
         calcStats();
+        return true;
     }
+
+    return false;
 }
 
 //adjust the player's stats based on his items and attributes
@@ -610,9 +577,9 @@ void Player::calcStats()
         accuracy = 95;
     }
 
-    meleeMod += STR/5;
-    rangedMod += DEX/5;
-    magicMod += INT/5;
+    meleeMod += adjSTR/5;
+    rangedMod += adjDEX/5;
+    magicMod += adjINT/5;
 
     maxMeleeDamage = meleeMod;
     maxRangedDamage = rangedMod;
@@ -643,6 +610,35 @@ bool Player::unequipItem(int slot)
         calcStats();
         return true;
     }
+}
+
+bool Player::levelUp()
+{
+    if(currentXP >= neededXP)
+    {
+        level += 1;
+        currentXP = 0;
+        neededXP += 100;
+
+        baseMaxHP += rand() % HD + 1;
+        baseMaxMP += rand() % MD + 1;
+
+        int statRoll = rand() % 3;
+        if(statRoll == 0)
+        {
+            STR += 1;
+        }
+        else if(statRoll == 1)
+        {
+            DEX += 1;
+        }
+        else
+        {
+            INT += 1;
+        }
+        return true;
+    }
+    return false;
 }
 
 void Player::logStats()
@@ -686,10 +682,20 @@ void Player::fullHeal()
     currentHP = maxHP;
 }
 
+void Player::fullManaHeal()
+{
+    currentMP = maxMP;
+}
+
 /*
 Getter Methods
 Used In Stat Window Stuff
 */
+
+int Player::getLevel()
+{
+    return level;
+}
 
 int Player::getAC()
 {
