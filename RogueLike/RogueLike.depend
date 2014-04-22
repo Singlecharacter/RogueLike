@@ -31,7 +31,7 @@
 1398030852 source:c:\users\conor\documents\github\roguelike\roguelike\player.cpp
 	"Player.h"
 
-1397081541 source:c:\users\conor\documents\github\roguelike\roguelike\item.cpp
+1398054240 source:c:\users\conor\documents\github\roguelike\roguelike\item.cpp
 	<string>
 	<ctime>
 	<fstream>
@@ -42,8 +42,7 @@
 	<sstream>
 	"Item.h"
 
-1398030643 c:\users\conor\documents\github\roguelike\roguelike\item.h
-	<string>
+1398054418 c:\users\conor\documents\github\roguelike\roguelike\item.h
 	<iostream>
 	<string>
 	<fstream>
@@ -423,6 +422,18 @@
 	"Item.h"
 	"Chest.h"
 	"Player.h"
+	<cstdlib>
+	<ctime>
+	<fstream>
+	<cctype>
+	<sstream>
+	<vector>
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	"Item.h"
+	"Chest.h"
+	"Player.h"
 
 1397865647 c:\users\conor\documents\github\roguelike\roguelike\meleecreature.h
 	<cstdlib>
@@ -432,8 +443,22 @@
 	<stdio.h>
 	<stdlib.h>
 	"Enemy.h"
+	<cstdlib>
+	<ctime>
+	<fstream>
+	<string>
+	<stdio.h>
+	<stdlib.h>
+	"Enemy.h"
 
 1397865647 c:\users\conor\documents\github\roguelike\roguelike\meleehumanoid.h
+	<cstdlib>
+	<ctime>
+	<fstream>
+	<string>
+	<stdio.h>
+	<stdlib.h>
+	"Enemy.h"
 	<cstdlib>
 	<ctime>
 	<fstream>
@@ -451,8 +476,23 @@
 	<stdlib.h>
 	<math.h>
 	"Enemy.h"
+	<cstdlib>
+	<ctime>
+	<fstream>
+	<string>
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	"Enemy.h"
 
 1397865647 c:\users\conor\documents\github\roguelike\roguelike\rangedarcher.h
+	<cstdlib>
+	<ctime>
+	<fstream>
+	<string>
+	<stdio.h>
+	<stdlib.h>
+	"Enemy.h"
 	<cstdlib>
 	<ctime>
 	<fstream>
@@ -463,17 +503,22 @@
 
 1397865647 source:c:\users\conor\documents\github\roguelike\roguelike\meleecreature.cpp
 	"meleeCreature.h"
+	"meleeCreature.h"
 
 1397865647 source:c:\users\conor\documents\github\roguelike\roguelike\meleehumanoid.cpp
+	"meleeHumanoid.h"
 	"meleeHumanoid.h"
 
 1397865647 source:c:\users\conor\documents\github\roguelike\roguelike\rangedarcher.cpp
 	"rangedArcher.h"
+	"rangedArcher.h"
 
 1397865647 source:c:\users\conor\documents\github\roguelike\roguelike\rangedmagic.cpp
 	"rangedMagic.h"
+	"rangedMagic.h"
 
 1398032593 source:c:\users\conor\documents\github\roguelike\roguelike\enemy.cpp
+	"Enemy.h"
 	"Enemy.h"
 
 1398044004 source:c:\users\michael\downloads\roguelike-demo (1)\roguelike-demo\roguelike\chest.cpp
@@ -631,75 +676,12 @@
 1398044004 source:c:\users\michael\documents\github\roguelike\roguelike\rangedarcher.cpp
 	"rangedArcher.h"
 
-<<<<<<< HEAD
+1398044004 D
+
 1398044004 source:c:\users\michael\documents\github\roguelike\roguelike\rangedmagic.cpp
 	"rangedMagic.h"
 
-=======
-1398032615 c:\users\conor\documents\github\roguelike\roguelike\enemy.h
-	<cstdlib>
-	<ctime>
-	<fstream>
-	<cctype>
-	<sstream>
-	<vector>
-	<math.h>
-	<stdio.h>
-	<stdlib.h>
-	"Item.h"
-	"Chest.h"
-	"Player.h"
+1398044004 ic.h"
 
-1397865647 c:\users\conor\documents\github\roguelike\roguelike\meleecreature.h
-	<cstdlib>
-	<ctime>
-	<fstream>
-	<string>
-	<stdio.h>
-	<stdlib.h>
-	"Enemy.h"
+1398032593 7bd5d3c062467db9f1c0068802cc8c77f78d9
 
-1397865647 c:\users\conor\documents\github\roguelike\roguelike\meleehumanoid.h
-	<cstdlib>
-	<ctime>
-	<fstream>
-	<string>
-	<stdio.h>
-	<stdlib.h>
-	"Enemy.h"
-
-1397865647 c:\users\conor\documents\github\roguelike\roguelike\rangedmagic.h
-	<cstdlib>
-	<ctime>
-	<fstream>
-	<string>
-	<stdio.h>
-	<stdlib.h>
-	<math.h>
-	"Enemy.h"
-
-1397865647 c:\users\conor\documents\github\roguelike\roguelike\rangedarcher.h
-	<cstdlib>
-	<ctime>
-	<fstream>
-	<string>
-	<stdio.h>
-	<stdlib.h>
-	"Enemy.h"
-
-1397865647 source:c:\users\conor\documents\github\roguelike\roguelike\meleecreature.cpp
-	"meleeCreature.h"
-
-1397865647 source:c:\users\conor\documents\github\roguelike\roguelike\meleehumanoid.cpp
-	"meleeHumanoid.h"
-
-1397865647 source:c:\users\conor\documents\github\roguelike\roguelike\rangedarcher.cpp
-	"rangedArcher.h"
-
-1397865647 source:c:\users\conor\documents\github\roguelike\roguelike\rangedmagic.cpp
-	"rangedMagic.h"
-
-1398032593 source:c:\users\conor\documents\github\roguelike\roguelike\enemy.cpp
-	"Enemy.h"
-
->>>>>>> 88f7bd5d3c062467db9f1c0068802cc8c77f78d9

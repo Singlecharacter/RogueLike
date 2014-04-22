@@ -16,11 +16,8 @@
 #define WARD 7
 #define SPEED 8
 
-<<<<<<< HEAD
 using namespace std;
-=======
 #include <fstream>
->>>>>>> 88f7bd5d3c062467db9f1c0068802cc8c77f78d9
 
 class Item
 {
@@ -28,8 +25,10 @@ public:
 
     Item();
     ~Item();
-<<<<<<< HEAD
     void createItem(int playerLevel = 0, int rarityTable = 0, int forcedSlot = 200); //create an item add everything to it's spot
+
+    int getSlot();
+    std::string getName();
 
     //potions
     void makePotion(); //create the item as a potion
@@ -43,8 +42,6 @@ public:
     void makeArmor(bool force); //create an armor item
 
     //get functions
-    string getName();
-    int getSlot();
     bool getRangedWep();
     bool get2h();
     bool getItemOrPotion();
@@ -57,13 +54,7 @@ public:
 
 
 protected:
-    void findNextLine (ifstream& file, string& currentLine); //will skip comments and whitespace in files
-=======
-    void createItem(int playerLevel, int rarityTable); //create an item add everything to it's spot
-    std::string getName();
-    int getSlot();
     void findNextLine (std::ifstream& file, std::string& currentLine); //will skip comments and whitespace in files
->>>>>>> 88f7bd5d3c062467db9f1c0068802cc8c77f78d9
 
 private:
 

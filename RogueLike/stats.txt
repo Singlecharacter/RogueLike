@@ -130,3 +130,15 @@ STR: 10
 DEX: 5
 INT: 7
 
+Max HP: 10
+Max MP: 6
+STR: 8
+DEX: 14
+INT: 2
+
+Max HP: 11
+Max MP: 3
+STR: 6
+DEX: 5
+INT: 12
+
