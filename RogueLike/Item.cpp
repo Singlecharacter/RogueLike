@@ -231,14 +231,17 @@ void Item::makeArmor(bool force)
     if (slot == 2 || slot == 3 || slot == 4 || slot == 5 && ArmorIndex == 0) //it is cloth
     {
         armorType = 1;
+        AC = 2;
     }
     else if (slot == 2 || slot == 3 || slot == 4 || slot == 5 && ArmorIndex == 1) //it is leather
     {
         armorType = 2;
+        AC = 4;
     }
     else if (slot == 2 || slot == 3 || slot == 4 || slot == 5 && ArmorIndex == 2) //it is plate
     {
         armorType = 3;
+        AC = 8;
     }
     else //it is jewelry
     {
@@ -246,6 +249,39 @@ void Item::makeArmor(bool force)
     }
 
     itemOrPotion = true; //it is an item
+
+    if(itemType == "Vitality")
+    {
+        Vitality = 1;
+    }
+    else if(itemType == "Mana")
+    {
+        Mana = 1;
+    }
+    else if(itemType == "Strength")
+    {
+        Strength = 1;
+    }
+    else if(itemType == "Dexterity")
+    {
+        Dexterity = 1;
+    }
+    else if(itemType == "Intellect")
+    {
+        Intellect = 1;
+    }
+    else if(itemType == "Purity")
+    {
+        Purity = 1;
+    }
+    else if(itemType == "Armor")
+    {
+        Armor = 1;
+    }
+    else if(itemType == "Ward")
+    {
+        Ward = 1;
+    }
 }
 
 void Item::makeWeapon(bool force)
@@ -317,7 +353,6 @@ void Item::makeWeapon(bool force)
 
     //now assign the slot variable for the item
     slot = choice;
-    cout << slot << endl;
 
     //find the item slot to use
     while (itemNumber != choice)
@@ -332,7 +367,6 @@ void Item::makeWeapon(bool force)
     {
         findNextLine(myfile, Input);
     }
-    cout << Input << endl;
 
     //now choose the item name from that subTable
     //first, put all of the subTable onto a vector to choose from
@@ -343,7 +377,6 @@ void Item::makeWeapon(bool force)
     while (getline(itemStream, temp, ','))
     {
         listOfItems.push_back(temp);
-        cout << temp << endl;
     }
     //now pick a random item base from the vector of items
     choice = rand() %  listOfItems.size(); //will choose from 0 - last element
@@ -402,6 +435,39 @@ void Item::makeWeapon(bool force)
     }
 
     itemOrPotion = true; //it is an item
+
+    if(itemType == "Vitality")
+    {
+        Vitality = 1;
+    }
+    else if(itemType == "Mana")
+    {
+        Mana = 1;
+    }
+    else if(itemType == "Strength")
+    {
+        Strength = 1;
+    }
+    else if(itemType == "Dexterity")
+    {
+        Dexterity = 1;
+    }
+    else if(itemType == "Intellect")
+    {
+        Intellect = 1;
+    }
+    else if(itemType == "Purity")
+    {
+        Purity = 1;
+    }
+    else if(itemType == "Armor")
+    {
+        Armor = 1;
+    }
+    else if(itemType == "Ward")
+    {
+        Ward = 1;
+    }
 }
 
 void Item::makePotion()
@@ -465,6 +531,11 @@ int Item::getPotionType()
 int Item::getPotionEffect()
 {
     return effectiveness;
+}
+
+int Item::getItemRarity()
+{
+    return rarityChoice;
 }
 
 void Item::findNextLine(ifstream& file, string& currentLine)

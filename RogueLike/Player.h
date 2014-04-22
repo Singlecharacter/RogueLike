@@ -91,6 +91,8 @@ public:
 
     int invSize;
 
+    int regenTimer;
+
 private:
 
     //Stat information

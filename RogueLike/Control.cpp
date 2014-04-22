@@ -5,12 +5,14 @@ void printTitle();            //Control object doesn't use these directly; the i
 void wait(int sec);
 void clearScreen();
 
+std::string intToString(int);
+
 
 
 Control::Control() : currentFloor(1), currentEnemies(0), enemyCap(10), numberOfTurns(0), floorWidth(200), floorHeight(200),
                      mapHeight(19),mapWidth(51),logHeight(6),logWidth(51),statusHeight(25),statusWidth(29),invHeight(25),invWidth(80),
                      mapStartX(0),mapStartY(0),logStartX(0),logStartY(19),statusStartX(51),statusStartY(0),invStartX(0),invStartY(0),
-                     equipWidth(80),equipHeight(25),equipStartX(0),equipStartY(0)
+                     equipWidth(80),equipHeight(25),equipStartX(0),equipStartY(0),equippingItem(false)
 {
     screenState = MAPSCREEN;
 
@@ -145,9 +147,9 @@ void Control::printMapScreen()
 
     char *tempStatCStr;
 
-    for (int i = 0; i < statusHeight; i++)            //Clear Status Window
+    for(int i = 0; i < statusHeight; i++)            //Clear Status Window
     {
-        for (int j = 0; j < statusWidth; j++)
+        for(int j = 0; j < statusWidth; j++)
         {
             wmove(statusWin, i, j);
             waddch(statusWin, ' ');
@@ -163,23 +165,23 @@ void Control::printMapScreen()
     string ac = "AC: ";
     string mr = "MR: ";
 
-    health += player.getCurrentHP();        //Set Up Health Stat
+    health += intToString(player.getCurrentHP());        //Set Up Health Stat
     health += "/";
-    health += player.getMaxHP();
+    health += intToString(player.getMaxHP());
 
-    mana += player.getCurrentMP();         //Set Up Mana Stat
+    mana += intToString(player.getCurrentMP());         //Set Up Mana Stat
     mana += "/";
-    mana += player.getMaxHP();
+    mana += intToString(player.getMaxMP());
 
-    strength += player.getSTR();           //...Strength
+    strength += intToString(player.getSTR());           //...Strength
 
-    dexterity += player.getDEX();         //...Dexterity
+    dexterity += intToString(player.getDEX());         //...Dexterity
 
-    intellect += player.getINT();         //...Intellect
+    intellect += intToString(player.getINT());         //...Intellect
 
-    ac += player.getAC();                 //...AC
+    ac += intToString(player.getAC());                 //...AC
 
-    mr += player.getMR();                 //...MR
+    mr += intToString(player.getMR());                 //...MR
 
 
     tempStatCStr = new char[name.length()+1];          //Output Name
@@ -222,11 +224,8 @@ void Control::printMapScreen()
     wmove(statusWin, 9, 0);
     waddstr(statusWin, tempStatCStr);
 
-
-
-    wrefresh(mapWin);
     wrefresh(logWin);
-    wrefresh(statusWin);
+    wrefresh(mapWin);
     wrefresh(statusWin);
 }
 
@@ -234,21 +233,12 @@ void Control::printInvScreen()
 {
     for(int i = 0;i<player.invSize;i++)
     {
-        if(player.inventory[i].getName() == "")
-        {
-            break;
-        }
-
         wmove(invWin,i,0);
-        waddch(invWin,i+48);
-        wmove(invWin,i,1);
-        std::string tempStr = (i+48)+ " - " + player.inventory[i].getName();
+        std::string tempStr = intToString(i+1) + " - " + player.inventory[i].getName();
         char * temp = new char[tempStr.length()+1];
         strcpy(temp,tempStr.c_str());
         waddstr(invWin,temp);
     }
-
-    wrefresh(invWin);
 }
 
 void Control::printEquipScreen()
@@ -337,7 +327,6 @@ void Control::loadNewFloor()
                 temp = floorNames.at(2);
                 floorFlags[2] = true;
             }
-
             else if (levelChoice == 4 && floorFlags[3] == false)                               //open level 4
             {
                 temp = floorNames.at(3);
@@ -483,6 +472,7 @@ bool Control::processInput()
         else if(input == 'i' || input == 'I')
         {
             screenState = INVENTORY;
+            equippingItem = false;
         }
         else if(input == 'e' || input == 'E')
         {
@@ -517,8 +507,60 @@ bool Control::processInput()
         input = wgetch(invWin);
         if(input == 'q' || input == 'Q')
         {
-            validInput = true;
             screenState = MAPSCREEN;
+        }
+        else if(input == 'w' || input == 'W')
+        {
+            equippingItem = true;
+        }
+        else if(equippingItem)
+        {
+
+            if(input == '1')
+            {
+               player.equipItem(0);
+            }
+            else if(input == '2')
+            {
+                player.equipItem(1);
+            }
+            else if(input == '3')
+            {
+                player.equipItem(2);
+            }
+            else if(input == '4')
+            {
+                player.equipItem(3);
+            }
+            else if(input == '5')
+            {
+                player.equipItem(4);
+            }
+            else if(input == '6')
+            {
+                player.equipItem(5);
+            }
+            else if(input == '7')
+            {
+                player.equipItem(6);
+            }
+            else if(input == '8')
+            {
+                player.equipItem(7);
+            }
+            else if(input == '9')
+            {
+                player.equipItem(8);
+            }
+            else
+            {
+                validInput = false;
+                equippingItem = true;
+            }
+        }
+        else
+        {
+            validInput = false;
         }
     }
     else if(screenState == EQUIPSCREEN)
@@ -530,8 +572,6 @@ bool Control::processInput()
             screenState = MAPSCREEN;
         }
     }
-
-
 
     if(validInput)
     {
@@ -596,6 +636,19 @@ void Control::openChest()
 
 void Control::gameFrame()
 {
+    //Player health regeneration
+    player.regenTimer++;
+    if(player.regenTimer >= 10)
+    {
+        player.regenTimer = 0;
+        player.hurt(-1);
+    }
+
+    if(player.getCurrentHP() > player.getMaxHP())
+    {
+        player.fullHeal();
+    }
+
     /**
         To run ai, run meleeAIFrame() for ALL melee enemies
         run rangedAIFrame() for ALL ranged enemies
@@ -905,7 +958,7 @@ bool Control::checkNextTiles(int x, int y)
     bool ATTACK = false; //return true if attacking is possible for melee
 
     //check for the player's display char (not player obj!)
-    if (floorMap[y - 1][x] == ACS_LANTERN) //if player is U
+    if (floorMap[y - 1][x] == ACS_LANTERN) //if61299998790625884883 player is U
     {
         ATTACK = true;
     }
@@ -1054,4 +1107,25 @@ void Control::rangedAIFrame()
         enemyPatrol(enemy.x, enemy.y);
     }
     */
+}
+
+std::string intToString(int num)
+{
+    if(num == 0)
+    {
+        return "0";
+    }
+    else
+    {
+        std::string temp = "";
+        std::string ch = " ";
+        while(num > 0)
+        {
+            ch[0] = (num % 10) + 48;
+            temp.insert(0,ch);
+            num = num / 10;
+        }
+
+        return temp;
+    }
 }

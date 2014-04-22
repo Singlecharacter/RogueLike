@@ -7,8 +7,9 @@ Player::Player(int x, int y, int HD , int MD,
     sightRange = 5;
     poisonLevel = 0;
     purityLevel = 0;
+    regenTimer = 0;
 
-    invSize = 25;
+    invSize = 9;
 
     inventory = new Item[invSize];
 
@@ -40,7 +41,7 @@ Player::Player(int x, int y, int HD , int MD,
 
     baseMaxMP = maxMP;
 
-    int statCap = rand() % 8 + 22;
+    int statCap = rand() % 8 + 23;
 
     STR = rand() % statCap/2 + 5;
     if(STR > statCap/2)
@@ -53,6 +54,10 @@ Player::Player(int x, int y, int HD , int MD,
     if(DEX < 5)
     {
         DEX = 5;
+    }
+    else if(DEX > statCap - 5)
+    {
+        DEX = statCap - 5;
     }
     statCap -= DEX;
 
@@ -76,7 +81,7 @@ Player::Player(int x, int y, int HD , int MD,
         equipment[i] = noItem;
     }
 
-    for(int i = 0;i<INVSIZE;i++)
+    for(int i = 0;i<invSize;i++)
     {
         inventory[i] = noItem;
     }
@@ -291,7 +296,7 @@ void Player::calculateSightRange(int levelArray[200][200])
                 if(levelArray[y-1-j][x-1-i] == ACS_BLOCK)
                 {
                     upTurn = 1;
-                    break;
+                    break;int regenTimer;
                 }
                 else
                 {
@@ -475,7 +480,7 @@ bool Player::equipItem(int invSlot)
     Item noItem;
     int emptyIndex = -1;
 
-    if(newItem.getName() == "")
+    /*if(newItem.getName() == "" || !newItem.getItemOrPotion())
     {
         return false;
     }
@@ -517,7 +522,14 @@ bool Player::equipItem(int invSlot)
 
     calcStats();
 
-    return true;
+    return true;*/
+
+    if(newItem.getName() != "")
+    {
+        equipment[newItem.getSlot()] = newItem;
+        inventory[invSlot] = noItem;
+        calcStats();
+    }
 }
 
 //adjust the player's stats based on his items and attributes
@@ -540,35 +552,35 @@ void Player::calcStats()
         AC += equipment[i].getAC();
         if(equipment[i].Vitality)
         {
-            maxHP += 10;
+            maxHP += 10 * (equipment[i].getItemRarity() - 1);
         }
         else if(equipment[i].Mana)
         {
-            maxMP += 10;
+            maxMP += 10 * (equipment[i].getItemRarity() - 1);
         }
         else if(equipment[i].Strength)
         {
-            adjSTR += 3;
+            adjSTR += 3 * (equipment[i].getItemRarity() - 1);
         }
         else if(equipment[i].Dexterity)
         {
-            adjDEX += 3;
+            adjDEX += 3 * (equipment[i].getItemRarity() - 1);
         }
         else if(equipment[i].Intellect)
         {
-            adjINT += 3;
+            adjINT += 3 * (equipment[i].getItemRarity() - 1);
         }
         else if(equipment[i].Purity)
         {
-            purityLevel += 1;
+            purityLevel += 1 * (equipment[i].getItemRarity() - 1);
         }
         else if(equipment[i].Armor)
         {
-            AC += 5;
+            AC += 5 * (equipment[i].getItemRarity() - 1);
         }
         else if(equipment[i].Ward)
         {
-            MR += 5;
+            MR += 5 * (equipment[i].getItemRarity() - 1);
         }
     }
 
@@ -641,7 +653,7 @@ void Player::logStats()
     statsFile << "Max HP: " << maxHP << std::endl;
     statsFile << "Max MP: " << maxMP << std::endl;
     statsFile << "STR: " << STR << std::endl;
-    statsFile << "DEX: " << DEX << std::endl;
+    statsFile << "DEXint regenTimer;: " << DEX << std::endl;
     statsFile << "INT: " << INT << std::endl;
     statsFile << std::endl;
 
@@ -711,17 +723,17 @@ int Player::getCurrentMP()
 
 int Player::getSTR()
 {
-    return STR;
+    return adjSTR;
 }
 
 int Player::getDEX()
 {
-    return DEX;
+    return adjDEX;
 }
 
 int Player::getINT()
 {
-    return INT;
+    return adjINT;
 }
 
 int Player::getMR()

@@ -12,7 +12,7 @@
 #include "Player.h"
 #include "Chest.h"
 #include "Wall.h"
-#include "utility.h"
+#include "utility.cpp"
 
 //enemies
 #include "Enemy.h"
@@ -101,6 +101,8 @@ private:
     int currentFloor,floorWidth,floorHeight;
 
     int screenState;
+
+    bool equippingItem;
 
     vector<std::string> floorNames;
 
