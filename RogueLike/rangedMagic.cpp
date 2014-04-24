@@ -8,12 +8,14 @@ rangedMagic::rangedMagic (int playerLevel = 0, int xCoord = 0, int yCoord = 0, i
     x = xCoord; //x equals xCoord
     y = yCoord; //y equals yCoord
 
+/** commented out for testing
     //first, if the rarity of the enemy is not appropriate for the mapLevel, adjust it
     //rare enemies won't spawn until level 2, epic to level 3, and bosses to level 4
     while ((rarity > currentMapLevel))
     {
         rarity = (rand() % 4) + 1;
     }
+*/
 
     /****************
 	* assign stats  *

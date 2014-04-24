@@ -978,3 +978,9 @@ STR: 14
 DEXint regenTimer;: 5
 INT: 9
 
+Max HP: 11
+Max MP: 6
+STR: 10
+DEXint regenTimer;: 9
+INT: 6
+

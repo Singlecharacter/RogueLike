@@ -1044,3 +1044,10 @@ Number of walls: 68884
 Number of chests: 28
 Number of enemies: 52
 
+Player Y: 117
+Player X: 120
+Tile at player's location: Floor
+Number of walls: 38043
+Number of chests: 10
+Number of enemies: 58
+
