@@ -70,12 +70,13 @@ public:
     void rangedAIFrame();
     void enemyPatrol(int& enemyx, int& enemyy); //give new movement when not seen
     bool checkNextTiles(meleeCreature); //is the player on any of the tiles next to a melee enemy?
-    void enemyPursuit(meleeCreature&); //make enemy chase the player
+    void enemyPursuit(int& enemyx, int& enemyy); //make enemy chase the player
 
     void getEmptyTiles();
 
 
     void clearObjects();
+    void clearEnemies();
     void getObjects();
 
     void debugLog();

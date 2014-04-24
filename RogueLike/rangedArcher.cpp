@@ -9,9 +9,10 @@ rangedArcher::rangedArcher (int playerLevel = 0, int xCoord = 0, int yCoord = 0,
     y = yCoord; //y equals yCoord
 
     //first, if the rarity of the enemy is not appropriate for the mapLevel, adjust it
-    while ((rarity == 4 && currentMapLevel >= 3) || (rarity == 3 && currentMapLevel >= 2))
+    //rare enemies won't spawn until level 2, epic to level 3, and bosses to level 4
+    while ((rarity > currentMapLevel))
     {
-        rarity == (rand() % 4) + 1;
+        rarity = (rand() % 4) + 1;
     }
 
     /****************

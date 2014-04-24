@@ -79,6 +79,9 @@ public:
     int getMaxMP();
     int getCurrentMP();
 
+    int getAccuracy();
+    int getMaxMeleeDamage();
+
     int getSTR();
     int getDEX();
     int getINT();

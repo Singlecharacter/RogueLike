@@ -434,10 +434,13 @@ void Control::loadNewFloor()
         lineCounter++;
     }
 
+    level.close();
+
     floorHeight = lineCounter;
 
     getEmptyTiles();
     clearObjects();
+    clearEnemies();
     getObjects();
     spawnPlayer();
     printMapScreen();
@@ -506,7 +509,7 @@ bool Control::processInput()
         {
             loadNewFloor();
             spawnPlayer();
-            currentFloor++;
+            //currentFloor++;
         }
         else
         {
@@ -527,6 +530,21 @@ bool Control::processInput()
             {
                 newX = player.x;
                 newY = player.y;
+                if(1 + rand() % 100 < player.getAccuracy())
+                {
+                    int damage = rand() % player.getMaxMeleeDamage() + 1;
+                    meleeCreatures.at(enemyIndex).hurtEnemy(damage);
+                    logMessage("You hit the " + meleeCreatures.at(enemyIndex).getName() + "!");
+                    if(meleeCreatures.at(enemyIndex).isDead())
+                    {
+                        logMessage("You kill the " + meleeCreatures.at(enemyIndex).getName() + "!");
+                        meleeCreatures.erase(meleeCreatures.begin()+enemyIndex);
+                    }
+                }
+                else
+                {
+                    logMessage("You miss the " + meleeCreatures.at(enemyIndex).getName() + ".");
+                }
             }
         }
 
@@ -841,6 +859,11 @@ void Control::clearObjects()
 {
     walls.clear();
     chests.clear();
+}
+
+void Control::clearEnemies()
+{
+    meleeCreatures.clear();
 }
 
 void Control::getObjects()
@@ -1182,17 +1205,17 @@ bool Control::checkNextTiles(meleeCreature enemy)
     return ATTACK;
 }
 
-void Control::enemyPursuit(meleeCreature &enemy)
+void Control::enemyPursuit(int& enemyx, int& enemyy)
 {
     bool horizMove = false, vertMove = false, diagMove = false;
     int horiz = 0, vert = 0; //this will be a +1 or -1
 
     //first check if horizontal move can be made
-    if (enemy.x != player.x)
+    if (enemyx != player.x)
     {
-        if(enemy.x > player.x) //enemy is to the right of the player
+        if(enemyx > player.x) //enemy is to the right of the player
         {
-            if(floorMap[enemy.y][enemy.x-1] == '.') //if space is empty, horiz bool is good
+            if(floorMap[enemyy][enemyx-1] == '.') //if space is empty, horiz bool is good
             {
                 horiz = -1;
                 horizMove = true;
@@ -1200,7 +1223,7 @@ void Control::enemyPursuit(meleeCreature &enemy)
         }
         else //enemy is to the left of the player
         {
-            if(floorMap[enemy.y][enemy.x+1] == '.') //if space is empty, horiz bool is good
+            if(floorMap[enemyy][enemyx+1] == '.') //if space is empty, horiz bool is good
             {
                 horiz = 1;
                 horizMove = true;
@@ -1209,11 +1232,11 @@ void Control::enemyPursuit(meleeCreature &enemy)
     } //end horizontal check
 
     //second, check if vertical move can be made
-    if (enemy.y != player.y)
+    if (enemyy != player.y)
     {
-        if(enemy.y > player.y) //enemy is below the player
+        if(enemyy > player.y) //enemy is below the player
         {
-            if(floorMap[enemy.y-1][enemy.x] == '.') //if space is empty, vert bool is good
+            if(floorMap[enemyy-1][enemyx] == '.') //if space is empty, vert bool is good
             {
                 vert = -1;
                 vertMove = true;
@@ -1221,7 +1244,7 @@ void Control::enemyPursuit(meleeCreature &enemy)
         }
         else //enemy is above the player
         {
-            if(floorMap[enemy.y+1][enemy.x] == '.') //if space is empty, vert bool is good
+            if(floorMap[enemyy+1][enemyx] == '.') //if space is empty, vert bool is good
             {
                 vert = 1;
                 vertMove = true;
@@ -1232,7 +1255,7 @@ void Control::enemyPursuit(meleeCreature &enemy)
     //third, check if diagnol move can be made(has to pass both horizontal and vertical tests)
     if (horizMove && vertMove) //if both those moves were legal, check if a diagnol move is allowed
     {
-        if (floorMap[enemy.y + vert][enemy.x + horiz] =='.') //if diagnol move is good, set diagnol bool
+        if (floorMap[enemyy + vert][enemyx + horiz] =='.') //if diagnol move is good, set diagnol bool
         {
             diagMove = true;
         }
@@ -1240,16 +1263,16 @@ void Control::enemyPursuit(meleeCreature &enemy)
 
     if (diagMove) //if diagnol move is legal, move
     {
-        enemy.x += horiz;
-        enemy.y += vert;
+        enemyx += horiz;
+        enemyy += vert;
     }
     else if (horizMove) //if no diagnol, but horizontal move is legal, move
     {
-        enemy.x += horiz;
+        enemyx += horiz;
     }
     else if (vertMove) //if no diagnol, but vert move is legal, move
     {
-        enemy.y += vert;
+        enemyy += vert;
     }
     //should not be an else, because if no move is valid, nothing will happen
 }
@@ -1267,7 +1290,7 @@ void Control::meleeAIFrame(meleeCreature enemy)
         }
         else //chase the player
         {
-            enemyPursuit(enemy);
+            enemyPursuit(enemy.x, enemy.y);
         }
     }
     else
