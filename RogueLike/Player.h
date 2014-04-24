@@ -64,6 +64,7 @@ public:
     void calcStats();
 
     bool levelUp();
+    void addXP(int xp);
 
     int getLevel();
 

@@ -652,6 +652,11 @@ bool Player::levelUp()
     return false;
 }
 
+void Player::addXP(int xp)
+{
+    currentXP += xp;
+}
+
 void Player::logStats()
 {
     std::ofstream statsFile;

@@ -36,6 +36,7 @@ public:
 	bool isDead();
 	bool getGoodLoot();
 	Chest getEnemyCorpse();
+	int getRarity();
 
     //variables in public for easy reference and use
 	int x,y; //x & y coordinates

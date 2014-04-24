@@ -509,7 +509,7 @@ bool Control::processInput()
         {
             loadNewFloor();
             spawnPlayer();
-            //currentFloor++;
+            currentFloor++;
         }
         else
         {
@@ -538,6 +538,17 @@ bool Control::processInput()
                     if(meleeCreatures.at(enemyIndex).isDead())
                     {
                         meleeCreatures.erase(meleeCreatures.begin()+enemyIndex);
+
+                        //add xp for the creature
+                        player.addXP(50*meleeCreatures.at(enemyIndex).getRarity());
+
+                        //if player levels up, send log message and heal him
+                        if(player.levelUp())
+                        {
+                            logMessage("You have leveled up!");
+                            player.fullHeal();
+                            player.fullManaHeal();
+                        }
                     }
                 }
                 else

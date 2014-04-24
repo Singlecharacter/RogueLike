@@ -219,6 +219,11 @@ Chest Enemy::getEnemyCorpse()
     return corpse;
 }
 
+int Enemy::getRarity()
+{
+    return rarity;
+}
+
 int Enemy::getPower()
 {
     return power;

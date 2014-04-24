@@ -805,7 +805,7 @@
 1398341206 c:\users\michael\downloads\roguelike-items\roguelike-items\roguelike\chest.h
 	<string>
 
-1398353097 source:c:\users\michael\downloads\roguelike-items\roguelike-items\roguelike\control.cpp
+1398357426 source:c:\users\michael\downloads\roguelike-items\roguelike-items\roguelike\control.cpp
 	"Control.h"
 
 1398341206 c:\users\michael\downloads\roguelike-items\roguelike-items\roguelike\control.h
@@ -826,7 +826,7 @@
 	"rangedMagic.h"
 	"rangedArcher.h"
 
-1398341206 c:\users\michael\downloads\roguelike-items\roguelike-items\roguelike\player.h
+1398356920 c:\users\michael\downloads\roguelike-items\roguelike-items\roguelike\player.h
 	<cstdlib>
 	<math.h>
 	<curses.h>
@@ -843,7 +843,7 @@
 	<vector>
 	<string>
 
-1398341206 c:\users\michael\downloads\roguelike-items\roguelike-items\roguelike\enemy.h
+1398357087 c:\users\michael\downloads\roguelike-items\roguelike-items\roguelike\enemy.h
 	<cstdlib>
 	<ctime>
 	<fstream>
@@ -894,7 +894,7 @@
 	<stdlib.h>
 	"Enemy.h"
 
-1398353203 source:c:\users\michael\downloads\roguelike-items\roguelike-items\roguelike\enemy.cpp
+1398357087 source:c:\users\michael\downloads\roguelike-items\roguelike-items\roguelike\enemy.cpp
 	"Enemy.h"
 
 1398341206 source:c:\users\michael\downloads\roguelike-items\roguelike-items\roguelike\item.cpp
@@ -912,19 +912,19 @@
 	<ctime>
 	"Control.h"
 
-1398341206 source:c:\users\michael\downloads\roguelike-items\roguelike-items\roguelike\meleecreature.cpp
+1398354616 source:c:\users\michael\downloads\roguelike-items\roguelike-items\roguelike\meleecreature.cpp
 	"meleeCreature.h"
 
-1398341206 source:c:\users\michael\downloads\roguelike-items\roguelike-items\roguelike\meleehumanoid.cpp
+1398353859 source:c:\users\michael\downloads\roguelike-items\roguelike-items\roguelike\meleehumanoid.cpp
 	"meleeHumanoid.h"
 
-1398341206 source:c:\users\michael\downloads\roguelike-items\roguelike-items\roguelike\player.cpp
+1398357087 source:c:\users\michael\downloads\roguelike-items\roguelike-items\roguelike\player.cpp
 	"Player.h"
 
-1398341206 source:c:\users\michael\downloads\roguelike-items\roguelike-items\roguelike\rangedarcher.cpp
+1398353859 source:c:\users\michael\downloads\roguelike-items\roguelike-items\roguelike\rangedarcher.cpp
 	"rangedArcher.h"
 
-1398341206 source:c:\users\michael\downloads\roguelike-items\roguelike-items\roguelike\rangedmagic.cpp
+1398353859 source:c:\users\michael\downloads\roguelike-items\roguelike-items\roguelike\rangedmagic.cpp
 	"rangedMagic.h"
 
 1398341206 source:c:\users\michael\downloads\roguelike-items\roguelike-items\roguelike\utility.cpp
