@@ -1296,6 +1296,7 @@ None.
 None.
 None.
 
+<<<<<<< HEAD
 Epic Sword of Dexterity
 None.
 Rare Robes of Purity
@@ -1527,3 +1528,5 @@ None.
 None.
 None.
 
+=======
+>>>>>>> 5024c99579e9d883a5bb18af8b5c0bad4251066d

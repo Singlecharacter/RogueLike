@@ -813,6 +813,7 @@ STR: 12
 DEXint regenTimer;: 7
 INT: 5
 
+<<<<<<< HEAD
 Max HP: 18
 Max MP: 4
 STR: 13
@@ -939,3 +940,5 @@ STR: 7
 DEXint regenTimer;: 16
 INT: 5
 
+=======
+>>>>>>> 5024c99579e9d883a5bb18af8b5c0bad4251066d

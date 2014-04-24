@@ -852,6 +852,7 @@ Number of walls: 38148
 Number of chests: 10
 Number of enemies: 15
 
+<<<<<<< HEAD
 Player Y: 105
 Player X: 126
 Tile at player's location: Floor
@@ -999,3 +1000,5 @@ Number of walls: 38148
 Number of chests: 10
 Number of enemies: 68
 
+=======
+>>>>>>> 5024c99579e9d883a5bb18af8b5c0bad4251066d
