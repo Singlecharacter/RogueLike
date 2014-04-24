@@ -543,3 +543,57 @@ STR: 15
 DEXint regenTimer;: 10
 INT: 5
 
+Max HP: 14
+Max MP: 2
+STR: 15
+DEXint regenTimer;: 10
+INT: 5
+
+Max HP: 11
+Max MP: 3
+STR: 10
+DEXint regenTimer;: 5
+INT: 8
+
+Max HP: 18
+Max MP: 5
+STR: 11
+DEXint regenTimer;: 7
+INT: 5
+
+Max HP: 11
+Max MP: 6
+STR: 15
+DEXint regenTimer;: 5
+INT: 10
+
+Max HP: 19
+Max MP: 6
+STR: 11
+DEXint regenTimer;: 5
+INT: 7
+
+Max HP: 16
+Max MP: 6
+STR: 15
+DEXint regenTimer;: 5
+INT: 10
+
+Max HP: 13
+Max MP: 4
+STR: 7
+DEXint regenTimer;: 18
+INT: 5
+
+Max HP: 15
+Max MP: 5
+STR: 13
+DEXint regenTimer;: 5
+INT: 9
+
+Max HP: 17
+Max MP: 5
+STR: 13
+DEXint regenTimer;: 5
+INT: 8
+

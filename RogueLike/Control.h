@@ -61,16 +61,16 @@ public:
     void openChest();
 
     //gameFrame runs a single frame of the game, accounting for things like menu choices.
-    void gameFrame();
+    bool gameFrame();
     void activeFrame();
     void inventoryFrame();
 
     //The AI methods will move enemies and, if applicable, make them attack the player.
     void meleeAIFrame(meleeCreature);
     void rangedAIFrame();
-    void enemyPatrol(meleeCreature); //give new movement when not seen
+    void enemyPatrol(meleeCreature&); //give new movement when not seen
     bool checkNextTiles(meleeCreature); //is the player on any of the tiles next to a melee enemy?
-    void enemyPursuit(meleeCreature); //make enemy chase the player
+    void enemyPursuit(meleeCreature&); //make enemy chase the player
 
     void getEmptyTiles();
 
@@ -105,6 +105,7 @@ private:
     int screenState;
 
     bool equippingItem;
+    bool droppingItem;
 
     vector<std::string> floorNames;
 

@@ -22,13 +22,13 @@
 1397079019 source:c:\users\conor\documents\github\roguelike\roguelike\wall.cpp
 	"Wall.h"
 
-1398174799 c:\users\conor\documents\github\roguelike\roguelike\player.h
+1398307894 c:\users\conor\documents\github\roguelike\roguelike\player.h
 	<cstdlib>
 	<math.h>
 	<curses.h>
 	"Item.h"
 
-1398175401 source:c:\users\conor\documents\github\roguelike\roguelike\player.cpp
+1398177314 source:c:\users\conor\documents\github\roguelike\roguelike\player.cpp
 	"Player.h"
 
 1398144504 source:c:\users\conor\documents\github\roguelike\roguelike\item.cpp
@@ -103,10 +103,10 @@
 1397079097 c:\users\conor\documents\github\roguelike\roguelike\chest.h
 	<string>
 
-1398176067 source:c:\users\conor\documents\github\roguelike\roguelike\control.cpp
+1398177471 source:c:\users\conor\documents\github\roguelike\roguelike\control.cpp
 	"Control.h"
 
-1398176081 c:\users\conor\documents\github\roguelike\roguelike\control.h
+1398307823 c:\users\conor\documents\github\roguelike\roguelike\control.h
 	<vector>
 	<string>
 	<cstring>
@@ -427,7 +427,7 @@
 	"Chest.h"
 	"Player.h"
 
-1398176197 c:\users\conor\documents\github\roguelike\roguelike\meleecreature.h
+1398176654 c:\users\conor\documents\github\roguelike\roguelike\meleecreature.h
 	<cstdlib>
 	<ctime>
 	<fstream>
@@ -464,7 +464,7 @@
 	<stdlib.h>
 	"Enemy.h"
 
-1398176197 source:c:\users\conor\documents\github\roguelike\roguelike\meleecreature.cpp
+1398176644 source:c:\users\conor\documents\github\roguelike\roguelike\meleecreature.cpp
 	"meleeCreature.h"
 
 1398132331 source:c:\users\conor\documents\github\roguelike\roguelike\meleehumanoid.cpp

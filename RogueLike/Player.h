@@ -56,6 +56,8 @@ public:
 
     bool equipItem(int invSlot);
 
+    void dropItem(int invSlot);
+
     //attempts to unequip the item at slot, returns false if there is no item or no room to unequip it.
     bool unequipItem(int slot);
 

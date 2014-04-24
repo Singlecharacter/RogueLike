@@ -612,6 +612,12 @@ bool Player::unequipItem(int slot)
     }
 }
 
+void Player::dropItem(int invSlot)
+{
+    Item noItem;
+    inventory[invSlot] = noItem;
+}
+
 bool Player::levelUp()
 {
     if(currentXP >= neededXP)
@@ -619,6 +625,9 @@ bool Player::levelUp()
         level += 1;
         currentXP = 0;
         neededXP += 100;
+
+        baseAC += ACGain;
+        baseMR += MRGain;
 
         baseMaxHP += rand() % HD + 1;
         baseMaxMP += rand() % MD + 1;

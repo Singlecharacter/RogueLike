@@ -12,7 +12,7 @@ std::string intToString(int);
 Control::Control() : currentFloor(1), currentEnemies(0), enemyCap(10), numberOfTurns(0), floorWidth(200), floorHeight(200),
                      mapHeight(19),mapWidth(51),logHeight(6),logWidth(51),statusHeight(25),statusWidth(29),invHeight(25),invWidth(80),
                      mapStartX(0),mapStartY(0),logStartX(0),logStartY(19),statusStartX(51),statusStartY(0),invStartX(0),invStartY(0),
-                     equipWidth(80),equipHeight(25),equipStartX(0),equipStartY(0),equippingItem(false)
+                     equipWidth(80),equipHeight(25),equipStartX(0),equipStartY(0),equippingItem(false),droppingItem(false)
 {
     screenState = MAPSCREEN;
 
@@ -105,6 +105,15 @@ void Control::printMapScreen()
                 wmove(mapWin,centerY-player.sightRange+i,centerX-player.sightRange+j);
                 waddch(mapWin,floorMap[player.y-player.sightRange+i][player.x-player.sightRange+j]);
             }
+        }
+    }
+
+    for(int i = 0;i<meleeCreatures.size();i++)
+    {
+        if(meleeCreatures.at(i).isSeenByPlayer(player))
+        {
+            wmove(mapWin,centerY+meleeCreatures.at(i).y-player.y,centerX+meleeCreatures.at(i).x-player.x);
+            waddch(mapWin,meleeCreatures.at(i).getDisplayChar());
         }
     }
 
@@ -336,10 +345,7 @@ void Control::loadNewFloor()
             int levelChoice = 1 + (rand()% 10);                                               //Random level selection
 
             if (levelChoice == 1 && floorFlags[0] == false)                               //open level 1
-            {if(player.getCurrentHP() > player.getMaxHP())
-    {
-        player.fullHeal();
-    }
+            {
                 temp = floorNames.at(0);                                                  //flags level as already loaded
             }
 
@@ -426,6 +432,8 @@ void Control::loadNewFloor()
     floorHeight = lineCounter;
 
     getEmptyTiles();
+    clearObjects();
+    getObjects();
     spawnPlayer();
     printMapScreen();
 }
@@ -489,6 +497,11 @@ bool Control::processInput()
         {
             screenState = EQUIPSCREEN;
         }
+        else if(input == '>' || input == '<')
+        {
+            loadNewFloor();
+            spawnPlayer();
+        }
         else
         {
             validInput = false;
@@ -503,11 +516,12 @@ bool Control::processInput()
         {
             actionMade = true;
             int enemyIndex = -1;
-            /*enemyIndex = place_meeting(newY,newX,meleeCreatures);
+            enemyIndex = place_meeting(newY,newX,meleeCreatures);
             if(enemyIndex >= 0)
             {
-
-            }*/
+                newX = player.x;
+                newY = player.y;
+            }
         }
 
         player.x = newX;
@@ -524,9 +538,13 @@ bool Control::processInput()
         {
             equippingItem = true;
         }
+        else if(input == 'd' || input == 'D')
+        {
+            droppingItem = true;
+        }
         else if(equippingItem)
         {
-
+            equippingItem = false;
             if(input == '1')
             {
                player.equipItem(0);
@@ -567,6 +585,51 @@ bool Control::processInput()
             {
                 validInput = false;
                 equippingItem = true;
+            }
+        }
+        else if(droppingItem)
+        {
+            droppingItem = false;
+            if(input == '1')
+            {
+               player.dropItem(0);
+            }
+            else if(input == '2')
+            {
+                player.dropItem(1);
+            }
+            else if(input == '3')
+            {
+                player.dropItem(2);
+            }
+            else if(input == '4')
+            {
+                player.dropItem(3);
+            }
+            else if(input == '5')
+            {
+                player.dropItem(4);
+            }
+            else if(input == '6')
+            {
+                player.dropItem(5);
+            }
+            else if(input == '7')
+            {
+                player.dropItem(6);
+            }
+            else if(input == '8')
+            {
+                player.dropItem(7);
+            }
+            else if(input == '9')
+            {
+                player.dropItem(8);
+            }
+            else
+            {
+                validInput = false;
+                droppingItem = true;
             }
         }
         else
@@ -636,6 +699,8 @@ bool Control::processInput()
         }
     }
 
+    bool isNotDone = true;
+
     if(validInput)
     {
         clearWindows();
@@ -644,7 +709,7 @@ bool Control::processInput()
         {
             if(actionMade)
             {
-                gameFrame();
+                isNotDone = gameFrame();
             }
             printMapScreen();
         }
@@ -658,7 +723,7 @@ bool Control::processInput()
         }
     }
 
-    return true;
+    return isNotDone;
 }
 
 void Control::openChest()
@@ -697,7 +762,7 @@ void Control::openChest()
     }
 }
 
-void Control::gameFrame()
+bool Control::gameFrame()
 {
     //Player health and mana regeneration
     player.regenTimer++;
@@ -733,6 +798,13 @@ void Control::gameFrame()
         meleeAIFrame(meleeCreatures.at(i));
     }
 
+    if(player.getCurrentHP() <= 0)
+    {
+        return false;
+    }
+
+    return true;
+
     /**
         To run ai, run meleeAIFrame() for ALL melee enemies
         run rangedAIFrame() for ALL ranged enemies
@@ -755,6 +827,7 @@ void Control::spawnEnemies()
             emptyYList.erase(emptyYList.begin()+tileIndex);
             newEnemies--;
         }
+        currentEnemies += newEnemies;
     }
 }
 
@@ -810,6 +883,7 @@ void Control::debugLog()
     genLog << "Tile at player's location: " << tile << std::endl;
     genLog << "Number of walls: " << walls.size() << std::endl;
     genLog << "Number of chests: " << chests.size() << std::endl;
+    genLog << "Number of enemies: " << meleeCreatures.size() << std::endl;
     genLog << std::endl;
 }
 
@@ -1017,7 +1091,7 @@ void printTitle()                                           //Slightly fancier t
  * Enemy Stuff! *
  ***************/
 
-void Control::enemyPatrol(meleeCreature enemy)
+void Control::enemyPatrol(meleeCreature &enemy)
 {
     int moveChoice; //what way to move
     //chose a move and check if it is valid, if not, choose again
@@ -1058,35 +1132,35 @@ bool Control::checkNextTiles(meleeCreature enemy)
     bool ATTACK = false; //return true if attacking is possible for melee
 
     //check for the player's display char (not player obj!)
-    if (floorMap[enemy.y - 1][enemy.x] == ACS_LANTERN) //if61299998790625884883 player is U
+    if (enemy.y - 1 == player.y && enemy.x == player.x) //if61299998790625884883 player is U
     {
         ATTACK = true;
     }
-    else if (floorMap[enemy.y - 1][enemy.x + 1] == ACS_LANTERN) //if player is UR
+    else if (enemy.y - 1 == player.y && enemy.x + 1 == player.x) //if player is UR
     {
         ATTACK = true;
     }
-    else if (floorMap[enemy.y][enemy.x + 1] == ACS_LANTERN) //if player is R
+    else if (enemy.y - 1 == player.y && enemy.x - 1 == player.x) //if player is R
     {
         ATTACK = true;
     }
-    else if (floorMap[enemy.y + 1][enemy.x + 1] == ACS_LANTERN) //if player is DR
+    else if (enemy.y + 1 == player.y && enemy.x == player.x) //if player is DR
     {
         ATTACK = true;
     }
-    else if (floorMap[enemy.y + 1][enemy.x] == ACS_LANTERN) //if player is D
+    else if (enemy.y + 1 == player.y && enemy.x + 1 == player.x) //if player is D
     {
         ATTACK = true;
     }
-    else if (floorMap[enemy.y + 1][enemy.x - 1] == ACS_LANTERN) //if player is DL
+    else if (enemy.y + 1 == player.y && enemy.x - 1 == player.x) //if player is DL
     {
         ATTACK = true;
     }
-    else if (floorMap[enemy.y][enemy.x - 1] == ACS_LANTERN) //if player is L
+    else if (enemy.y == player.y && enemy.x + 1 == player.x) //if player is L
     {
         ATTACK = true;
     }
-    else if (floorMap[enemy.y - 1][enemy.x - 1] == ACS_LANTERN) //if player is UL
+    else if (enemy.y == player.y && enemy.x - 1 == player.x) //if player is UL
     {
         ATTACK = true;
     }
@@ -1094,7 +1168,7 @@ bool Control::checkNextTiles(meleeCreature enemy)
     return ATTACK;
 }
 
-void Control::enemyPursuit(meleeCreature enemy)
+void Control::enemyPursuit(meleeCreature &enemy)
 {
     bool horizMove = false, vertMove = false, diagMove = false;
     int horiz = 0, vert = 0; //this will be a +1 or -1
@@ -1185,6 +1259,8 @@ void Control::meleeAIFrame(meleeCreature enemy)
     {
         enemyPatrol(enemy);
     }
+
+    player.hurt(player.calculatePhysicalDamage(damageDone));
 }
 
 

@@ -538,3 +538,65 @@ Tile at player's location: Floor
 Number of walls: 37990
 Number of chests: 13
 
+Player Y: 73
+Player X: 80
+Tile at player's location: Floor
+Number of walls: 37731
+Number of chests: 23
+
+Player Y: 121
+Player X: 75
+Tile at player's location: Floor
+Number of walls: 38460
+Number of chests: 7
+Number of enemies: 125
+
+Player Y: 94
+Player X: 105
+Tile at player's location: Floor
+Number of walls: 34442
+Number of chests: 13
+Number of enemies: 105
+
+Player Y: 136
+Player X: 77
+Tile at player's location: Floor
+Number of walls: 38048
+Number of chests: 0
+Number of enemies: 114
+
+Player Y: 76
+Player X: 129
+Tile at player's location: Floor
+Number of walls: 38048
+Number of chests: 0
+Number of enemies: 6
+
+Player Y: 91
+Player X: 103
+Tile at player's location: Floor
+Number of walls: 38048
+Number of chests: 0
+Number of enemies: 27
+
+Player Y: 73
+Player X: 82
+Tile at player's location: Floor
+Number of walls: 37731
+Number of chests: 24
+Number of enemies: 30
+
+Player Y: 46
+Player X: 58
+Tile at player's location: Floor
+Number of walls: 38148
+Number of chests: 9
+Number of enemies: 51
+
+Player Y: 71
+Player X: 108
+Tile at player's location: Floor
+Number of walls: 37990
+Number of chests: 12
+Number of enemies: 67
+
