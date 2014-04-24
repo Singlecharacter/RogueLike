@@ -226,7 +226,7 @@ void Item::makeArmor(bool force)
     {
         itemType = "Nothing";
     }
-
+cout << ArmorIndex << endl;
     //now for some item setting
     if (slot == 2 || slot == 3 || slot == 4 || slot == 5 && ArmorIndex == 0) //it is cloth
     {
@@ -428,10 +428,14 @@ void Item::makeWeapon(bool force)
     {
         twoH = true;
         slot = 0;
+        Damage = rarity + .5*rarity;
+        Accuracy = (rand() % 15) + 75;
     }
     else
     {
         twoH = false;
+        Damage = rarity;
+        Accuracy = (rand() % 15) + 80;
     }
 
     itemOrPotion = true; //it is an item

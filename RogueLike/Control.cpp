@@ -173,6 +173,7 @@ void Control::printMapScreen()
     string intellect = "INT: ";
     string ac = "AC: ";
     string mr = "MR: ";
+    string xp = "Level: ";
 
     health += intToString(player.getCurrentHP());        //Set Up Health Stat
     health += "/";
@@ -191,6 +192,8 @@ void Control::printMapScreen()
     ac += intToString(player.getAC());                 //...AC
 
     mr += intToString(player.getMR());                 //...MR
+
+    xp += intToString(player.getLevel());
 
 
     tempStatCStr = new char[name.length()+1];          //Output Name
@@ -232,6 +235,11 @@ void Control::printMapScreen()
     strcpy(tempStatCStr, mr.c_str());
     wmove(statusWin, 9, 0);
     waddstr(statusWin, tempStatCStr);
+
+    tempStatCStr = new char[xp.length() + 1];
+    strcpy(tempStatCStr,xp.c_str());
+    wmove(statusWin,10,0);
+    waddstr(statusWin,tempStatCStr);
 
     wrefresh(logWin);
     wrefresh(mapWin);

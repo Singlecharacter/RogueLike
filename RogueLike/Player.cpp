@@ -492,9 +492,33 @@ bool Player::equipItem(int invSlot)
 
     if(newItem.getName() != "")
     {
-        inventory[invSlot] = equipment[newItem.getSlot()];
-        equipment[newItem.getSlot()] = newItem;
-        calcStats();
+        if(newItem.getItemOrPotion())
+        {
+            inventory[invSlot] = equipment[newItem.getSlot()];
+            equipment[newItem.getSlot()] = newItem;
+            calcStats();
+        }
+        else
+        {
+            if(newItem.getName() == "Health Potion")
+            {
+                currentHP += (static_cast<double>(newItem.getPotionEffect())/100.0) * maxHP;
+                if(currentHP > maxHP)
+                {
+                    currentHP = maxHP;
+                }
+            }
+            else if(newItem.getName() == "Mana Potion")
+            {
+                currentMP += (static_cast<double>(newItem.getPotionEffect())/100.0) * maxMP;
+                if(currentMP > maxMP)
+                {
+                    currentMP = maxMP;
+                }
+            }
+            dropItem(invSlot);
+        }
+
         return true;
     }
 
@@ -627,10 +651,8 @@ bool Player::levelUp()
         level += 1;
         currentXP = 0;
         neededXP += 100;
-
         baseAC += ACGain;
         baseMR += MRGain;
-
         baseMaxHP += rand() % HD + 1;
         baseMaxMP += rand() % MD + 1;
 
@@ -647,6 +669,7 @@ bool Player::levelUp()
         {
             INT += 1;
         }
+        calcStats();
         return true;
     }
     return false;
