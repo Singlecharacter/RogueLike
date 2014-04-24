@@ -597,3 +597,27 @@ STR: 13
 DEXint regenTimer;: 5
 INT: 8
 
+Max HP: 15
+Max MP: 4
+STR: 12
+DEXint regenTimer;: 7
+INT: 5
+
+Max HP: 16
+Max MP: 2
+STR: 11
+DEXint regenTimer;: 12
+INT: 5
+
+Max HP: 19
+Max MP: 5
+STR: 14
+DEXint regenTimer;: 5
+INT: 10
+
+Max HP: 19
+Max MP: 2
+STR: 8
+DEXint regenTimer;: 17
+INT: 5
+

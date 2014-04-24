@@ -400,8 +400,13 @@ void Control::loadNewFloor()
     }
     else
     {
-        //Load the puzzle level
+        temp = "sokoban.txt";
+        filename = new char[temp.length()+1];
+        strcpy(filename,temp.c_str());
+        level.open(filename);
     }
+
+
 
     char inChar;
     std::string inString;
@@ -501,6 +506,7 @@ bool Control::processInput()
         {
             loadNewFloor();
             spawnPlayer();
+            currentFloor++;
         }
         else
         {
