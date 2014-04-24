@@ -11,7 +11,6 @@ int main()
     control.startCurses();
     control.loadNewFloor();
     control.getObjects();
-    control.spawnPlayer();
     while(control.processInput());
     control.endCurses();
     control.debugLog();

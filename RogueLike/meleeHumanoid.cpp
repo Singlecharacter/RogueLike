@@ -143,7 +143,7 @@ int meleeHumanoid::attackPlayer()
     int accuracyRoll = rand() % 101; //0-100
 
     //if the enemy's accuracy roll is good, do damage
-    if(accuracyRoll >= accuracy)
+    if(accuracyRoll <= accuracy)
     {
         enemyAttackTurn += name + " has attacked";
         //do damage

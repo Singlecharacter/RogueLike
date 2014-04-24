@@ -123,7 +123,7 @@ void Enemy::getNameAndChar()
 	//use getNextLine function to skip all initial comments and get the first line of input
 	findNextLine(enemyFile, currentLine);
 
-	//tempRar equals the first part of the currentLine string converted to an int
+	//tempRar equals the firsfor(int i = 0;i<meleeCreatures.size();i++)
 	tempRar = atoi(currentLine.substr(0,1).c_str());
 
 	//while rarity is not equal to tempRar
@@ -219,4 +219,9 @@ Chest Enemy::getEnemyCorpse()
     Chest corpse(x, y, rarity, level, name + " corpse");
     corpse.generateItem();
     return corpse;
+}
+
+int Enemy::getPower()
+{
+    return power;
 }
