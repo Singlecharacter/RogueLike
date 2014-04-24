@@ -534,10 +534,9 @@ bool Control::processInput()
                 {
                     int damage = rand() % player.getMaxMeleeDamage() + 1;
                     meleeCreatures.at(enemyIndex).hurtEnemy(damage);
-                    logMessage("You hit the " + meleeCreatures.at(enemyIndex).getName() + "!");
+                    logMessage(meleeCreatures.at(enemyIndex).getEnemyHealthStatus());
                     if(meleeCreatures.at(enemyIndex).isDead())
                     {
-                        logMessage("You kill the " + meleeCreatures.at(enemyIndex).getName() + "!");
                         meleeCreatures.erase(meleeCreatures.begin()+enemyIndex);
                     }
                 }

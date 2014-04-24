@@ -1002,3 +1002,45 @@ Number of enemies: 68
 
 =======
 >>>>>>> 5024c99579e9d883a5bb18af8b5c0bad4251066d
+Player Y: 87
+Player X: 122
+Tile at player's location: Floor
+Number of walls: 75990
+Number of chests: 20
+Number of enemies: 14
+
+Player Y: 113
+Player X: 114
+Tile at player's location: Floor
+Number of walls: 38460
+Number of chests: 7
+Number of enemies: 101
+
+Player Y: 58
+Player X: 86
+Tile at player's location: Floor
+Number of walls: 38148
+Number of chests: 10
+Number of enemies: 30
+
+Player Y: 46
+Player X: 101
+Tile at player's location: Floor
+Number of walls: 38460
+Number of chests: 9
+Number of enemies: 58
+
+Player Y: 66
+Player X: 121
+Tile at player's location: Floor
+Number of walls: 37995
+Number of chests: 9
+Number of enemies: 62
+
+Player Y: 110
+Player X: 85
+Tile at player's location: Floor
+Number of walls: 68884
+Number of chests: 28
+Number of enemies: 52
+

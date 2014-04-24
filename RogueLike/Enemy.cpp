@@ -30,11 +30,83 @@ bool Enemy::isSeenByPlayer(Player player)
 
 void Enemy::hurtEnemy(int playerDamageDealt) //deal damage to the enemy, enemy dies if hp = 0
 {
-	currenthp -= playerDamageDealt;
-	if(currenthp <= 0)
+	//declare variables
+    int realDamage = playerDamageDealt, hpPerc;//int of what the real damage dealt will be equals playerDamageDealt
+
+/** commented out for testing
+	//realDamage modified through equation using defence
+	if (defense > 0)
     {
-        hesDeadJim = true;
+        //this was pulled from player's damage mitigation
+        realDamage = realDamage - (rand() % (defense + 1)) - 1.5 * sqrt(defense);
     }
+*/
+
+	//deal the damage
+    currenthp -= realDamage;//currenthp equals (currenthp - realDamage)
+
+	//if currenthp is less than or equal to 0, the enemy has died
+	if (currenthp <= 0)
+    {
+        hesDeadJim = true;//set dead bool
+
+		//create rand roll of 0 through 100 to decide if enemy drops loot
+		int dropChance = rand() % 101;
+
+		//if enemy is boss, there is 80% drop chance, if it is hit, set dropItem to true
+		if (rarity == 4 && dropChance <= 80)
+		{
+		    dropItemQuery = true;
+		}
+		else if (rarity == 3 && dropChance <= 55)//else if enemy is epic, 55% drop chance
+        {
+            dropItemQuery = true;
+        }
+		else if (rarity == 2 && dropChance <= 35)//else if enemy is rare, 35% drop chance
+        {
+            dropItemQuery = true;
+        }
+		else if (rarity == 1 && dropChance <= 25)//else enemy is common, 25% drop chance
+        {
+            dropItemQuery = true;
+        }
+
+        displayChar = '.';
+        enemyHealthStatus = name + " is now dead!";
+    }
+
+	else //else make the enemyHealthStatus what it is appropriate to the current health percentage
+	{
+	    hpPerc = ((static_cast<double>(currenthp)/static_cast<double>(maxhp))) * 100;
+
+		if (hpPerc > 90)//if percentage is > 90%
+        {
+			enemyHealthStatus = name + " is healthy.";
+        }
+		else if (hpPerc > 60 && hpPerc <= 90)//else if percentage is > 50% and <= 90%
+        {
+			enemyHealthStatus = name + " is slightly wounded.";
+        }
+		else if (hpPerc > 30 && hpPerc <= 60)//else if percentage is > 30% and <= 50%
+        {
+			enemyHealthStatus = name + " is greatly wounded.";
+        }
+		else if (hpPerc > 1 && hpPerc <= 30)//else if percentage is > 1% and <= 30%
+        {
+			enemyHealthStatus = name + " is almost dead.";
+        }
+		else //else the percentage is 1%
+        {
+            string newName = "";
+
+            for (int i = 0; i < name.length(); i++)
+            {
+                newName += toupper(name[i]);
+            }
+
+			enemyHealthStatus = "FINISH " + newName + "!";
+        }
+	}
 }
 
 void Enemy::getNameAndChar()
