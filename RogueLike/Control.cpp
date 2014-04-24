@@ -434,10 +434,13 @@ void Control::loadNewFloor()
         lineCounter++;
     }
 
+    level.close();
+
     floorHeight = lineCounter;
 
     getEmptyTiles();
     clearObjects();
+    clearEnemies();
     getObjects();
     spawnPlayer();
     printMapScreen();
@@ -506,7 +509,7 @@ bool Control::processInput()
         {
             loadNewFloor();
             spawnPlayer();
-            currentFloor++;
+            //currentFloor++;
         }
         else
         {
@@ -527,6 +530,21 @@ bool Control::processInput()
             {
                 newX = player.x;
                 newY = player.y;
+                if(1 + rand() % 100 < player.getAccuracy())
+                {
+                    int damage = rand() % player.getMaxMeleeDamage() + 1;
+                    meleeCreatures.at(enemyIndex).hurtEnemy(damage);
+                    logMessage("You hit the " + meleeCreatures.at(enemyIndex).getName() + "!");
+                    if(meleeCreatures.at(enemyIndex).isDead())
+                    {
+                        logMessage("You kill the " + meleeCreatures.at(enemyIndex).getName() + "!");
+                        meleeCreatures.erase(meleeCreatures.begin()+enemyIndex);
+                    }
+                }
+                else
+                {
+                    logMessage("You miss the " + meleeCreatures.at(enemyIndex).getName() + ".");
+                }
             }
         }
 
@@ -841,6 +859,11 @@ void Control::clearObjects()
 {
     walls.clear();
     chests.clear();
+}
+
+void Control::clearEnemies()
+{
+    meleeCreatures.clear();
 }
 
 void Control::getObjects()

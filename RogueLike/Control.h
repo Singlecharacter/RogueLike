@@ -76,6 +76,7 @@ public:
 
 
     void clearObjects();
+    void clearEnemies();
     void getObjects();
 
     void debugLog();

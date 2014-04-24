@@ -97,6 +97,8 @@ Player::Player(int x, int y, int HD , int MD,
             sightArray[j][i] = 0;
         }
     }
+
+    calcStats();
 }
 
 Player::~Player()
@@ -754,4 +756,14 @@ int Player::getINT()
 int Player::getMR()
 {
     return MR;
+}
+
+int Player::getAccuracy()
+{
+    return accuracy;
+}
+
+int Player::getMaxMeleeDamage()
+{
+    return maxMeleeDamage;
 }
