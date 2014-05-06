@@ -160,6 +160,69 @@ void Control::printInvScreen()
         {
             break;
         }
+<<<<<<< HEAD
+
+        wmove(invWin,i,0);
+        waddch(invWin,i+48);
+        wmove(invWin,i,1);
+        std::string tempStr = (i+48)+ " - " + player.inventory[i].getName();
+        char * temp = new char[tempStr.length()+1];
+        strcpy(temp,tempStr.c_str());
+        waddstr(invWin,temp);
+    }
+
+    wrefresh(invWin);
+}
+
+void Control::printEquipScreen()
+{
+
+}
+
+void Control::clearWindows()
+{
+    for(int i = 0;i<mapHeight;i++)
+    {
+        for(int j = 0;j<mapWidth;j++)
+        {
+            wmove(mapWin,i,j);
+            waddch(mapWin,' ');
+        }
+    }
+    for(int i = 0;i<logHeight;i++)
+    {
+        for(int j = 0;j<logWidth;j++)
+        {
+            wmove(logWin,i,j);
+            waddch(logWin,' ');
+        }
+    }
+    for(int i = 0;i<statusHeight;i++)
+    {
+        for(int j = 0;j<statusWidth;j++)
+        {
+            wmove(statusWin,i,j);
+            waddch(statusWin,' ');
+        }
+    }
+    for(int i = 0;i<equipHeight;i++)
+    {
+        for(int j = 0;j<equipWidth;j++)
+        {
+            wmove(equipWin,i,j);
+            waddch(equipWin,' ');
+        }
+    }
+    for(int i = 0;i<invHeight;i++)
+    {
+        for(int j = 0;j<invWidth;j++)
+        {
+            wmove(invWin,i,j);
+            waddch(invWin,' ');
+        }
+    }
+
+=======
 
         wmove(invWin,i,0);
         std::string tempStr = intToString(i+1) + " - " + player.inventory[i].getName();
@@ -219,6 +282,7 @@ void Control::clearWindows()
         }
     }
 
+>>>>>>> ab2616d83fd542fd6eb138cc193a2174230e0fbf
     wrefresh(mapWin);
     wrefresh(logWin);
     wrefresh(statusWin);

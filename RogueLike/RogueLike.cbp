@@ -28,6 +28,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add library="..\..\..\..\..\..\Program Files (x86)\CodeBlocks\MinGW\lib\pdcurses.lib" />
 				</Linker>
 			</Target>
 		</Build>
