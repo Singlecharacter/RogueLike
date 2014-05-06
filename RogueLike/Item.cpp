@@ -55,7 +55,6 @@ void Item::createItem(int playerLevel, int rarityTable, int forcedSlot)
     level = playerLevel;
     int whatToMake;
     bool force;
-    //cout << rarity << endl;
 
     if (forcedSlot != 200) //user defined
     {
@@ -232,14 +231,17 @@ void Item::makeArmor(bool force)
     if (slot == 2 || slot == 3 || slot == 4 || slot == 5 && ArmorIndex == 0) //it is cloth
     {
         armorType = 1;
+        AC = 2;
     }
     else if (slot == 2 || slot == 3 || slot == 4 || slot == 5 && ArmorIndex == 1) //it is leather
     {
         armorType = 2;
+        AC = 4;
     }
     else if (slot == 2 || slot == 3 || slot == 4 || slot == 5 && ArmorIndex == 2) //it is plate
     {
         armorType = 3;
+        AC = 8;
     }
     else //it is jewelry
     {
@@ -247,6 +249,39 @@ void Item::makeArmor(bool force)
     }
 
     itemOrPotion = true; //it is an item
+
+    if(itemType == "Vitality")
+    {
+        Vitality = 1;
+    }
+    else if(itemType == "Mana")
+    {
+        Mana = 1;
+    }
+    else if(itemType == "Strength")
+    {
+        Strength = 1;
+    }
+    else if(itemType == "Dexterity")
+    {
+        Dexterity = 1;
+    }
+    else if(itemType == "Intellect")
+    {
+        Intellect = 1;
+    }
+    else if(itemType == "Purity")
+    {
+        Purity = 1;
+    }
+    else if(itemType == "Armor")
+    {
+        Armor = 1;
+    }
+    else if(itemType == "Ward")
+    {
+        Ward = 1;
+    }
 }
 
 void Item::makeWeapon(bool force)
@@ -327,6 +362,12 @@ void Item::makeWeapon(bool force)
         findNextLine (myfile, Input);
     }
 
+    //was an error for main hands, so this is to offset that error
+    if (Input == "0")
+    {
+        findNextLine(myfile, Input);
+    }
+
     //now choose the item name from that subTable
     //first, put all of the subTable onto a vector to choose from
     istringstream itemStream(Input);
@@ -394,6 +435,39 @@ void Item::makeWeapon(bool force)
     }
 
     itemOrPotion = true; //it is an item
+
+    if(itemType == "Vitality")
+    {
+        Vitality = 1;
+    }
+    else if(itemType == "Mana")
+    {
+        Mana = 1;
+    }
+    else if(itemType == "Strength")
+    {
+        Strength = 1;
+    }
+    else if(itemType == "Dexterity")
+    {
+        Dexterity = 1;
+    }
+    else if(itemType == "Intellect")
+    {
+        Intellect = 1;
+    }
+    else if(itemType == "Purity")
+    {
+        Purity = 1;
+    }
+    else if(itemType == "Armor")
+    {
+        Armor = 1;
+    }
+    else if(itemType == "Ward")
+    {
+        Ward = 1;
+    }
 }
 
 void Item::makePotion()
@@ -457,6 +531,11 @@ int Item::getPotionType()
 int Item::getPotionEffect()
 {
     return effectiveness;
+}
+
+int Item::getItemRarity()
+{
+    return rarityChoice;
 }
 
 void Item::findNextLine(ifstream& file, string& currentLine)

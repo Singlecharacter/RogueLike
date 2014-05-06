@@ -16,7 +16,6 @@
 #define WARD 7
 
 using namespace std;
-
 #include <fstream>
 
 class Item
@@ -27,6 +26,9 @@ public:
     ~Item();
 
     void createItem(int playerLevel = 0, int rarityTable = 0, int forcedSlot = 200); //create an item add everything to it's spot
+
+    int getSlot();
+    std::string getName();
 
     //potions
     void makePotion(); //create the item as a potion
@@ -40,8 +42,6 @@ public:
     void makeArmor(bool force); //create an armor item
 
     //get functions
-    string getName();
-    int getSlot();
     bool getRangedWep();
     bool get2h();
     bool getItemOrPotion();
@@ -51,6 +51,7 @@ public:
     int getAccuracy();
     int getPotionType();
     int getPotionEffect();
+    int getItemRarity();
 
     /********************************
     * Vitality = maxHP boost	    *

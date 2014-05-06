@@ -21,6 +21,7 @@ public:
 
 	//attack the player when player is on next tile and return the base damage
 	int attackPlayer();
+
 };
 
 #endif

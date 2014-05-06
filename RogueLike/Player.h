@@ -32,6 +32,7 @@ public:
 
     //Hurts the player for damage.
     void hurt(int damage);
+    void hurtMana(int amount);
 
     //Affected by AC. Returns the actual amount of damage to be dealt to the player.
     int calculatePhysicalDamage(int damage);
@@ -48,17 +49,23 @@ public:
     //Sets the player's HP to maxHP
     void fullHeal();
 
+    void fullManaHeal();
+
     //Determines which grid tiles the player can see from its current location.
     void calculateSightRange(int levelArray[200][200]);
 
     bool equipItem(int invSlot);
+
+    void dropItem(int invSlot);
 
     //attempts to unequip the item at slot, returns false if there is no item or no room to unequip it.
     bool unequipItem(int slot);
 
     void calcStats();
 
-    void levelUp();
+    bool levelUp();
+
+    int getLevel();
 
     //Logs the player's stats to a file
     void logStats();
@@ -67,6 +74,17 @@ public:
 
     int getAC();
     int getMaxHP();
+    int getCurrentHP();
+
+    int getMaxMP();
+    int getCurrentMP();
+
+    int getSTR();
+    int getDEX();
+    int getINT();
+    int getMR();
+
+    std::string getName();
 
     int x,y;
 
@@ -79,6 +97,8 @@ public:
     Item *inventory;
 
     int invSize;
+
+    int regenTimer;
 
 private:
 
